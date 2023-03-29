@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- permesso per poter accedere alla posizione precisa col GPS -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    <!-- permesso per poter andare in internet -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- permesso per poter andare in internet -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <!-- permesso per utilizzo offline -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- permesso per utilizzo offline -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -22,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SkiTracker"
         tools:targetApi="31">
+        <activity
+            android:name=".Welcome"
+            android:exported="false" />
         <activity
             android:name=".MapActivity"
             android:exported="true">
