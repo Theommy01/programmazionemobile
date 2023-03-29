@@ -7,6 +7,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.MinimapOverlay
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 
 
@@ -33,5 +34,24 @@ class MapActivity : AppCompatActivity() {
         val mRotationGestureOverlay = RotationGestureOverlay(map)
         mRotationGestureOverlay.setEnabled(true)
         map.getOverlays().add(mRotationGestureOverlay)
+
+        //aggiungo Map Scale bar overlay (PERCHE NON FUNZIONA IL CONVERTITORE JAVA KOTLIN CANE DELLE BESTIE|)
+        final Context context = this.getActivity();
+        final DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        mScaleBarOverlay = new ScaleBarOverlay(mMapView);
+        mScaleBarOverlay.setCentred(true);
+//play around with these values to get the location on screen in the right place for your application
+        mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
+        mMapView.getOverlays().add(this.mScaleBarOverlay);
+
+        //aggiungo la minimappa integrata
+        val mMinimapOverlay = MinimapOverlay(this, map.getTileRequestCompleteHandler())
+        mMinimapOverlay.setWidth(dm.widthPixels / 5)
+        mMinimapOverlay.setHeight(dm.heightPixels / 5)
+        //optionally, you can set the minimap to a different tile source
+        //mMinimapOverlay.setTileSource(....);
+        //optionally, you can set the minimap to a different tile source
+        //mMinimapOverlay.setTileSource(....);
+        map.getOverlays().add(mMinimapOverlay)
     }
 }
