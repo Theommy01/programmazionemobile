@@ -16,14 +16,14 @@ class MapActivity : AppCompatActivity() {
         // inizializzazione mappa
         val map : MapView = findViewById(R.id.map)
         map.setTileSource(TileSourceFactory.MAPNIK)
-        map.setBuiltInZoomControls(true)
         map.setMultiTouchControls(true)
+        map.isTilesScaledToDpi = true
         Configuration.getInstance().userAgentValue = "skitracker"
 
         // creo un controller della mappa per impostare una posizione iniziale
         val mapController = map.controller
-        mapController.setZoom(17)
-        val startPoint = GeoPoint(43.909763, 12.912881) // coordinate di piazza del popolo di pesaro
+        val startPoint = GeoPoint(46.370066950988, 10.659417137504)
         mapController.setCenter(startPoint)
+        mapController.animateTo(startPoint, 16.0, 1200)
     }
 }
