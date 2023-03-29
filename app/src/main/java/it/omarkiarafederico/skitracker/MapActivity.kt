@@ -7,6 +7,8 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.compass.CompassOverlay
+import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider
 
 
 class MapActivity : AppCompatActivity() {
@@ -27,5 +29,11 @@ class MapActivity : AppCompatActivity() {
         val startPoint = GeoPoint(46.370066950988, 10.659417137504)
         mapController.setCenter(startPoint)
         mapController.animateTo(startPoint, 16.0, 1200)
+
+        val mCompassOverlay = CompassOverlay(this, InternalCompassOrientationProvider(context), mMapView)
+        mCompassOverlay.enableCompass()
+        map.getOverlays().add(mCompassOverlay)
+
+
     }
 }
