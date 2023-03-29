@@ -7,8 +7,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
-import org.osmdroid.views.overlay.compass.CompassOverlay
-import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider
+import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 
 
 class MapActivity : AppCompatActivity() {
@@ -30,10 +29,9 @@ class MapActivity : AppCompatActivity() {
         mapController.setCenter(startPoint)
         mapController.animateTo(startPoint, 16.0, 1200)
 
-        val mCompassOverlay = CompassOverlay(this, InternalCompassOrientationProvider(context), mMapView)
-        mCompassOverlay.enableCompass()
-        map.getOverlays().add(mCompassOverlay)
-
-
+        // aggiungo la possibilità di poter ruotare la mappa con due dita
+        val mRotationGestureOverlay = RotationGestureOverlay(map)
+        mRotationGestureOverlay.setEnabled(true)
+        map.getOverlays().add(mRotationGestureOverlay)
     }
 }
