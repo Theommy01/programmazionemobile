@@ -8,8 +8,8 @@
 
     <org.osmdroid.views.MapView
         android:id="@+id/map"
-        android:layout_width="394dp"
-        android:layout_height="781dp"
+        android:layout_width="409dp"
+        android:layout_height="664dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.857"
@@ -19,7 +19,7 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
-        android:layout_width="405dp"
+        android:layout_width="409dp"
         android:layout_height="66dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
