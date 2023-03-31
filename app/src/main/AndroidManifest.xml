@@ -18,16 +18,18 @@
         android:theme="@style/Theme.SkiTracker"
         tools:targetApi="31">
         <activity
-            android:name=".Welcome"
-            android:exported="false" />
-        <activity
-            android:name=".MapActivity"
+            android:name=".WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".MapActivity"
+            android:exported="true">
+
         </activity>
     </application>
 

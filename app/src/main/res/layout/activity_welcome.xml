@@ -4,88 +4,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Welcome">
+    android:background="@color/secondaryColor"
+    tools:context=".WelcomeActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="1514dp"
-        android:layout_height="1580dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="374dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginBottom="44dp"
+        android:text="Controlla lo stato delle piste"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.607"
-        app:srcCompat="@mipmap/welcome_wall" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="374dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="21dp"
+        android:text="Traccia i percorsi"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="200dp"
         android:layout_height="184dp"
+        android:layout_marginStart="105dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="106dp"
         android:layout_marginBottom="28dp"
         app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:srcCompat="@mipmap/appicon"
-        tools:layout_editor_absoluteX="105dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/appicon" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
         android:text="SkiTracker"
         android:textColor="@color/white"
-        android:textSize="60sp"
+        android:textSize="42sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        tools:layout_editor_absoluteX="60dp" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="425dp"
-        android:layout_height="89dp"
-        android:layout_marginBottom="7dp"
-        android:text="Ottieni le mappe del tuo comprensorio"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
-        tools:layout_editor_absoluteX="2dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="505dp"
-        android:layout_marginBottom="24dp"
+        android:layout_width="173dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="30dp"
         android:text="Inizia il tour"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView4" />
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="173dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="119dp"
         android:text="Salta"
-        tools:layout_editor_absoluteX="158dp"
-        tools:layout_editor_absoluteY="667dp" />
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Traccia i percorsi"
+        android:id="@+id/textView2"
+        android:layout_width="374dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="21dp"
+        android:text="Ottieni le mappe del tuo comprensorio"
+        android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="34dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView4"
-        tools:layout_editor_absoluteX="76dp" />
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="499dp"
-        android:layout_height="91dp"
-        android:text="Controlla lo stato delle piste"
-        android:textColor="@color/white"
-        android:textSize="34dp"
-        tools:layout_editor_absoluteX="-10dp"
-        tools:layout_editor_absoluteY="534dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
