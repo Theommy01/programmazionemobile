@@ -7,6 +7,12 @@
     android:background="@color/secondaryColor"
     tools:context=".view.activity.WelcomeActivity">
 
+    <FrameLayout
+        android:id="@+id/welcome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="374dp"
