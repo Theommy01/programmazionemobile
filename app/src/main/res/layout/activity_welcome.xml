@@ -10,7 +10,14 @@
     <FrameLayout
         android:id="@+id/welcome"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContainerView"
+            android:name="it.omarkiarafederico.skitracker.view.fragment.WelcomeFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 
 
     <TextView
