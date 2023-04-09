@@ -1,10 +1,10 @@
-package it.omarkiarafederico.skitracker
+package it.omarkiarafederico.skitracker.view.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import androidx.constraintlayout.widget.ConstraintLayout
+import it.omarkiarafederico.skitracker.R
 
 class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

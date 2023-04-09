@@ -1,7 +1,8 @@
-package it.omarkiarafederico.skitracker
+package it.omarkiarafederico.skitracker.view.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import it.omarkiarafederico.skitracker.R
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
