@@ -48,14 +48,14 @@ class WelcomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_welcome, container, false)
+        val tourBtn = view.findViewById<Button>(R.id.button)
         val nextBtn = view.findViewById<Button>(R.id.button2)
-        nextBtn.setOnClickListener {
-            /*
-            val fragment = Guida3Fragment()
+        tourBtn.setOnClickListener {
+            val fragment = Guida1Fragment()
             val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.guida2, fragment)?.commit()
-
-             */
+            transaction?.replace(R.id.inizio, fragment)?.commit()
+        }
+        nextBtn.setOnClickListener {
             val Intent = Intent(activity, MapActivity::class.java)
             startActivity(Intent)
         }
