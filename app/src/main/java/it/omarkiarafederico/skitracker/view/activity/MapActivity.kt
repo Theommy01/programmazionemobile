@@ -45,6 +45,7 @@ class MapActivity : AppCompatActivity() {
         map.overlays.add(scaleBarOverlay)
     }
 
+    //creazione menu a tendina
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = getMenuInflater()
         inflater.inflate(R.menu.optionsmenu, menu)
