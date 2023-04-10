@@ -4,5 +4,5 @@
     <string name="guide1">Ottieni le piste del comprensorio in cui ti trovi</string>
     <string name="guide2">Scegli la pista ed inizia a tracciare i tuoi percorsi </string>
     <string name="guide3">Puoi comunicare lo stato delle piste agli altri sciatori</string>
-    <string name="welcome_blank_fragment">niente</string>
+    <string name="welcome_blank_fragment">Ski Tracker</string>
 </resources>

@@ -9,10 +9,6 @@
     android:id="@+id/inizio">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/welcome_blank_fragment" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -26,12 +22,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="28dp"
-        android:text="SkiTracker"
+        android:text="@string/welcome_blank_fragment"
         android:textColor="@color/white"
         android:textSize="42sp"
         android:textStyle="bold"
