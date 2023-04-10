@@ -16,22 +16,6 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
 
-/*
-        val tutorialButton = findViewById<Button>(R.id.button)
-        val saltaButton = findViewById<Button>(R.id.button2)
-
-        tutorialButton.setOnClickListener{
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.welcome, Guida1Fragment()).commit()
-        }
-
-
-        saltaButton.setOnClickListener{
-            val Intent = Intent(this, MapActivity::class.java)
-            startActivity(Intent)
-        }
-
- */
     }
 
 
