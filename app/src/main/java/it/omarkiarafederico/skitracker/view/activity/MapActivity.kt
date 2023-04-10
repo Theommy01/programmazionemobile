@@ -1,6 +1,8 @@
 package it.omarkiarafederico.skitracker.view.activity
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import androidx.appcompat.app.AppCompatActivity
 import it.omarkiarafederico.skitracker.R
 import org.osmdroid.config.Configuration
@@ -41,5 +43,11 @@ class MapActivity : AppCompatActivity() {
         scaleBarOverlay.setCentred(true)
         scaleBarOverlay.setScaleBarOffset(200, 10)
         map.overlays.add(scaleBarOverlay)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = getMenuInflater()
+        inflater.inflate(R.menu.optionsmenu, menu)
+        return true
     }
 }
