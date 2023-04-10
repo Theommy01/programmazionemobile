@@ -16,7 +16,7 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
 
-
+/*
         val tutorialButton = findViewById<Button>(R.id.button)
         val saltaButton = findViewById<Button>(R.id.button2)
 
@@ -30,6 +30,8 @@ class WelcomeActivity : AppCompatActivity() {
             val Intent = Intent(this, MapActivity::class.java)
             startActivity(Intent)
         }
+
+ */
     }
 
 
