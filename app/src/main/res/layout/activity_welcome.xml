@@ -17,7 +17,7 @@
         app:layout_constraintRight_toRightOf="parent">
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentContainerView"
+            android:id="@+id/tutorialFragmentsContainerView"
             android:name="it.omarkiarafederico.skitracker.view.fragment.WelcomeFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
