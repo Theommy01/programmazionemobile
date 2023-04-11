@@ -18,6 +18,9 @@
         android:theme="@style/Theme.SkiTracker"
         tools:targetApi="31">
         <activity
+            android:name=".AboutUsActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.activity.WelcomeActivity"
             android:exported="true">
             <intent-filter>
@@ -28,9 +31,7 @@
         </activity>
         <activity
             android:name=".view.activity.MapActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>

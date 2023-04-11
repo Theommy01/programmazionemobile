@@ -63,8 +63,19 @@ class MapActivity : AppCompatActivity() {
         val option=id
 
         when(option) {
+            R.id.item1 -> {
+                return true
+            }
+            R.id.item2 -> {
+                return true
+            }
             R.id.item3 -> { //ritorno alla activity del tutorial
                 val intent = Intent(this, WelcomeActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.item4 -> { //indirizzamento all'activity "ulteriori informazioni", da rivedere
+                val intent = Intent(this, AboutUsActivity::class.java)
                 startActivity(intent)
                 return true
             }
