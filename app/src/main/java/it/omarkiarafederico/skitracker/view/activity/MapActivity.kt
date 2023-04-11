@@ -1,8 +1,10 @@
 package it.omarkiarafederico.skitracker.view.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import it.omarkiarafederico.skitracker.R
 import org.osmdroid.config.Configuration
@@ -50,5 +52,25 @@ class MapActivity : AppCompatActivity() {
         val inflater: MenuInflater = getMenuInflater()
         inflater.inflate(R.menu.optionsmenu, menu)
         return true
+    }
+
+    //configurazione menù a tendina
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        var id = item.itemId
+
+        val option=id
+
+        when(option) {
+            R.id.item3 -> { //ritorno alla activity del tutorial
+                val intent = Intent(this, WelcomeActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+        }
+
+
+        return super.onOptionsItemSelected(item)
     }
 }
