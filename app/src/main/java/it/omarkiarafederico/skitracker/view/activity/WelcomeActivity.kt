@@ -1,22 +1,17 @@
 package it.omarkiarafederico.skitracker.view.activity
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
+import androidx.appcompat.app.AppCompatActivity
 import it.omarkiarafederico.skitracker.R
-import it.omarkiarafederico.skitracker.view.fragment.Guida1Fragment
-import it.omarkiarafederico.skitracker.view.fragment.WelcomeFragment
 
 class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
 
+        // nascondo la titleBar (che sarebbe posta in alto)
+        // (notare il "?", che viene messo per evitare che il programma crashi nel caso la
+        // title bar non dovesse essere presente e si avrebbe quindi una NullPointerException)
+        supportActionBar?.hide()
     }
-
-
 }
