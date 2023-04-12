@@ -1,4 +1,4 @@
-package it.omarkiarafederico.skitracker.view.activity
+package it.omarkiarafederico.skitracker.view.skimap
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

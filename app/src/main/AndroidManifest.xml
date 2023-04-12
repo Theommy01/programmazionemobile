@@ -18,10 +18,10 @@
         android:theme="@style/Theme.SkiTracker"
         tools:targetApi="31">
         <activity
-            android:name=".view.activity.AboutUsActivity"
+            android:name=".view.skimap.AboutUsActivity"
             android:exported="true" />
         <activity
-            android:name=".view.activity.WelcomeActivity"
+            android:name=".view.tutorial.WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activity.MapActivity"
+            android:name=".view.skimap.MapActivity"
             android:exported="true"></activity>
     </application>
 

@@ -1,4 +1,4 @@
-package it.omarkiarafederico.skitracker.view.fragment
+package it.omarkiarafederico.skitracker.view.tutorial
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import it.omarkiarafederico.skitracker.R
-import it.omarkiarafederico.skitracker.view.activity.MapActivity
+import it.omarkiarafederico.skitracker.view.skimap.MapActivity
 
 class Guida3Fragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

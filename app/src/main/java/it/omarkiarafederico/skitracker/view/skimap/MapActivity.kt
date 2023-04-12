@@ -1,4 +1,4 @@
-package it.omarkiarafederico.skitracker.view.activity
+package it.omarkiarafederico.skitracker.view.skimap
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import it.omarkiarafederico.skitracker.R
+import it.omarkiarafederico.skitracker.view.tutorial.WelcomeActivity
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint

@@ -1,4 +1,4 @@
-package it.omarkiarafederico.skitracker.view.fragment
+package it.omarkiarafederico.skitracker.view.tutorial
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -3,8 +3,8 @@ package it.omarkiarafederico.skitracker
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import it.omarkiarafederico.skitracker.view.activity.AboutUsActivity
-import it.omarkiarafederico.skitracker.view.activity.MapActivity
+import it.omarkiarafederico.skitracker.view.skimap.AboutUsActivity
+import it.omarkiarafederico.skitracker.view.skimap.MapActivity
 import org.junit.After
 import org.junit.Test
 import androidx.test.espresso.intent.Intents
