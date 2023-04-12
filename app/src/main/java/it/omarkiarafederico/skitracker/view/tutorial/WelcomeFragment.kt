@@ -10,8 +10,8 @@ import android.widget.Button
 import androidx.fragment.app.FragmentTransaction
 import androidx.room.Room
 import it.omarkiarafederico.skitracker.R
-import it.omarkiarafederico.skitracker.view.localdb.LocalDB
-import it.omarkiarafederico.skitracker.view.localdb.Utente
+import roomdb.LocalDB
+import roomdb.Utente
 import it.omarkiarafederico.skitracker.view.skimap.MapActivity
 
 class WelcomeFragment : Fragment() {

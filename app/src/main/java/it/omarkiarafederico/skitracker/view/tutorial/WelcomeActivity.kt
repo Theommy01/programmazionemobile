@@ -6,7 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import it.omarkiarafederico.skitracker.R
-import it.omarkiarafederico.skitracker.view.localdb.LocalDB
+import roomdb.LocalDB
 import it.omarkiarafederico.skitracker.view.skimap.MapActivity
 
 class WelcomeActivity : AppCompatActivity() {
