@@ -11,15 +11,15 @@
 
     <TextView
         android:id="@+id/secondTutorialText"
-        android:layout_width="302dp"
+        android:layout_width="300dp"
         android:layout_height="132dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="60dp"
         android:text="@string/guide2"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,7 +27,7 @@
         android:id="@+id/secondTutorialBackBtn"
         android:layout_width="115dp"
         android:layout_height="48dp"
-        android:layout_marginStart="44dp"
+        android:layout_marginStart="52dp"
         android:layout_marginBottom="44dp"
         android:backgroundTint="@color/white"
         android:text="Indietro"
@@ -39,7 +39,7 @@
         android:id="@+id/secondTutorialNextBtn"
         android:layout_width="115dp"
         android:layout_height="48dp"
-        android:layout_marginEnd="44dp"
+        android:layout_marginEnd="52dp"
         android:layout_marginBottom="44dp"
         android:backgroundTint="@color/white"
         android:text="Avanti"
@@ -49,61 +49,71 @@
 
     <ImageView
         android:id="@+id/secondTutorialImg"
-        android:layout_width="167dp"
-        android:layout_height="273dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="112dp"
+        android:layout_width="190dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginEnd="1dp"
         android:contentDescription="Esempio di percorso tracciato con SkiTracker"
         android:src="@drawable/tutorial2"
+        app:layout_constraintBottom_toTopOf="@+id/secondTutorialBackBtn"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/secondTutorialText" />
+        app:layout_constraintTop_toBottomOf="@+id/secondTutorialText"
+        app:layout_constraintVertical_bias="1.0" />
 
-    <ImageView
-        android:id="@+id/secondTutorialImg4"
-        android:layout_width="59dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="60dp"
-        android:contentDescription="Icona della durata temporale"
-        android:src="@drawable/distance"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="112dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="56dp"
+        android:baselineAligned="true"
+        android:gravity="center|end"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/secondTutorialNextBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/secondTutorialImg3"
-        app:srcCompat="@drawable/time" />
+        app:layout_constraintStart_toEndOf="@+id/secondTutorialImg"
+        app:layout_constraintTop_toBottomOf="@+id/secondTutorialText">
 
-    <ImageView
-        android:id="@+id/secondTutorialImg2"
-        android:layout_width="59dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="112dp"
-        android:layout_marginEnd="60dp"
-        android:contentDescription="icona della distanza"
-        android:src="@drawable/distance"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/secondTutorialText" />
+        <ImageView
+            android:id="@+id/secondTutorialImg2"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginBottom="17dp"
+            android:contentDescription="icona della distanza"
+            android:src="@drawable/distance"
+            app:srcCompat="@drawable/distance"
+            tools:srcCompat="@drawable/distance" />
 
-    <ImageView
-        android:id="@+id/secondTutorialImg3"
-        android:layout_width="59dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="60dp"
-        android:contentDescription="icona della velocità"
-        android:src="@drawable/distance"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/secondTutorialImg2"
-        app:srcCompat="@drawable/speed" />
+        <ImageView
+            android:id="@+id/secondTutorialImg3"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginBottom="17dp"
+            android:contentDescription="icona della velocità"
+            android:src="@drawable/speed"
+            app:srcCompat="@drawable/speed"
+            tools:srcCompat="@drawable/speed" />
 
-    <ImageView
-        android:id="@+id/secondTutorialImg5"
-        android:layout_width="59dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="60dp"
-        android:contentDescription="Icona del dislivello"
-        android:src="@drawable/distance"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/secondTutorialImg4"
-        app:srcCompat="@drawable/dislivello" />
+        <ImageView
+            android:id="@+id/secondTutorialImg4"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginBottom="17dp"
+            android:contentDescription="Icona della durata temporale"
+            android:src="@drawable/time"
+            app:srcCompat="@drawable/time"
+            tools:srcCompat="@drawable/time" />
+
+        <ImageView
+            android:id="@+id/secondTutorialImg5"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:contentDescription="Icona del dislivello"
+            android:src="@drawable/dislivello"
+            app:srcCompat="@drawable/dislivello"
+            tools:srcCompat="@drawable/dislivello" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
