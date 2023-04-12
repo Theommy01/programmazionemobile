@@ -74,7 +74,7 @@ class MapActivity : AppCompatActivity() {
                 startActivity(intent)
                 return true
             }
-            R.id.item4 -> { //indirizzamento all'activity "ulteriori informazioni", da rivedere
+            R.id.item4 -> { //indirizzamento all'activity "ulteriori informazioni"
                 val intent = Intent(this, AboutUsActivity::class.java)
                 startActivity(intent)
                 return true

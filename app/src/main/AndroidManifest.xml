@@ -18,8 +18,8 @@
         android:theme="@style/Theme.SkiTracker"
         tools:targetApi="31">
         <activity
-            android:name=".AboutUsActivity"
-            android:exported="false" />
+            android:name=".view.activity.AboutUsActivity"
+            android:exported="true" />
         <activity
             android:name=".view.activity.WelcomeActivity"
             android:exported="true">
