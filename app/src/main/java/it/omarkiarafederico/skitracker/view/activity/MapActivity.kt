@@ -58,27 +58,30 @@ class MapActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        var id = item.itemId
+        val id = item.itemId
 
-        val option=id
+        when(id) { //nel when, si ricorda che si possono mettere solo le costanti. mettere id è errato
 
-        when(option) {
             R.id.item1 -> {
                 return true
             }
+
             R.id.item2 -> {
                 return true
             }
+
             R.id.item3 -> { //ritorno alla activity del tutorial
                 val intent = Intent(this, WelcomeActivity::class.java)
                 startActivity(intent)
                 return true
             }
+
             R.id.item4 -> { //indirizzamento all'activity "ulteriori informazioni"
                 val intent = Intent(this, AboutUsActivity::class.java)
                 startActivity(intent)
                 return true
             }
+
         }
 
 
