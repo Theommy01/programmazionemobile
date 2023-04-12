@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.view.tutorial.WelcomeActivity
 import org.osmdroid.config.Configuration
@@ -23,6 +24,8 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
 
 class MapActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding //da ritoccare il gradle su buildFeatures
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
@@ -78,6 +81,19 @@ class MapActivity : AppCompatActivity() {
         startMarker.position = startPoint
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
         map.getOverlays().add(startMarker)
+
+        //configurazione bottom navigation bar
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.bottomNavigationView.setOnItemReselectedListener {
+            val item: MenuItem
+            val id = item.itemId
+            when(id) {
+            //    R.id.cronologia -> replaceFragment(Cronologia())
+            }
+        }
+
     }
 
     //creazione menu a tendina
@@ -119,5 +135,14 @@ class MapActivity : AppCompatActivity() {
 
 
         return super.onOptionsItemSelected(item)
+    }
+
+    //funzione per il cambio di fragment dopo i click su bottom navigation bar
+
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frame_layout, fragment)
+        fragmentTransaction.commit()
     }
 }
