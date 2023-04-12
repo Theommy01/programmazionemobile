@@ -1,7 +1,9 @@
 package it.omarkiarafederico.skitracker.view.skimap
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -13,8 +15,11 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
 
 class MapActivity : AppCompatActivity() {
@@ -32,9 +37,9 @@ class MapActivity : AppCompatActivity() {
 
         // creo un controller della mappa per impostare una posizione iniziale
         val mapController = map.controller
-        val startPoint = GeoPoint(46.370066950988, 10.659417137504)
-        mapController.setCenter(startPoint)
-        mapController.animateTo(startPoint, 16.0, 1200)
+      //  val startPoint = GeoPoint(46.370066950988, 10.659417137504)
+      //  mapController.setCenter(startPoint)
+      //  mapController.animateTo(startPoint, 16.0, 1200)
 
         // aggiungo la possibilità di poter ruotare la mappa con due dita
         val mRotationGestureOverlay = RotationGestureOverlay(map)
@@ -46,6 +51,33 @@ class MapActivity : AppCompatActivity() {
         scaleBarOverlay.setCentred(true)
         scaleBarOverlay.setScaleBarOffset(200, 10)
         map.overlays.add(scaleBarOverlay)
+
+        // aggiungo la geolocalizzazione dell'user
+
+        val ctx: Context = applicationContext
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx))
+
+        map.setTileSource(TileSourceFactory.MAPNIK)
+        map.setBuiltInZoomControls(true)
+        map.setMultiTouchControls(true)
+
+        mapController.setZoom(14L.toDouble())
+        val startPoint = GeoPoint(android.R.attr.x, android.R.attr.y)
+        mapController.animateTo(startPoint)
+
+        val mLocationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(ctx), map)
+        mLocationOverlay.enableMyLocation()
+        map.getOverlays().add(mLocationOverlay)
+
+        mapController.setCenter(startPoint)
+        mapController.animateTo(startPoint, 16.0, 1200)
+
+        //aggiunta di un marker
+
+        val startMarker = Marker(map)
+        startMarker.position = startPoint
+        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+        map.getOverlays().add(startMarker)
     }
 
     //creazione menu a tendina
@@ -61,7 +93,7 @@ class MapActivity : AppCompatActivity() {
 
         val id = item.itemId
 
-        when(id) { //nel when, si ricorda che si possono mettere solo le costanti. mettere id è errato
+        when(id) { //nel when, si ricorda che si possono mettere solo le costanti
 
             R.id.item1 -> {
                 return true
