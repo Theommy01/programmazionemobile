@@ -14,9 +14,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
 import it.omarkiarafederico.skitracker.R
+import it.omarkiarafederico.skitracker.databinding.ActivityMapBinding
 import it.omarkiarafederico.skitracker.view.tutorial.WelcomeActivity
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -30,11 +32,13 @@ import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 
 class MapActivity : AppCompatActivity() {
 
-    //private lateinit var binding: ActivityMainBinding //da ritoccare il gradle su buildFeatures
+    private lateinit var binding: ActivityMapBinding //da ritoccare il gradle su buildFeatures
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // creazione activity
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_map)
+        binding = ActivityMapBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // inizializzazione mappa
         val map : MapView = findViewById(R.id.map)
@@ -93,16 +97,13 @@ class MapActivity : AppCompatActivity() {
             .addOnSuccessListener {loc: Location -> drawMarkerToMap(loc, map)}
 
         //configurazione bottom navigation bar
-
-        /*binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
         binding.bottomNavigationView.setOnItemReselectedListener {
-            val item: MenuItem
-            val id = item.itemId
-            when(id) {
-            //    R.id.cronologia -> replaceFragment(Cronologia())
+            when(it.itemId) {
+            //    R.id.cronologia -> replaceFragment(CronologiaFragment())
+            //    R.id.infopiste -> replaceFragment(InfoPisteFragment())
+            //    R.id.map -> replaceFragment(this)
             }
-        }*/
+        }
 
     }
 
@@ -149,12 +150,12 @@ class MapActivity : AppCompatActivity() {
 
     //funzione per il cambio di fragment dopo i click su bottom navigation bar
 
-    /*private fun replaceFragment(fragment: Fragment) {
+    private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frame_layout, fragment)
+        fragmentTransaction.replace(R.id.map, fragment)  //DA VERIFICARE...
         fragmentTransaction.commit()
-    }*/
+    }
 
     // funzione che prende una Location e la va a rappresentare graficamente nella mappa con un
     // apposito marker
