@@ -50,8 +50,8 @@ class MapActivity : AppCompatActivity() {
 
         // aggiungo la possibilità di poter ruotare la mappa con due dita
         val mRotationGestureOverlay = RotationGestureOverlay(map)
-        mRotationGestureOverlay.setEnabled(true)
-        map.getOverlays().add(mRotationGestureOverlay)
+        mRotationGestureOverlay.isEnabled = true
+        map.overlays.add(mRotationGestureOverlay)
 
         // aggiungo la barra della scala della dimensione in km reali nella mappa
         val scaleBarOverlay = ScaleBarOverlay(map)
@@ -107,20 +107,16 @@ class MapActivity : AppCompatActivity() {
 
     }
 
-    //creazione menu a tendina
+    // creazione menu a tendina
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater: MenuInflater = getMenuInflater()
+        val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.optionsmenu, menu)
         return true
     }
 
-    //configurazione menù a tendina
-
+    // configurazione funzioni del menù a tendina
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        val id = item.itemId
-
-        when(id) { //nel when, si ricorda che si possono mettere solo le costanti
+        when(item.itemId) { //nel when, si ricorda che si possono mettere solo le costanti
 
             R.id.item1 -> {
                 return true
@@ -149,7 +145,6 @@ class MapActivity : AppCompatActivity() {
     }
 
     //funzione per il cambio di fragment dopo i click su bottom navigation bar
-
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
@@ -169,7 +164,8 @@ class MapActivity : AppCompatActivity() {
         gpsPointMarker.title = "Posizione corrente"
 
         // metto un'icona personalizzata nel marker
-        val markerIcon: Drawable? = ResourcesCompat.getDrawable(getResources(),
+        val markerIcon: Drawable? = ResourcesCompat.getDrawable(
+            resources,
             R.drawable.gpsmarker, null)
         gpsPointMarker.icon = markerIcon
 

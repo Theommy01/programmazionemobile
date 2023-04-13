@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- permesso per poter andare in internet -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- permesso per utilizzo offline -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SkiTracker"
         tools:targetApi="31">
+        <activity
+            android:name=".view.SelezioneComprensorio"
+            android:exported="false" />
         <activity
             android:name=".view.skimap.AboutUsActivity"
             android:exported="true" />
@@ -30,8 +33,7 @@
         </activity>
         <activity
             android:name=".view.skimap.MapActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>

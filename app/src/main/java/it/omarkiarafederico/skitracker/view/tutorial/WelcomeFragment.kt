@@ -1,18 +1,21 @@
 package it.omarkiarafederico.skitracker.view.tutorial
 
 import android.content.Intent
+import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.room.Room
 import it.omarkiarafederico.skitracker.R
+import it.omarkiarafederico.skitracker.view.SelezioneComprensorio
+import org.osmdroid.views.MapView
 import roomdb.LocalDB
 import roomdb.Utente
-import it.omarkiarafederico.skitracker.view.skimap.MapActivity
 
 class WelcomeFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -44,12 +47,20 @@ class WelcomeFragment : Fragment() {
 
             // scrivo sul database le info sull'utente locale che sta eseguendo l'app (id del
             // telefono e il fatto che abbia già visto il tutorial)
-            val db = Room.databaseBuilder(it.context, LocalDB::class.java, "LocalDatabase").allowMainThreadQueries().build()
-            val localDbDao = db.localDatabaseDao()
-            localDbDao.insertLocalUserInfo(Utente(1, true, null))
+            val db = Room.databaseBuilder(it.context, LocalDB::class.java, "LocalDatabase")
+                .allowMainThreadQueries().build()
+            var intent = Intent(activity, SelezioneComprensorio::class.java)
+            val phoneId = Settings.Secure.getString(requireActivity().contentResolver,
+                Settings.Secure.ANDROID_ID)
 
-            // avvio l'activity per la vista mappa
-            val intent = Intent(activity, MapActivity::class.java)
+            try {
+                db.localDatabaseDao()
+                    .insertNewLocalUserInfo(Utente(phoneId, true, null))
+            } catch (e: SQLiteConstraintException) {
+                if (db.localDatabaseDao().getIdComprensorio() != null)
+                    intent = Intent(activity, MapView::class.java)
+            }
+
             startActivity(intent)
         }
 

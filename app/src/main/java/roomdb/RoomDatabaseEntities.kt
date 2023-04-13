@@ -11,13 +11,15 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
+// NOTA: la tabella utente conterrà solamente 1 utente, ovvero quello locale che viene rappresentato
+// dall'ID del dispositivo
 @Entity(tableName = "Utente",
     foreignKeys = [
         ForeignKey(entity = Comprensorio::class, parentColumns = ["id"],
             childColumns = ["idComprensorio"])
     ])
 data class Utente(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey val id: String,
     val tutorialCompletato: Boolean,
     val idComprensorio: Int?
 )

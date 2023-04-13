@@ -15,11 +15,16 @@ interface LocalDatabaseDao {
     // prende in input l'oggetto di tipo Utente (tipo di dato definito nelle entità del database)
     // e lo inserisce
     @Insert(entity = Utente::class)
-    fun insertLocalUserInfo(user: Utente)
+    fun insertNewLocalUserInfo(user: Utente)
 
     // ottiene unicamente il valore "tutorialCompletato": se questo è true (1), l'utente ha già
     // seguito il tutorial; in caso negativo, l'utente dovrà consultare il tutorial prima di usare
     // l'app
-    @Query("SELECT tutorialCompletato FROM Utente WHERE id = 1")
+    @Query("SELECT tutorialCompletato FROM Utente")
     fun isTutorialCompletato(): Int
+
+    // ottiene l'ID del comprensorio selezionato. Se non è stato selezionato alcun comprensorio,
+    // verrà ritornato NULL.
+    @Query("SELECT idComprensorio FROM Utente")
+    fun getIdComprensorio(): Int?
 }
