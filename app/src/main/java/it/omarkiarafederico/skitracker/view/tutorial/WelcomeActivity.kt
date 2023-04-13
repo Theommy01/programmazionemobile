@@ -2,7 +2,6 @@ package it.omarkiarafederico.skitracker.view.tutorial
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import it.omarkiarafederico.skitracker.R
@@ -24,7 +23,7 @@ class WelcomeActivity : AppCompatActivity() {
         val db = Room.databaseBuilder(this.applicationContext, LocalDB::class.java, "LocalDatabase").allowMainThreadQueries().build()
         val localDbDao = db.localDatabaseDao()
         val tutorialCompletato = localDbDao.isTutorialCompletato()
-        Log.e("Sono assolutamente disabile:", "Ca madonna: $tutorialCompletato")
+
         if (tutorialCompletato == 1) {
             // avvio l'activity per la vista mappa
             val intent = Intent(this, MapActivity::class.java)
