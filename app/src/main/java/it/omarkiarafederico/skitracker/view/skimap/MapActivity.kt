@@ -15,10 +15,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.room.Room
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.databinding.ActivityMapBinding
+import it.omarkiarafederico.skitracker.view.SelezioneComprensorio
 import it.omarkiarafederico.skitracker.view.tutorial.WelcomeActivity
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -28,6 +30,7 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
+import roomdb.LocalDB
 
 
 class MapActivity : AppCompatActivity() {
@@ -39,6 +42,25 @@ class MapActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // controllo se l'utente ha già visto il tutorial e/o ha già selezionato il comprensorio
+        // se non ha fatto almeno una delle due cose, lo redirigo alle varie activities
+        // TODO - FORSE METTEREI STA ROBA IN UN ViewModel
+        val db = Room.databaseBuilder(this.applicationContext, LocalDB::class.java, "LocalDatabase")
+            .allowMainThreadQueries().build()
+        var intent: Intent? = null
+        // controllo se il tutorial è stato completato e se il comprensorio è stato scelto
+        if (db.localDatabaseDao().isTutorialCompletato() != 1)
+            intent = Intent(this.applicationContext, WelcomeActivity::class.java)
+        else if (db.localDatabaseDao().getIdComprensorio() == null)
+            intent = Intent(this.applicationContext, SelezioneComprensorio::class.java)
+        // se necessario, apro la activity che serve
+        if (intent != null) {
+            // svuoto il back stack per evitare bug
+            finishAffinity()
+            // avvio la activity che serve
+            startActivity(intent)
+        }
 
         // inizializzazione mappa
         val map : MapView = findViewById(R.id.map)
@@ -60,6 +82,7 @@ class MapActivity : AppCompatActivity() {
         map.overlays.add(scaleBarOverlay)
 
         // creo un controller della mappa per impostare una posizione iniziale
+        // TODO - QUI ci andrà la posizione del comprensorio selezionato!!!
         val mapController = map.controller
         val startPoint = GeoPoint(46.370066950988, 10.659417137504)
         mapController.setCenter(startPoint)
