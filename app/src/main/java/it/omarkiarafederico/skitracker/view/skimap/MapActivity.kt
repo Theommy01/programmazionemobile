@@ -4,12 +4,13 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import android.view.*
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -196,5 +197,63 @@ class MapActivity : AppCompatActivity() {
         map.overlays.add(gpsPointMarker)
         Log.i("SkiTracker GPS Location", "GPS Location Marker added at: " +
                 "${loc.latitude} - ${loc.longitude}")
+
+        // personalizzo il marker, da valutare
+
+        /*
+
+        val marker = Marker(map)
+        marker.position = GeoPoint(loc.latitude, loc.longitude)
+        marker.icon = resources.getDrawable(R.drawable.marker_icon) // Replace with your own icon
+        map.overlays.add(marker)
+
+         */
     }
+
+    //Funzione che permette di visualizzare i dettagli di un posto selezionato
+    fun onSingleTap(event: MotionEvent?): Boolean {
+        val map : MapView = findViewById(R.id.map)
+
+        val projection = map.projection
+            val location = projection.fromPixels(event!!.x.toInt(), event.y.toInt())
+            val geoPoint = GeoPoint(location.latitude, location.longitude)
+            val address = getAddress(geoPoint)
+            Toast.makeText(this, address, Toast.LENGTH_LONG).show()
+            return true
+        }
+
+    fun getAddress(geoPoint: GeoPoint): String {
+        val geocoder = Geocoder(this)
+        val addresses = geocoder.getFromLocation(geoPoint.latitude, geoPoint.longitude, 1)
+        if (addresses != null) {
+           // return addresses.get(0).getAddressLine(0)
+            return addresses[0].getAddressLine(0)
+        }
+    }
+
+    //Funzione per personalizzare i pop-up della scelta di una specifica località
+
+    fun showPopup(view: View) {
+        val popup = PopupMenu(this, view)
+        popup.inflate(R.menu.header_menu)
+        popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
+            when (item!!.itemId) {
+                R.id.header1 -> {
+                    // TODO: Add your code here
+                    true
+                }
+                R.id.header2 -> {
+                    // TODO: Add your code here
+                    true
+                }
+                R.id.header3 -> {
+                    // TODO: Add your code here
+                    true
+                }
+                else -> false
+            }
+        })
+        popup.show()
+    }
+
 }
