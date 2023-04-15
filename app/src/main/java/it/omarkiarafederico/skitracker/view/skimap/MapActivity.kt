@@ -210,6 +210,8 @@ class MapActivity : AppCompatActivity() {
          */
     }
 
+    /*
+
     //Funzione che permette di visualizzare i dettagli di un posto selezionato
     fun onSingleTap(event: MotionEvent?): Boolean {
         val map : MapView = findViewById(R.id.map)
@@ -222,6 +224,8 @@ class MapActivity : AppCompatActivity() {
             return true
         }
 
+     */
+/*
     fun getAddress(geoPoint: GeoPoint): String {
         val geocoder = Geocoder(this)
         val addresses = geocoder.getFromLocation(geoPoint.latitude, geoPoint.longitude, 1)
@@ -229,11 +233,17 @@ class MapActivity : AppCompatActivity() {
            // return addresses.get(0).getAddressLine(0)
             return addresses[0].getAddressLine(0)
         }
+
+
     }
+
+ */
 
     //Funzione per personalizzare i pop-up della scelta di una specifica località
 
+    /*
     fun showPopup(view: View) {
+
         val popup = PopupMenu(this, view)
         popup.inflate(R.menu.header_menu)
         popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
@@ -255,5 +265,7 @@ class MapActivity : AppCompatActivity() {
         })
         popup.show()
     }
+
+     */
 
 }
