@@ -2,6 +2,7 @@ package it.omarkiarafederico.skitracker.view.skimap
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.content.res.ResourcesCompat
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import it.omarkiarafederico.skitracker.R
@@ -19,21 +21,26 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 
 
 class MappaFragment : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
-        /*
+
+        val view = inflater.inflate(R.layout.fragment_mappa, container, false)
+
         // inizializzazione mappa
-        val map : MapView = findViewById(R.id.map)
+        val map: MapView = view.findViewById(R.id.map)
         map.setTileSource(TileSourceFactory.MAPNIK)
         map.setMultiTouchControls(true)
         map.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
         map.isTilesScaledToDpi = true
         Configuration.getInstance().userAgentValue = "skitracker"
+
 
         // aggiungo la possibilità di poter ruotare la mappa con due dita
         val mRotationGestureOverlay = RotationGestureOverlay(map)
@@ -52,50 +59,45 @@ class MappaFragment : Fragment() {
         val startPoint = GeoPoint(46.370066950988, 10.659417137504)
         mapController.setCenter(startPoint)
         mapController.animateTo(startPoint, 16.0, 1200)
+        return view
+    }
 
-        // ottengo la posizione precisa dell'utente (tramite il gps)
-        val locationPermissionRequest = registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
-        ) { permissions ->
-            when {
-                permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                    Log.i("SkiTracker GPS Location", "Fine Location Allowed")
-                }
-                permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                    Log.i("SkiTracker GPS Location", "Coarse Location Allowed")
-                } else -> {
-                Log.w("SkiTracker GPS Location", "User denied GPS access authorization")
-            }
-            }
-        }
 
-        Log.i("SkiTracker GPS Location", "Trying to get GPS location.")
-        locationPermissionRequest.launch(arrayOf(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION))
 
-        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.e("SkiTracker GPS Location", "Error - not authorized to use GPS location.")
-        }
 
-        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
-            .addOnSuccessListener {loc: Location -> drawMarkerToMap(loc, map)}
 
-        //configurazione bottom navigation bar
-        binding.bottomNavigationView.setOnItemReselectedListener {
-            when(it.itemId) {
 
-                    R.id.cronologiaFragment -> replaceFragment(CronologiaFragment())
-                    R.id.infopisteFragment -> replaceFragment(InfoPisteFragment())
-                //    R.id.mappaFragment -> replaceFragment(MappaFragment())
-            }
-        }
+    // funzione che prende una Location e la va a rappresentare graficamente nella mappa con un
+    // apposito marker
+    public fun drawMarkerToMap(loc: Location, map: MapView) {
+        // questo è il punto preciso della posizione rilevata
+        val gpsPoint = GeoPoint(loc.latitude, loc.longitude)
+
+        // creo un marker che mostra la posizione del gps sulla mappa
+        val gpsPointMarker = Marker(map)
+        gpsPointMarker.position = gpsPoint
+        gpsPointMarker.title = "Posizione corrente"
+
+        // metto un'icona personalizzata nel marker
+        val markerIcon: Drawable? = ResourcesCompat.getDrawable(
+            resources,
+            R.drawable.gpsmarker, null)
+        gpsPointMarker.icon = markerIcon
+
+        // aggiungo il marker alla mappa
+        map.overlays.add(gpsPointMarker)
+        Log.i("SkiTracker GPS Location", "GPS Location Marker added at: " +
+                "${loc.latitude} - ${loc.longitude}")
+
+        // personalizzo il marker, da valutare
+
+        /*
+
+        val marker = Marker(map)
+        marker.position = GeoPoint(loc.latitude, loc.longitude)
+        marker.icon = resources.getDrawable(R.drawable.marker_icon) // Replace with your own icon
+        map.overlays.add(marker)
 
          */
-
     }
-    }
+}
