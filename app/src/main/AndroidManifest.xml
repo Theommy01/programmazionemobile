@@ -17,7 +17,7 @@
         android:theme="@style/Theme.SkiTracker"
         tools:targetApi="31">
         <activity
-            android:name=".view.SelezioneComprensorio"
+            android:name=".view.selezionecomprensorio.SelezioneComprensorio"
             android:exported="false"
             android:label="Scegli comprensorio"/>
         <activity

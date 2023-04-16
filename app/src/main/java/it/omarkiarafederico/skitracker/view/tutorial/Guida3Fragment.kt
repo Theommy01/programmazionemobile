@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.room.Room
 import it.omarkiarafederico.skitracker.R
-import it.omarkiarafederico.skitracker.view.SelezioneComprensorio
+import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SelezioneComprensorio
 import org.osmdroid.views.MapView
 import roomdb.LocalDB
 import roomdb.Utente

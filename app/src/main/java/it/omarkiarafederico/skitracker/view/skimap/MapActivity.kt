@@ -4,13 +4,10 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
-import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -21,7 +18,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.databinding.ActivityMapBinding
-import it.omarkiarafederico.skitracker.view.SelezioneComprensorio
+import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SelezioneComprensorio
 import it.omarkiarafederico.skitracker.view.tutorial.WelcomeActivity
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -123,6 +120,7 @@ class MapActivity : AppCompatActivity() {
         //configurazione bottom navigation bar
         binding.bottomNavigationView.setOnItemReselectedListener {
             when(it.itemId) {
+
             //    R.id.cronologia -> replaceFragment(CronologiaFragment())
             //    R.id.infopiste -> replaceFragment(InfoPisteFragment())
             //    R.id.map -> replaceFragment(this)

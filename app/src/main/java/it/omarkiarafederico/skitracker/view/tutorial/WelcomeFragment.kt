@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.room.Room
 import it.omarkiarafederico.skitracker.R
-import it.omarkiarafederico.skitracker.view.SelezioneComprensorio
+import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SelezioneComprensorio
 import org.osmdroid.views.MapView
 import roomdb.LocalDB
 import roomdb.Utente
