@@ -50,8 +50,8 @@ class MapActivity : AppCompatActivity() {
         // controllo se il tutorial è stato completato e se il comprensorio è stato scelto
         if (db.localDatabaseDao().isTutorialCompletato() != 1)
             intent = Intent(this.applicationContext, WelcomeActivity::class.java)
-        else if (db.localDatabaseDao().getIdComprensorio() == null)
-            intent = Intent(this.applicationContext, SelezioneComprensorio::class.java)
+     //   else if (db.localDatabaseDao().getIdComprensorio() == null)
+     //       intent = Intent(this.applicationContext, SelezioneComprensorio::class.java)
         // se necessario, apro la activity che serve
         if (intent != null) {
             // svuoto il back stack per evitare bug
