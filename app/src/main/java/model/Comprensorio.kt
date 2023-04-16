@@ -2,9 +2,9 @@ package model
 
 import org.json.JSONObject
 
-class Comprensorio(private var id: Int, private var name: String) {
+class Comprensorio(private var id: Int, name: String) {
+    private var nome:String = name
 
-    private var nome:String = ""
     private var aperto:Boolean = false
     private var website:String = ""
 

@@ -1,25 +1,12 @@
 package it.omarkiarafederico.skitracker.view.selezionecomprensorio
 
+import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.widget.TextView
-import android.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
-import androidx.room.util.appendPlaceholders
 import it.omarkiarafederico.skitracker.R
 import model.Comprensorio
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import org.w3c.dom.Document
-import org.xml.sax.InputSource
-import java.io.StringReader
-import java.lang.NullPointerException
-import java.net.ProtocolException
-import java.net.SocketTimeoutException
-import javax.xml.parsers.DocumentBuilderFactory
 
 class SelezioneComprensorio : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,27 +29,26 @@ class SelezioneComprensorio : AppCompatActivity() {
                     luigi += "ID: ${item.getId()} - Nome: ${item.getNome()}  |||   "
                 }
                 gianfranco.text = luigi
-            } catch (e: ProtocolException) {
-                val builder = AlertDialog.Builder(applicationContext)
-                builder.setTitle("Errore")
-                builder.setMessage("Impossibile ottenere la lista dei comprensori: il servizio " +
-                        "non è disponibile")
-                builder.setPositiveButton("OK") { _, _ ->
-                    finish()
-                }
-                val dialog = builder.create()
-                dialog.show()
-            } catch (e: SocketTimeoutException) {
-                val builder = AlertDialog.Builder(applicationContext)
-                builder.setTitle("Errore")
-                builder.setMessage("Impossibile ottenere la lista dei comprensori, prova a controllare " +
-                        "la connessione di rete (timeout)")
-                builder.setPositiveButton("OK") { _, _ ->
-                    finish()
-                }
-                val dialog = builder.create()
-                dialog.show()
+            } catch (e: Exception) {
+                errorDialog("Impossibile ottenere la lista dei comprensori: " +
+                        "${e.message}. Prova a controllare la connessione di rete e la sua " +
+                        "disponibilità.")
             }
         }
+    }
+
+    private fun errorDialog(msg: String) {
+        val builder = AlertDialog.Builder(this)
+
+        builder.setTitle("Errore")
+        builder.setMessage(msg)
+        builder.setPositiveButton("OK") { _, _ ->
+            finish()
+        }
+
+        val dialog = builder.create()
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.show()
     }
 }

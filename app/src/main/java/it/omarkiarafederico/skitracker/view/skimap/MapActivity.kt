@@ -20,6 +20,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.databinding.ActivityMapBinding
+import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SelezioneComprensorio
 import it.omarkiarafederico.skitracker.view.tutorial.WelcomeActivity
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
@@ -46,8 +47,8 @@ class MapActivity : AppCompatActivity() {
         // controllo se il tutorial è stato completato e se il comprensorio è stato scelto
         if (db.localDatabaseDao().isTutorialCompletato() != 1)
             intent = Intent(this.applicationContext, WelcomeActivity::class.java)
-     //   else if (db.localDatabaseDao().getIdComprensorio() == null)
-     //       intent = Intent(this.applicationContext, SelezioneComprensorio::class.java)
+        else if (db.localDatabaseDao().getIdComprensorio() == null)
+            intent = Intent(this.applicationContext, SelezioneComprensorio::class.java)
         // se necessario, apro la activity che serve
         if (intent != null) {
             // svuoto il back stack per evitare bug

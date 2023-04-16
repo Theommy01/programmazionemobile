@@ -9,7 +9,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 
 class ApiCallThread {
-    fun main(url: String): String? {
+    fun main(url: String): String {
         // scope della coroutine
         val scope = CoroutineScope(Dispatchers.Default)
 
@@ -28,7 +28,7 @@ class ApiCallThread {
                 if (response.isSuccessful) {
                     return@async response.body!!.string()
                 } else {
-                    return@async null
+                    throw ApiBadResponseException(response.code)
                 }
             }
         }

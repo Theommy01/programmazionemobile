@@ -1,11 +1,7 @@
 package it.omarkiarafederico.skitracker.view.selezionecomprensorio
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import model.Comprensorio
 import org.w3c.dom.Document
@@ -22,7 +18,7 @@ class SkiAreaListDownloadThread {
     suspend fun getSkiAreaList(): ArrayList<Comprensorio> {
         delay(50)
         // questa è la lista di comprensori
-        var listaComprensori:ArrayList<Comprensorio> = arrayListOf()
+        val listaComprensori:ArrayList<Comprensorio> = arrayListOf()
 
         // creo il builder che creerà l'oggetto xml che conterrà la lista dei comprensori d'italia
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
@@ -41,7 +37,7 @@ class SkiAreaListDownloadThread {
             try {
                 val skiAreaNode = skiAreaNodeList.item(i)
                 val skiAreaNodeId = skiAreaNode.attributes.item(0).nodeValue.toInt()
-                val skiAreaName = "sidjfsdk"
+                val skiAreaName = skiAreaNode.textContent
 
                 val comp = Comprensorio(skiAreaNodeId, skiAreaName)
                 listaComprensori.add(comp)
