@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/activityBGColor"
     tools:context=".view.selezionecomprensorio.SelezioneComprensorio">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/skiAreaRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@color/activityBGColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

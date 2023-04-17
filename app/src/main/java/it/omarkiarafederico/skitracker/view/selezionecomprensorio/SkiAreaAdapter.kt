@@ -1,5 +1,6 @@
 package it.omarkiarafederico.skitracker.view.selezionecomprensorio
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,11 @@ import it.omarkiarafederico.skitracker.R
 
 class SkiAreaAdapter(private val skiAreaList:ArrayList<SkiAreaItem>) : RecyclerView.Adapter<SkiAreaAdapter.SkiAreaViewHolder>(){
     var onItemClick: ((SkiAreaItem) -> Unit)? = null
+    private var skiAreaListBackup = ArrayList<SkiAreaItem>()
+
+    init {
+        this.skiAreaListBackup.addAll(skiAreaList)
+    }
 
     class SkiAreaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val skiAreaNameText: TextView = itemView.findViewById(R.id.skiAreaItemName)
@@ -31,4 +37,22 @@ class SkiAreaAdapter(private val skiAreaList:ArrayList<SkiAreaItem>) : RecyclerV
             onItemClick?.invoke(skiArea)
         }
     }
+
+    fun filter(text: String) {
+        skiAreaList.clear()
+        Log.e("slfkuhiopjfhdgk,", "Dimensione: ${skiAreaListBackup.size}")
+
+        if (text.isEmpty()) {
+            skiAreaList.addAll(skiAreaListBackup)
+        } else {
+            Log.e("sfkjd", "forz a napoli")
+            val query = text.lowercase()
+            for (item in skiAreaListBackup) {
+                if (item.nome.lowercase().contains(query))
+                    skiAreaList.add(item)
+            }
+        }
+        notifyDataSetChanged()
+    }
+
 }

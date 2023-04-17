@@ -3,7 +3,6 @@ package it.omarkiarafederico.skitracker.view.skimap
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -11,8 +10,6 @@ import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.room.Room
@@ -22,9 +19,7 @@ import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.databinding.ActivityMapBinding
 import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SelezioneComprensorio
 import it.omarkiarafederico.skitracker.view.tutorial.WelcomeActivity
-import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
-import org.osmdroid.views.overlay.Marker
 import roomdb.LocalDB
 
 
@@ -110,7 +105,7 @@ class MapActivity : AppCompatActivity() {
     // creazione menu a tendina
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.optionsmenu, menu)
+        inflater.inflate(R.menu.map_view_menu, menu)
         return true
     }
 

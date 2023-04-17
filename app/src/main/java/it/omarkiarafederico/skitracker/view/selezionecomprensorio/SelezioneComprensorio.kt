@@ -4,6 +4,9 @@ import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -65,5 +68,30 @@ class SelezioneComprensorio : AppCompatActivity() {
         dialog.setCancelable(false)
         dialog.setCanceledOnTouchOutside(false)
         dialog.show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.seleziona_comprensorio_search_menu, menu)
+
+        val menuItem: MenuItem? = menu?.findItem(R.id.skiAreaSearchItem)
+        val searchView: SearchView = menuItem?.actionView as SearchView
+        searchView.queryHint = "Ricerca comprensorio"
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                Log.e("JKFHSK", "HO INVIATO $p0")
+
+                if (p0 != null)
+                    skiAreaAdapter.filter(p0)
+
+                return true
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                return false
+            }
+        })
+
+        return super.onCreateOptionsMenu(menu)
     }
 }
