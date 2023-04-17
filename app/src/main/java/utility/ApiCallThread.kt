@@ -21,9 +21,9 @@ class ApiCallThread {
             // compongo la richiesta API
             val client = OkHttpClient()
             val request = Request.Builder().url(urlInput).build()
-            Log.e("AAAAAAA", "URL richiesta API: $urlInput")
 
             // eseguo la chiamata API
+            Log.i("SkiTracker API Call", "URL richiesta API: $urlInput")
             client.newCall(request).execute().use { response ->
                 if (response.isSuccessful) {
                     return@async response.body!!.string()
