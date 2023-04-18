@@ -81,11 +81,11 @@ class MapActivity : AppCompatActivity() {
         val fm: FragmentManager = supportFragmentManager
        // val mapFragment = fm.findFragmentById(R.id.mappaFragment)
         val mapFragment = MappaFragment()
-        val map: MapView = findViewById(R.id.map)
+     //   val map: MapView = findViewById(R.id.map)
 
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener {loc: Location ->
-                mapFragment.drawMarkerToMap(loc, map)
+                mapFragment.getMap()?.let { mapFragment.drawMarkerToMap(loc, it) }
             }
         }
 

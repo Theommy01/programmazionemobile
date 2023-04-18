@@ -34,32 +34,38 @@ class MappaFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_mappa, container, false)
 
         // inizializzazione mappa
-        val map: MapView = view.findViewById(R.id.map)
-        map.setTileSource(TileSourceFactory.MAPNIK)
-        map.setMultiTouchControls(true)
-        map.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
-        map.isTilesScaledToDpi = true
+        val map=getMap()
+        map?.setTileSource(TileSourceFactory.MAPNIK)
+        map?.setMultiTouchControls(true)
+        map?.zoomController?.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
+        map?.isTilesScaledToDpi = true
         Configuration.getInstance().userAgentValue = "skitracker"
 
 
         // aggiungo la possibilità di poter ruotare la mappa con due dita
         val mRotationGestureOverlay = RotationGestureOverlay(map)
         mRotationGestureOverlay.isEnabled = true
-        map.overlays.add(mRotationGestureOverlay)
+        map?.overlays?.add(mRotationGestureOverlay)
 
         // aggiungo la barra della scala della dimensione in km reali nella mappa
         val scaleBarOverlay = ScaleBarOverlay(map)
         scaleBarOverlay.setCentred(true)
         scaleBarOverlay.setScaleBarOffset(200, 10)
-        map.overlays.add(scaleBarOverlay)
+        map?.overlays?.add(scaleBarOverlay)
 
         // creo un controller della mappa per impostare una posizione iniziale
         // TODO - QUI ci andrà la posizione del comprensorio selezionato!!!
-        val mapController = map.controller
+        val mapController = map?.controller
         val startPoint = GeoPoint(46.370066950988, 10.659417137504)
-        mapController.setCenter(startPoint)
-        mapController.animateTo(startPoint, 16.0, 1200)
+        mapController?.setCenter(startPoint)
+        mapController?.animateTo(startPoint, 16.0, 1200)
         return view
+    }
+
+    // funzione che consente di accede alla mappa anche da altre classi
+    fun getMap(): MapView? {
+        val map: MapView? = view?.findViewById(R.id.map)
+        return map
     }
 
 
