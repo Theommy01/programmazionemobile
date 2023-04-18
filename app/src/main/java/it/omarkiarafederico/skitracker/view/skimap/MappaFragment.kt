@@ -16,6 +16,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import it.omarkiarafederico.skitracker.R
+import it.omarkiarafederico.skitracker.databinding.FragmentMappaBinding
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
@@ -27,9 +28,11 @@ import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 
 
 class MappaFragment : Fragment() {
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
+
 
         val view = inflater.inflate(R.layout.fragment_mappa, container, false)
 
@@ -47,11 +50,11 @@ class MappaFragment : Fragment() {
         mRotationGestureOverlay.isEnabled = true
         map?.overlays?.add(mRotationGestureOverlay)
 
-        // aggiungo la barra della scala della dimensione in km reali nella mappa
-        val scaleBarOverlay = ScaleBarOverlay(map)
-        scaleBarOverlay.setCentred(true)
-        scaleBarOverlay.setScaleBarOffset(200, 10)
-        map?.overlays?.add(scaleBarOverlay)
+        // aggiungo la barra della scala della dimensione in km reali nella mappa. VA IN ERRORE
+     //   val scaleBarOverlay = ScaleBarOverlay(map)
+     //   scaleBarOverlay.setCentred(true)
+     //   scaleBarOverlay.setScaleBarOffset(200, 10)
+     //   map?.overlays?.add(scaleBarOverlay)
 
         // creo un controller della mappa per impostare una posizione iniziale
         // TODO - QUI ci andrà la posizione del comprensorio selezionato!!!
@@ -60,6 +63,7 @@ class MappaFragment : Fragment() {
         mapController?.setCenter(startPoint)
         mapController?.animateTo(startPoint, 16.0, 1200)
         return view
+
     }
 
     // funzione che consente di accede alla mappa anche da altre classi

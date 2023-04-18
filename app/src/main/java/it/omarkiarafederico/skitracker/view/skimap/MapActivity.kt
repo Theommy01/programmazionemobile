@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.room.Room
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.google.android.material.navigation.NavigationView
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.databinding.ActivityMapBinding
 import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SelezioneComprensorio
@@ -40,6 +41,7 @@ class MapActivity : AppCompatActivity() {
             .allowMainThreadQueries().build()
         var intent: Intent? = null
         // controllo se il tutorial è stato completato e se il comprensorio è stato scelto
+
         if (db.localDatabaseDao().isTutorialCompletato() != 1)
             intent = Intent(this.applicationContext, WelcomeActivity::class.java)
         else if (db.localDatabaseDao().getIdComprensorio() == null)
@@ -51,6 +53,8 @@ class MapActivity : AppCompatActivity() {
             // avvio la activity che serve
             startActivity(intent)
         }
+
+
 
         // ottengo la posizione precisa dell'utente (tramite il gps)
         val locationPermissionRequest = registerForActivityResult(
@@ -87,20 +91,25 @@ class MapActivity : AppCompatActivity() {
             .addOnSuccessListener {loc: Location ->
                 mapFragment.getMap()?.let { mapFragment.drawMarkerToMap(loc, it) }
             }
-        }
-
-    /*
         //configurazione bottom navigation bar
-        binding.bottomNavigationView.setOnItemReselectedListener {
-            when(it.itemId) {
 
-            //    R.id.cronologia -> replaceFragment(CronologiaFragment())
-            //    R.id.infopiste -> replaceFragment(InfoPisteFragment())
-            //    R.id.map -> replaceFragment(this)
+        replaceFragment(MappaFragment()) //per inserire MappaFragment come quella che si apre di default
+
+        binding.bottomNavigationView.setOnItemSelectedListener {
+            when(it.itemId) {
+                    R.id.cronologiaFragment -> replaceFragment(CronologiaFragment())
+                    R.id.infopisteFragment -> replaceFragment(InfoPisteFragment())
+                    R.id.mappaFragment -> replaceFragment(MappaFragment())
+                else -> {
+
+                }
+
             }
+            true
+        }
         }
 
-     */
+
 
     // creazione menu a tendina
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -132,18 +141,15 @@ class MapActivity : AppCompatActivity() {
                 startActivity(intent)
                 return true
             }
-
         }
-
-
         return super.onOptionsItemSelected(item)
     }
 
     //funzione per il cambio di fragment dopo i click su bottom navigation bar
-    private fun replaceFragment(fragment: Fragment) {
+     fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.map, fragment)  //DA VERIFICARE...
+        fragmentTransaction.replace(R.id.frame_layout, fragment)  //DA VERIFICARE...
         fragmentTransaction.commit()
     }
 
