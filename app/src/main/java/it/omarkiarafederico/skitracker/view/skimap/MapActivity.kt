@@ -15,12 +15,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.room.Room
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.google.android.material.navigation.NavigationView
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.databinding.ActivityMapBinding
-import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SelezioneComprensorio
 import it.omarkiarafederico.skitracker.view.tutorial.WelcomeActivity
-import org.osmdroid.views.MapView
 import roomdb.LocalDB
 
 
@@ -45,7 +42,7 @@ class MapActivity : AppCompatActivity() {
         if (db.localDatabaseDao().isTutorialCompletato() != 1)
             intent = Intent(this.applicationContext, WelcomeActivity::class.java)
         else if (db.localDatabaseDao().getIdComprensorio() == null)
-            intent = Intent(this.applicationContext, SelezioneComprensorio::class.java)
+            //intent = Intent(this.applicationContext, SelezioneComprensorio::class.java)
         // se necessario, apro la activity che serve
         if (intent != null) {
             // svuoto il back stack per evitare bug
@@ -89,7 +86,9 @@ class MapActivity : AppCompatActivity() {
 
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener {loc: Location ->
-                mapFragment.getMap()?.let { mapFragment.drawMarkerToMap(loc, it) }
+                mapFragment.getMap()?.let {
+                    mapFragment.drawMarkerToMap(loc, it)
+                }
             }
         //configurazione bottom navigation bar
 
@@ -107,7 +106,7 @@ class MapActivity : AppCompatActivity() {
             }
             true
         }
-        }
+    }
 
 
 
