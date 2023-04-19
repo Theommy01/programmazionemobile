@@ -11,9 +11,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentController
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.room.Room
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.databinding.ActivityMapBinding
 import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SelezioneComprensorio
@@ -23,7 +28,7 @@ import roomdb.LocalDB
 
 class MapActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMapBinding //da ritoccare il gradle su buildFeatures
-
+    private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         // creazione activity
         super.onCreate(savedInstanceState)
@@ -73,6 +78,15 @@ class MapActivity : AppCompatActivity() {
             Manifest.permission.ACCESS_COARSE_LOCATION))
 
         //configurazione bottom navigation bar
+
+        replaceFragment(MappaFragment())
+
+        val navHostFragment = supportFragmentManager?.findFragmentById(R.id.frame_layout) as NavHostFragment
+
+        navController = navHostFragment.navController
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        setupWithNavController(bottomNavigationView, navController)
+        /*
         replaceFragment(MappaFragment()) //per inserire MappaFragment come quella che si apre di default
 
         binding.bottomNavigationView.setOnItemSelectedListener {
@@ -86,6 +100,8 @@ class MapActivity : AppCompatActivity() {
             }
             true
         }
+
+         */
     }
 
 
