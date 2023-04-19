@@ -40,12 +40,10 @@ class SkiAreaAdapter(private val skiAreaList:ArrayList<SkiAreaItem>) : RecyclerV
 
     fun filter(text: String) {
         skiAreaList.clear()
-        Log.e("slfkuhiopjfhdgk,", "Dimensione: ${skiAreaListBackup.size}")
 
         if (text.isEmpty()) {
             skiAreaList.addAll(skiAreaListBackup)
         } else {
-            Log.e("sfkjd", "forz a napoli")
             val query = text.lowercase()
             for (item in skiAreaListBackup) {
                 if (item.nome.lowercase().contains(query))

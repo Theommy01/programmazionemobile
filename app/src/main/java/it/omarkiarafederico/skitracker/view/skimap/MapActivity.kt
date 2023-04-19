@@ -11,18 +11,17 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.room.Room
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.databinding.ActivityMapBinding
+import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SelezioneComprensorio
 import it.omarkiarafederico.skitracker.view.tutorial.WelcomeActivity
 import roomdb.LocalDB
 
 
 class MapActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMapBinding //da ritoccare il gradle su buildFeatures
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,12 +36,13 @@ class MapActivity : AppCompatActivity() {
         val db = Room.databaseBuilder(this.applicationContext, LocalDB::class.java, "LocalDatabase")
             .allowMainThreadQueries().build()
         var intent: Intent? = null
-        // controllo se il tutorial è stato completato e se il comprensorio è stato scelto
 
+        // controllo se il tutorial è stato completato e se il comprensorio è stato scelto
         if (db.localDatabaseDao().isTutorialCompletato() != 1)
             intent = Intent(this.applicationContext, WelcomeActivity::class.java)
         else if (db.localDatabaseDao().getIdComprensorio() == null)
-            //intent = Intent(this.applicationContext, SelezioneComprensorio::class.java)
+            intent = Intent(this.applicationContext, SelezioneComprensorio::class.java)
+
         // se necessario, apro la activity che serve
         if (intent != null) {
             // svuoto il back stack per evitare bug
@@ -50,8 +50,6 @@ class MapActivity : AppCompatActivity() {
             // avvio la activity che serve
             startActivity(intent)
         }
-
-
 
         // ottengo la posizione precisa dell'utente (tramite il gps)
         val locationPermissionRequest = registerForActivityResult(
@@ -64,34 +62,17 @@ class MapActivity : AppCompatActivity() {
                 permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
                     Log.i("SkiTracker GPS Location", "Coarse Location Allowed")
                 } else -> {
-                Log.w("SkiTracker GPS Location", "User denied GPS access authorization")
+                    Log.w("SkiTracker GPS Location", "User denied GPS access authorization")
                 }
             }
         }
-        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.e("SkiTracker GPS Location", "Error - not authorized to use GPS location.")
-        }
+
         Log.i("SkiTracker GPS Location", "Trying to get GPS location.")
         locationPermissionRequest.launch(arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION))
-        val fm: FragmentManager = supportFragmentManager
-       // val mapFragment = fm.findFragmentById(R.id.mappaFragment)
-        val mapFragment = MappaFragment()
-     //   val map: MapView = findViewById(R.id.map)
 
-        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
-            .addOnSuccessListener {loc: Location ->
-                mapFragment.getMap()?.let {
-                    mapFragment.drawMarkerToMap(loc, it)
-                }
-            }
         //configurazione bottom navigation bar
-
         replaceFragment(MappaFragment()) //per inserire MappaFragment come quella che si apre di default
 
         binding.bottomNavigationView.setOnItemSelectedListener {
@@ -102,12 +83,10 @@ class MapActivity : AppCompatActivity() {
                 else -> {
 
                 }
-
             }
             true
         }
     }
-
 
 
     // creazione menu a tendina
@@ -145,14 +124,12 @@ class MapActivity : AppCompatActivity() {
     }
 
     //funzione per il cambio di fragment dopo i click su bottom navigation bar
-     fun replaceFragment(fragment: Fragment) {
+    fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_layout, fragment)  //DA VERIFICARE...
         fragmentTransaction.commit()
     }
-
-
 
     /*
 
@@ -211,5 +188,4 @@ class MapActivity : AppCompatActivity() {
     }
 
      */
-
 }

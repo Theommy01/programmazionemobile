@@ -1,6 +1,6 @@
 package it.omarkiarafederico.skitracker.view.selezionecomprensorio
 
-import android.app.AlertDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,8 +10,15 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import it.omarkiarafederico.skitracker.R
+import it.omarkiarafederico.skitracker.view.skimap.MapActivity
+import it.omarkiarafederico.skitracker.view.tutorial.WelcomeActivity
 import model.Comprensorio
+import roomdb.LocalDB
+import utility.ALERT_ERROR
+import utility.ALERT_INFO
+import utility.ApplicationAlert
 
 class SelezioneComprensorio : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -44,31 +51,66 @@ class SelezioneComprensorio : AppCompatActivity() {
                 recyclerView.adapter = skiAreaAdapter
 
                 skiAreaAdapter.onItemClick = {
-                    val skiArea = it
-                    Log.e("AGHFJHDSGDKAHSKHH", "Ski Area Selezionata: ${skiArea.id}")
+                    // creo l'oggetto comprensorio
+                    val skiAreaToAdd = Comprensorio(it.id, it.nome)
+                    // lo vado a popolare con i dati mancanti, che andrò a prendere online con una
+                    // api call
+                    skiAreaToAdd.popolateWithOnlineData()
+
+                    if (skiAreaToAdd.getNome() == "NO") {
+                        // se mancano dei dati dal JSON ottenuto dall'API, ergo non sono indicati, ad esempio,
+                        // numero di piste e/o impianti di risalita...
+                        ApplicationAlert().openDialog(
+                            ALERT_INFO,
+                            "Non è possibile selezionare questo comprensorio: " +
+                                    "l'API ha restituito dati incompleti.",
+                            this@SelezioneComprensorio,
+                            false
+                        )
+                    } else if (skiAreaToAdd.isOperativo()) {
+                        // se è operativo lo aggiungo al db
+                        val comprensorioPerDB = skiAreaToAdd.convertToEntityClass()
+                        val db = Room.databaseBuilder(applicationContext, LocalDB::class.java, "LocalDatabase")
+                            .allowMainThreadQueries().build()
+                        db.localDatabaseDao().insertNewSkiArea(comprensorioPerDB)
+
+                        // vado ad indicare l'id del comprensorio selezionato dall'utente
+                        db.localDatabaseDao().modificaComprensorioSelezionato(it.id)
+
+                        // a posto cosi, posso aprire l'activity della mappa
+                        finishAffinity()
+                        val intent = Intent(applicationContext, MapActivity::class.java)
+                        startActivity(intent)
+                    } else {
+                        // se non è pià operativo avviso l'utente di questo fatto
+                        ApplicationAlert().openDialog(
+                            ALERT_INFO, "Il comprensorio selezionato non è più " +
+                                "aperto al pubblico.", this@SelezioneComprensorio, false)
+                    }
                 }
             } catch (e: Exception) {
-                errorDialog("Impossibile ottenere la lista dei comprensori: " +
+                ApplicationAlert().openDialog(
+                    ALERT_ERROR,"Impossibile ottenere la lista dei comprensori: " +
                         "${e.message}. Prova a controllare la connessione di rete e la sua " +
-                        "disponibilità.")
+                        "disponibilità.", this@SelezioneComprensorio, true)
             }
         }
     }
 
-    private fun errorDialog(msg: String) {
+    /*private fun errorDialog(msg: String) {
         val builder = AlertDialog.Builder(this)
 
         builder.setTitle("Errore")
         builder.setMessage(msg)
         builder.setPositiveButton("OK") { _, _ ->
-            finish()
+            // non serve che faccia nulla
         }
 
         val dialog = builder.create()
         dialog.setCancelable(false)
         dialog.setCanceledOnTouchOutside(false)
         dialog.show()
-    }
+    }*/
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.seleziona_comprensorio_search_menu, menu)
@@ -79,16 +121,13 @@ class SelezioneComprensorio : AppCompatActivity() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                Log.e("JKFHSK", "HO INVIATO $p0")
-
-                if (p0 != null)
-                    skiAreaAdapter.filter(p0)
-
-                return true
+                return false
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {
-                return false
+                if (p0 != null)
+                    skiAreaAdapter.filter(p0)
+                return true
             }
         })
 

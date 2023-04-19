@@ -27,4 +27,14 @@ interface LocalDatabaseDao {
     // verrà ritornato NULL.
     @Query("SELECT idComprensorio FROM Utente")
     fun getIdComprensorio(): Int?
+
+    // prende in input l'oggetto di tipo Comprensorio (tipo di dato definito nelle entità del database)
+    // e lo inserisce
+    @Insert(entity = Comprensorio::class)
+    fun insertNewSkiArea(comp: Comprensorio)
+
+    // quando l'utente va a selezionare un (nuovo) comprensorio, l'id del comprensorio selezionato
+    // viene aggiornato con questa query
+    @Query("UPDATE Utente SET idComprensorio = :newSkiAreaId")
+    fun modificaComprensorioSelezionato(newSkiAreaId: Int)
 }
