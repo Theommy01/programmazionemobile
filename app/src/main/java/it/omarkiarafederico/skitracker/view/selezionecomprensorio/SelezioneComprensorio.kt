@@ -3,7 +3,6 @@ package it.omarkiarafederico.skitracker.view.selezionecomprensorio
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.view.skimap.MapActivity
-import it.omarkiarafederico.skitracker.view.tutorial.WelcomeActivity
 import model.Comprensorio
 import roomdb.LocalDB
 import utility.ALERT_ERROR
@@ -96,21 +94,6 @@ class SelezioneComprensorio : AppCompatActivity() {
             }
         }
     }
-
-    /*private fun errorDialog(msg: String) {
-        val builder = AlertDialog.Builder(this)
-
-        builder.setTitle("Errore")
-        builder.setMessage(msg)
-        builder.setPositiveButton("OK") { _, _ ->
-            // non serve che faccia nulla
-        }
-
-        val dialog = builder.create()
-        dialog.setCancelable(false)
-        dialog.setCanceledOnTouchOutside(false)
-        dialog.show()
-    }*/
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.seleziona_comprensorio_search_menu, menu)

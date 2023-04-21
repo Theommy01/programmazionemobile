@@ -2,23 +2,13 @@ package it.omarkiarafederico.skitracker.view.skimap
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentController
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.room.Room
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.databinding.ActivityMapBinding
 import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SelezioneComprensorio
@@ -27,8 +17,7 @@ import roomdb.LocalDB
 
 
 class MapActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMapBinding //da ritoccare il gradle su buildFeatures
-    private lateinit var navController: NavController
+    private lateinit var binding: ActivityMapBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         // creazione activity
         super.onCreate(savedInstanceState)
@@ -71,37 +60,25 @@ class MapActivity : AppCompatActivity() {
                 }
             }
         }
-
         Log.i("SkiTracker GPS Location", "Trying to get GPS location.")
         locationPermissionRequest.launch(arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION))
 
-        //configurazione bottom navigation bar
-
+        // visualizzo il fragment della mappa, che è quello di default
         replaceFragment(MappaFragment())
 
-        val navHostFragment = supportFragmentManager?.findFragmentById(R.id.frame_layout) as NavHostFragment
-
-        navController = navHostFragment.navController
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        setupWithNavController(bottomNavigationView, navController)
-        /*
-        replaceFragment(MappaFragment()) //per inserire MappaFragment come quella che si apre di default
-
+        // implemento la navigazione tra fragment con i bottoni nel bottomNavigationBar
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
-                    R.id.cronologiaFragment -> replaceFragment(CronologiaFragment())
-                    R.id.infopisteFragment -> replaceFragment(InfoPisteFragment())
-                    R.id.mappaFragment -> replaceFragment(MappaFragment())
-                else -> {
+                R.id.bottomNavMapItem -> replaceFragment(MappaFragment())
+                R.id.bottomNavInformationItem -> replaceFragment(InfoPisteFragment())
+                R.id.bottomNavHistoryItem -> replaceFragment(CronologiaFragment())
 
-                }
+                else -> {}
             }
             true
         }
-
-         */
     }
 
 
@@ -139,11 +116,13 @@ class MapActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    //funzione per il cambio di fragment dopo i click su bottom navigation bar
-    fun replaceFragment(fragment: Fragment) {
+    // funzione per il cambio di fragment dopo i click su bottom navigation bar
+    // basato sull'uso del FragmentManager
+    private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frame_layout, fragment)  //DA VERIFICARE...
+
+        fragmentTransaction.add(R.id.frame_layout, fragment)
         fragmentTransaction.commit()
     }
 

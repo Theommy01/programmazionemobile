@@ -2,16 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/map"
-        android:icon="@android:drawable/ic_dialog_map"
+        android:id="@+id/bottomNavMapItem"
+        android:icon="@drawable/map"
         android:title="Mappa" />
     <item
-        android:id="@+id/piste_info"
-        android:icon="@android:drawable/ic_menu_info_details"
+        android:id="@+id/bottomNavInformationItem"
+        android:icon="@drawable/ski_map_info"
         android:title="Info piste" />
     <item
-        android:id="@+id/history"
-        android:icon="@android:drawable/ic_menu_recent_history"
+        android:id="@+id/bottomNavHistoryItem"
+        android:icon="@drawable/history"
         android:title="Cronologia" />
 
 

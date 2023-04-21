@@ -7,25 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import it.omarkiarafederico.skitracker.R
 
-
 class CronologiaFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        /*
-
-
-        //configurazione bottom navigation bar
-        binding.bottomNavigationView.setOnItemReselectedListener {
-            when(it.itemId) {
-
-                    R.id.infopisteFragment -> replaceFragment(InfoPisteFragment())
-                    R.id.mappaFragment -> replaceFragment(MappaFragment())
-            }
-        }
-        }
-
-         */
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_cronologia, container, false)
     }
 }
