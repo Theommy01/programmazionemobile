@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import it.omarkiarafederico.skitracker.R
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -24,6 +25,8 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
 
 class MappaFragment : Fragment() {
@@ -68,6 +71,24 @@ class MappaFragment : Fragment() {
         val startPoint = GeoPoint(46.370066950988, 10.659417137504)
         mapController?.setCenter(startPoint)
         mapController?.animateTo(startPoint, 16.0, 1200)
+
+        //individuo la posizione dell'utente in tempo reale
+
+        map?.setTileSource(TileSourceFactory.MAPNIK)
+        map?.setBuiltInZoomControls(true)
+
+        val locationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), map)
+        locationOverlay.enableMyLocation()
+        map?.overlays?.add(locationOverlay)
+
+
+        //gestione del FAB per la geolocalizzazione manuale
+        val fab = view.findViewById<FloatingActionButton>(R.id.getPositionFAB)
+        fab.setOnClickListener {
+            // Azione da eseguire quando l'utente preme il pulsante
+            map?.controller?.setCenter(locationOverlay.myLocation)
+        }
+
     }
 
     // funzione che consente di accede alla mappa anche da altre classi

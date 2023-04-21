@@ -79,6 +79,8 @@ class MapActivity : AppCompatActivity() {
             }
             true
         }
+
+        //configurazione pulsante per la geolocalizzazione manuale
     }
 
 
