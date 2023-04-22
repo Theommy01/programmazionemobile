@@ -79,10 +79,7 @@ class MapActivity : AppCompatActivity() {
             }
             true
         }
-
-        //configurazione pulsante per la geolocalizzazione manuale
     }
-
 
     // creazione menu a tendina
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -124,7 +121,8 @@ class MapActivity : AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
 
-        fragmentTransaction.add(R.id.frame_layout, fragment)
+        fragmentTransaction.replace(R.id.frame_layout, fragment)
+        fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
 

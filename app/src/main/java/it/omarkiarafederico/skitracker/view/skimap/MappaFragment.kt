@@ -1,20 +1,11 @@
 package it.omarkiarafederico.skitracker.view.skimap
 
-import android.Manifest
-import android.app.Activity
-import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
-import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
-import androidx.core.content.res.ResourcesCompat
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
+import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import it.omarkiarafederico.skitracker.R
 import org.osmdroid.config.Configuration
@@ -22,7 +13,6 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
-import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
@@ -30,7 +20,6 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
 
 class MappaFragment : Fragment() {
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,82 +61,38 @@ class MappaFragment : Fragment() {
         mapController?.setCenter(startPoint)
         mapController?.animateTo(startPoint, 16.0, 1200)
 
-        //individuo la posizione dell'utente in tempo reale
-
-        map?.setTileSource(TileSourceFactory.MAPNIK)
-        map?.setBuiltInZoomControls(true)
-
-        val locationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), map)
-        locationOverlay.enableMyLocation()
-        map?.overlays?.add(locationOverlay)
-
-
-        //gestione del FAB per la geolocalizzazione manuale
+        // gestione del FAB per la geolocalizzazione manuale
         val fab = view.findViewById<FloatingActionButton>(R.id.getPositionFAB)
         fab.setOnClickListener {
             // Azione da eseguire quando l'utente preme il pulsante
-            map?.controller?.setCenter(locationOverlay.myLocation)
-        }
+            val locationOverlay = map?.overlays?.get(map.overlays.lastIndex) as MyLocationNewOverlay
 
+            if (locationOverlay.myLocation == null) {
+                Toast.makeText(this.context, "Ottenimento della posizione tramite GPS...",
+                    Toast.LENGTH_SHORT).show()
+                getCurrentLocation()
+            }
+            else
+                mapController?.setCenter(locationOverlay.myLocation)
+        }
     }
 
     // funzione che consente di accede alla mappa anche da altre classi
-    fun getMap(): MapView? {
+    private fun getMap(): MapView? {
         return view?.findViewById(R.id.map)
-    }
-
-    // funzione che prende una Location e la va a rappresentare graficamente nella mappa con un
-    // apposito marker
-    fun drawMarkerToMap(loc: Location) {
-        Log.e("fklsuygsoyh", "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-        // questo è il punto preciso della posizione rilevata
-        val gpsPoint = GeoPoint(loc.latitude, loc.longitude)
-        val map = getMap()
-
-        // creo un marker che mostra la posizione del gps sulla mappa
-        val gpsPointMarker = Marker(map)
-        gpsPointMarker.position = gpsPoint
-        gpsPointMarker.title = "Posizione corrente"
-
-        // metto un'icona personalizzata nel marker
-        val markerIcon: Drawable? = ResourcesCompat.getDrawable(
-            resources,
-            R.drawable.gpsmarker, null)
-        gpsPointMarker.icon = markerIcon
-
-        // aggiungo il marker alla mappa
-        map?.overlays?.add(gpsPointMarker)
-        Log.i("SkiTracker GPS Location", "GPS Location Marker added at: " +
-                "${loc.latitude} - ${loc.longitude}")
-
-        // personalizzo il marker, da valutare
-
-        /*
-
-        val marker = Marker(map)
-        marker.position = GeoPoint(loc.latitude, loc.longitude)
-        marker.icon = resources.getDrawable(R.drawable.marker_icon) // Replace with your own icon
-        map.overlays.add(marker)
-
-         */
     }
 
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        getCurrentLocation()
+    }
 
-        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.activity as Activity)
-        if (ActivityCompat.checkSelfPermission(this.activity as Activity,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this.activity as Activity,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.e("SkiTracker GPS Location", "Error - not authorized to use GPS location.")
-        }
+    private fun getCurrentLocation() {
+        val map = getMap()
+        val locationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), map)
+        locationOverlay.enableMyLocation()
 
-        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
-            .addOnSuccessListener {loc: Location ->
-                Log.e("iogfo9si0dufhij", "POSIZIONE OTTENUTA!!!!!!!!!!!")
-                this.drawMarkerToMap(loc)
-            }
+        map?.overlays?.add(locationOverlay)
     }
 }
