@@ -8,6 +8,7 @@ import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.room.Room
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.databinding.ActivityMapBinding
@@ -18,6 +19,8 @@ import roomdb.LocalDB
 
 class MapActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMapBinding
+    private var selectedFragmentTag = "map"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // creazione activity
         super.onCreate(savedInstanceState)
@@ -65,15 +68,20 @@ class MapActivity : AppCompatActivity() {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION))
 
+        // questi sono i miei fragment
+        val mapFragment = MappaFragment()
+        val infoFragment = InfoPisteFragment()
+        val historyFragment = CronologiaFragment()
+
         // visualizzo il fragment della mappa, che è quello di default
-        replaceFragment(MappaFragment())
+        replaceFragment(mapFragment, "map")
 
         // implemento la navigazione tra fragment con i bottoni nel bottomNavigationBar
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
-                R.id.bottomNavMapItem -> replaceFragment(MappaFragment())
-                R.id.bottomNavInformationItem -> replaceFragment(InfoPisteFragment())
-                R.id.bottomNavHistoryItem -> replaceFragment(CronologiaFragment())
+                R.id.bottomNavMapItem -> replaceFragment(mapFragment, "map")
+                R.id.bottomNavInformationItem -> replaceFragment(infoFragment, "info")
+                R.id.bottomNavHistoryItem -> replaceFragment(historyFragment, "history")
 
                 else -> {}
             }
@@ -91,21 +99,13 @@ class MapActivity : AppCompatActivity() {
     // configurazione funzioni del menù a tendina
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) { //nel when, si ricorda che si possono mettere solo le costanti
-
-            R.id.item1 -> {
-                return true
-            }
-
-            R.id.item2 -> {
-                return true
-            }
-
+            R.id.item1 -> { return true }
+            R.id.item2 -> { return true }
             R.id.item3 -> { //ritorno alla activity del tutorial
                 val intent = Intent(this, WelcomeActivity::class.java)
                 startActivity(intent)
                 return true
             }
-
             R.id.item4 -> { //indirizzamento all'activity "ulteriori informazioni"
                 val intent = Intent(this, AboutUsActivity::class.java)
                 startActivity(intent)
@@ -117,70 +117,22 @@ class MapActivity : AppCompatActivity() {
 
     // funzione per il cambio di fragment dopo i click su bottom navigation bar
     // basato sull'uso del FragmentManager
-    private fun replaceFragment(fragment: Fragment) {
-        val fragmentManager = supportFragmentManager
+    private fun replaceFragment(fragmentDaVisualizzare: Fragment, tag: String) {
+        val fragmentManager: FragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
 
-        fragmentTransaction.replace(R.id.frame_layout, fragment)
-        fragmentTransaction.addToBackStack(null)
+        val fragmentPrecedente = fragmentManager.findFragmentByTag(selectedFragmentTag)
+
+        if (fragmentManager.findFragmentByTag(tag) == null) {
+            fragmentTransaction.add(R.id.frame_layout, fragmentDaVisualizzare, tag)
+        } else {
+            if (fragmentPrecedente != null) {
+                fragmentTransaction.hide(fragmentPrecedente)
+                fragmentTransaction.show(fragmentDaVisualizzare)
+            }
+        }
+
+        selectedFragmentTag = tag
         fragmentTransaction.commit()
     }
-
-    /*
-
-    //Funzione che permette di visualizzare i dettagli di un posto selezionato
-    fun onSingleTap(event: MotionEvent?): Boolean {
-        val map : MapView = findViewById(R.id.map)
-
-        val projection = map.projection
-            val location = projection.fromPixels(event!!.x.toInt(), event.y.toInt())
-            val geoPoint = GeoPoint(location.latitude, location.longitude)
-            val address = getAddress(geoPoint)
-            Toast.makeText(this, address, Toast.LENGTH_LONG).show()
-            return true
-        }
-
-     */
-/*
-    fun getAddress(geoPoint: GeoPoint): String {
-        val geocoder = Geocoder(this)
-        val addresses = geocoder.getFromLocation(geoPoint.latitude, geoPoint.longitude, 1)
-        if (addresses != null) {
-           // return addresses.get(0).getAddressLine(0)
-            return addresses[0].getAddressLine(0)
-        }
-
-
-    }
-
- */
-
-    //Funzione per personalizzare i pop-up della scelta di una specifica località
-
-    /*
-    fun showPopup(view: View) {
-
-        val popup = PopupMenu(this, view)
-        popup.inflate(R.menu.header_menu)
-        popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
-            when (item!!.itemId) {
-                R.id.header1 -> {
-                    // TODO: Add your code here
-                    true
-                }
-                R.id.header2 -> {
-                    // TODO: Add your code here
-                    true
-                }
-                R.id.header3 -> {
-                    // TODO: Add your code here
-                    true
-                }
-                else -> false
-            }
-        })
-        popup.show()
-    }
-
-     */
 }

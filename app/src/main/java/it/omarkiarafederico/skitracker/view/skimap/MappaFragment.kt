@@ -1,11 +1,11 @@
 package it.omarkiarafederico.skitracker.view.skimap
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import it.omarkiarafederico.skitracker.R
 import org.osmdroid.config.Configuration
@@ -48,7 +48,7 @@ class MappaFragment : Fragment() {
             map.overlays?.add(mRotationGestureOverlay)
         }
 
-        // aggiungo la barra della scala della dimensione in km reali nella mappa. VA IN ERRORE
+        // aggiungo la barra della scala della dimensione in km reali nella mappa.
         val scaleBarOverlay = ScaleBarOverlay(map)
         scaleBarOverlay.setCentred(true)
         scaleBarOverlay.setScaleBarOffset(200, 10)
@@ -56,6 +56,12 @@ class MappaFragment : Fragment() {
 
         // creo un controller della mappa per impostare una posizione iniziale
         // TODO - QUI ci andrà la posizione del comprensorio selezionato!!!
+        val mapKml = SkiAreaFullMap().ottieniXmlMappaComprensorio(46.370066950988,
+            10.659417137504, 16)
+        map?.overlays?.add(mapKml.mKmlRoot.buildOverlay(map, null, null, mapKml))
+        map?.invalidate()
+
+
         val mapController = map?.controller
         val startPoint = GeoPoint(46.370066950988, 10.659417137504)
         mapController?.setCenter(startPoint)
