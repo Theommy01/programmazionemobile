@@ -1,11 +1,15 @@
 package it.omarkiarafederico.skitracker.view.skimap
 
+import android.content.Context
 import android.graphics.Color
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import it.omarkiarafederico.skitracker.R
@@ -22,6 +26,10 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
 
 class MappaFragment : Fragment() {
+    private lateinit var locationManager: LocationManager
+    private var lastLocation: Location? = null
+    private var distance = 0f
+    private var speed = 0f
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -102,6 +110,32 @@ class MappaFragment : Fragment() {
         //inserimento effettivo
         map?.overlays?.add(line)
 
+        // tracciamento continuo dell'utilizzatore
+        val myLocationOverlay = MyLocationNewOverlay(map)
+        map?.overlays?.add(myLocationOverlay)
+        myLocationOverlay.enableMyLocation()
+
+        // raccolta dati statistici
+
+        /*
+
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0F, this) //accesso al GPS
+        var newLocation =
+        onLocationChanged(newLocation)
+
+         */
+
+        /*
+
+      val start = GeoPoint(48.8583, 2.2945)
+      val end = GeoPoint(51.5074, 0.1278
+
+
+      val distanceInMeters = start.distanceToAsDouble(end)
+      print(distanceInMeters)
+
+       */
 
     }
 
@@ -122,5 +156,14 @@ class MappaFragment : Fragment() {
         locationOverlay.enableMyLocation()
 
         map?.overlays?.add(locationOverlay)
+    }
+
+    //calcolo dati statistici
+    private fun onLocationChanged(location: Location){
+        if (lastLocation != null) {
+            distance += location.distanceTo(lastLocation!!)
+            speed = distance/ (location.time - lastLocation!!.time)
+        }
+        lastLocation = location
     }
 }
