@@ -13,6 +13,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Polyline
 import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
@@ -81,6 +82,26 @@ class MappaFragment : Fragment() {
             else
                 mapController?.setCenter(locationOverlay.myLocation)
         }
+
+        // tracciamento di una linea che congiunge dei punti. Per ora, esempio con due
+
+        val geoPoints = ArrayList<GeoPoint>()
+        // aggiungo i punti che voglio disegnare
+        geoPoints.add(GeoPoint(45.1234,7.5678))
+        geoPoints.add(GeoPoint(46.370066950988, 10.659417137504))
+
+        //inserisco la linea
+        val line = Polyline()
+        line.setPoints(geoPoints)
+        //opzioni personalizzabili
+        line.setWidth(5f)
+        //line.setColor(numero) //nera di default
+        line.setGeodesic(true)
+
+        //inserimento effettivo
+        map?.overlays?.add(line)
+
+
     }
 
     // funzione che consente di accede alla mappa anche da altre classi
