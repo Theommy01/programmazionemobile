@@ -1,5 +1,6 @@
 package it.omarkiarafederico.skitracker.view.skimap
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -94,8 +95,8 @@ class MappaFragment : Fragment() {
         val line = Polyline()
         line.setPoints(geoPoints)
         //opzioni personalizzabili
-        line.setWidth(5f)
-        //line.setColor(numero) //nera di default
+        line.width = 5f
+        line.color = Color.BLUE
         line.setGeodesic(true)
 
         //inserimento effettivo
