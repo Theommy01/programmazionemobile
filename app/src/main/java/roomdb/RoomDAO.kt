@@ -30,11 +30,8 @@ interface LocalDatabaseDao {
 
     // prende in input l'oggetto di tipo Comprensorio (tipo di dato definito nelle entità del database)
     // e lo inserisce
-    @Query("INSERT INTO Comprensorio VALUES (:id, :nome, :aperto, :numPiste, :numImpianti, :website," +
-            ":snowpark, :pisteNotturne, :lat, :lon, :maxAltitudine, :minAltitudine, :zoom)")
-    fun insertNewComprensorio(id: Int, nome: String, aperto: Boolean, numPiste: Int, numImpianti: Int,
-                              website: String, snowpark: Boolean, pisteNotturne: Boolean, lat: Double,
-                              lon: Double, maxAltitudine: Int, minAltitudine: Int, zoom: Int)
+    @Insert(entity = Comprensorio::class)
+    fun insertNewComprensorio(comp: Comprensorio)
 
     // quando l'utente va a selezionare un (nuovo) comprensorio, l'id del comprensorio selezionato
     // viene aggiornato con questa query
