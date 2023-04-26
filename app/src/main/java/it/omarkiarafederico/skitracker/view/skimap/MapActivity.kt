@@ -14,12 +14,14 @@ import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.databinding.ActivityMapBinding
 import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SelezioneComprensorio
 import it.omarkiarafederico.skitracker.view.tutorial.WelcomeActivity
+import model.Comprensorio
 import roomdb.LocalDB
 
 
 class MapActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMapBinding
     private var selectedFragmentTag = "map"
+    private lateinit var skiArea: Comprensorio
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // creazione activity
@@ -87,6 +89,10 @@ class MapActivity : AppCompatActivity() {
             }
             true
         }
+
+        // vado a popolare il comprensorio selezionato dall'utente con cui avrà a che fare l'intero
+        // programma
+        skiArea = getSelectedSkiArea()!!
     }
 
     // creazione menu a tendina
@@ -134,5 +140,30 @@ class MapActivity : AppCompatActivity() {
 
         selectedFragmentTag = tag
         fragmentTransaction.commit()
+    }
+
+    // questa funzione va ad ottenere il Comprensorio che l'utente ha selezionato.
+    private fun getSelectedSkiArea(): Comprensorio? {
+        // ottengo l'id del comprensorio selezionato dall'utente.
+        val db = Room.databaseBuilder(applicationContext, LocalDB::class.java, "LocalDatabase")
+            .allowMainThreadQueries().build()
+        val selectedSkiAreaId = db.localDatabaseDao().getIdComprensorio()
+
+        return if (selectedSkiAreaId != null) {
+            // ottengo i dettagli del comprensorio
+            val skiAreaFromDb: roomdb.Comprensorio = db.localDatabaseDao()
+                .getDettagliComprensorio(selectedSkiAreaId)
+
+            // vado a popolare l'oggetto comprensorio con i dettagli ottenuti dal db
+            Log.e("fjdoiaspugdsajioòh", skiAreaFromDb.long.toString())
+            Comprensorio(skiAreaFromDb)
+        } else {
+            null
+        }
+    }
+
+    // ottiene il comprensorio selezionato
+    fun getComprensorioSelezionato(): Comprensorio {
+        return this.skiArea
     }
 }

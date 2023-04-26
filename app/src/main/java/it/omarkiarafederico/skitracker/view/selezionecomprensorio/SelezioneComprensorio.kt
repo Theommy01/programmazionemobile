@@ -3,6 +3,7 @@ package it.omarkiarafederico.skitracker.view.selezionecomprensorio
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
@@ -67,10 +68,14 @@ class SelezioneComprensorio : AppCompatActivity() {
                         )
                     } else if (skiAreaToAdd.isOperativo()) {
                         // se è operativo lo aggiungo al db
-                        val comprensorioPerDB = skiAreaToAdd.convertToEntityClass()
-                        val db = Room.databaseBuilder(applicationContext, LocalDB::class.java, "LocalDatabase")
-                            .allowMainThreadQueries().build()
-                        db.localDatabaseDao().insertNewSkiArea(comprensorioPerDB)
+                        val comprensorioPerDB: roomdb.Comprensorio = skiAreaToAdd.convertToEntityClass()
+
+                        val db = Room.databaseBuilder(applicationContext, LocalDB::class.java,
+                            "LocalDatabase").allowMainThreadQueries().build()
+                        db.localDatabaseDao().insertNewComprensorio(comprensorioPerDB.id, comprensorioPerDB.nome,
+                            comprensorioPerDB.aperto, comprensorioPerDB.numPiste, comprensorioPerDB.numImpianti, comprensorioPerDB.website,
+                            comprensorioPerDB.snowpark, comprensorioPerDB.pisteNotturne, comprensorioPerDB.lat, comprensorioPerDB.long,
+                            comprensorioPerDB.maxAltitudine, comprensorioPerDB.minAltitudine, comprensorioPerDB.zoom)
 
                         // vado ad indicare l'id del comprensorio selezionato dall'utente
                         db.localDatabaseDao().modificaComprensorioSelezionato(it.id)

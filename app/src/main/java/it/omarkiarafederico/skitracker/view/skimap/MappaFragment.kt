@@ -1,13 +1,17 @@
 package it.omarkiarafederico.skitracker.view.skimap
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import it.omarkiarafederico.skitracker.R
+import model.Comprensorio
+import org.osmdroid.bonuspack.kml.KmlDocument
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
@@ -20,11 +24,16 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
 
 class MappaFragment : Fragment() {
+    private lateinit var mySkiArea: Comprensorio
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         super.onCreate(savedInstanceState)
+
+        val myActivity = this.activity as MapActivity
+        mySkiArea = myActivity.getComprensorioSelezionato()
+
         return inflater.inflate(R.layout.fragment_mappa, container, false)
     }
 
@@ -55,15 +64,12 @@ class MappaFragment : Fragment() {
         map?.overlays?.add(scaleBarOverlay)
 
         // creo un controller della mappa per impostare una posizione iniziale
-        // TODO - QUI ci andrà la posizione del comprensorio selezionato!!!
-        val mapKml = SkiAreaFullMap().ottieniXmlMappaComprensorio(46.370066950988,
-            10.659417137504, 16)
-        map?.overlays?.add(mapKml.mKmlRoot.buildOverlay(map, null, null, mapKml))
-        map?.invalidate()
-
+        Log.e("sdfjhkgsaioòlduagko", "sdgfldk: ${mySkiArea.getLongitudine()}")
+        renderKMLskiArea(mySkiArea.getLatitudine(), mySkiArea.getLongitudine(),
+            mySkiArea.getZoomLevel())
 
         val mapController = map?.controller
-        val startPoint = GeoPoint(46.370066950988, 10.659417137504)
+        val startPoint = GeoPoint(mySkiArea.getLatitudine(), mySkiArea.getLongitudine())
         mapController?.setCenter(startPoint)
         mapController?.animateTo(startPoint, 16.0, 1200)
 
@@ -81,24 +87,46 @@ class MappaFragment : Fragment() {
             else
                 mapController?.setCenter(locationOverlay.myLocation)
         }
+
+        // uso gli snackbar per chiedere all'utente se si vede tutto nella mappa o bisogna regolare
+        // lo zoom
+        val snackbar = Snackbar.make(view, "Problemi con la mappa?", Snackbar.LENGTH_LONG)
+        snackbar.setAction("Regola zoom") {
+
+        }
+        snackbar.show()
     }
 
-    // funzione che consente di accede alla mappa anche da altre classi
+    // ottiene l'istanza della mappa di OSM presente in questo fragment.
     private fun getMap(): MapView? {
         return view?.findViewById(R.id.map)
     }
 
+    // quando viene caricata l'activity completamente, viene richiesta la geolocalizzazione.
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         getCurrentLocation()
     }
 
+    // vado ad ottenere le coordinate precise della mia posizione (tramite GPS); una volta ottenute,
+    // vado a creare un elemento grafico (overlay) che rappresenta la mia posizione sulla mappa.
     private fun getCurrentLocation() {
         val map = getMap()
         val locationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), map)
         locationOverlay.enableMyLocation()
 
         map?.overlays?.add(locationOverlay)
+    }
+
+    // la funzione prende le coordinate del comprensorio e il livello di zoom per ottenere il KML
+    // document che contiene i punti del comprensorio e rappresentarlo sulla mappa
+    private fun renderKMLskiArea(lat: Double, long: Double, zoomLevel: Int) {
+        val skiAreaKml: KmlDocument = SkiAreaFullMap().ottieniXmlMappaComprensorio(lat,
+            long, zoomLevel)
+
+        val map = getMap()
+        map?.overlays?.add(skiAreaKml.mKmlRoot.buildOverlay(map, null, null, skiAreaKml))
+        map?.invalidate()
     }
 }

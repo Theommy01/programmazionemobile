@@ -22,6 +22,22 @@ class Comprensorio(private var id: Int, name: String) {
     private var minAltitudine: Int = 0
     private var maxAltitudine: Int = 0
 
+    private var zoom: Int = 16
+
+    constructor(skiAreaFromDb: Comprensorio) : this(skiAreaFromDb.id, skiAreaFromDb.nome) {
+        this.aperto = skiAreaFromDb.aperto
+        this.website = skiAreaFromDb.website
+        this.numPiste = skiAreaFromDb.numPiste
+        this.numImpianti = skiAreaFromDb.numImpianti
+        this.presenteSnowpark = skiAreaFromDb.snowpark
+        this.presentiPisteNotturne = skiAreaFromDb.pisteNotturne
+        this.latitudine = skiAreaFromDb.lat
+        this.longitudine = skiAreaFromDb.long
+        this.minAltitudine = skiAreaFromDb.minAltitudine
+        this.maxAltitudine = skiAreaFromDb.maxAltitudine
+        this.zoom = skiAreaFromDb.zoom
+    }
+
     fun popolateWithOnlineData() {
         // ottengo il json dei dati del comprensorio
         val skiAreaJsonString = ApiCallThread().main("https://skimap.org/SkiAreas/view/${this.id}.json")
@@ -33,6 +49,7 @@ class Comprensorio(private var id: Int, name: String) {
 
     private fun popolateWithJson(obj: JSONObject) {
         try {
+            // popolo i dati dell'oggetto
             this.nome = obj.getString("name")
             this.aperto = obj.getString("operating_status") == "Operating"
             this.website = obj.getString("official_website")
@@ -44,6 +61,8 @@ class Comprensorio(private var id: Int, name: String) {
             this.longitudine = obj.getDouble("longitude")
             this.minAltitudine = obj.getInt("top_elevation")
             this.maxAltitudine = obj.getInt("bottom_elevation")
+            // in base al numero di piste, vado a determinare quale sarà lo zoom di partenza
+            this.setupZoomLevel(this.numPiste)
         } catch (e: org.json.JSONException) {
             // se manncano dei dati nel JSON ricevuto, metto questo nome particolare per segnalarlo
             // all'activity principale
@@ -63,9 +82,34 @@ class Comprensorio(private var id: Int, name: String) {
         return this.aperto
     }
 
+    fun getLatitudine(): Double {
+        return this.latitudine
+    }
+
+    fun getLongitudine(): Double {
+        return this.longitudine
+    }
+
+    fun getZoomLevel(): Int {
+        return this.zoom
+    }
+
     fun convertToEntityClass(): Comprensorio {
-        return Comprensorio(this.id, this.nome, this.aperto, this.numPiste, this.numImpianti, this.website,
-                            this.presenteSnowpark, this.presentiPisteNotturne, this.latitudine, this.longitudine,
-                            this.maxAltitudine, this.minAltitudine)
+        return Comprensorio(this.id, this.nome, this.aperto, this.numPiste, this.numImpianti,
+            this.website, this.presenteSnowpark, this.presentiPisteNotturne, this.latitudine,
+            this.longitudine, this.maxAltitudine, this.minAltitudine, this.zoom)
+    }
+
+    private fun setupZoomLevel(numPiste: Int) {
+        var zoom = 16
+
+        if (numPiste in 12..22)
+            zoom = 15
+        else if (numPiste in 23..30)
+            zoom = 14
+        else if (numPiste > 30)
+            zoom = 13
+
+        this.zoom = zoom
     }
 }

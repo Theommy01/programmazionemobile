@@ -67,10 +67,11 @@ data class Comprensorio (
     var lat: Double,
     var long: Double,
     var maxAltitudine: Int,
-    var minAltitudine: Int
+    var minAltitudine: Int,
+    var zoom: Int
 ){
     constructor() : this(0, "", false, 0, 0, "",
-        false, false, 0.0, 0.0, 0, 0)
+        false, false, 0.0, 0.0, 0, 0, 16)
 }
 
 @Entity(primaryKeys = ["idTracciamento", "idPuntoMappa"],
