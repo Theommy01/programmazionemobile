@@ -16,14 +16,6 @@ class AboutUsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
-        val back= findViewById<Button>(R.id.back)
-
-        back.setOnClickListener {
-            val Intent = Intent(this, MapActivity::class.java)
-            startActivity(Intent)
-        }
-
-
     }
 
 
