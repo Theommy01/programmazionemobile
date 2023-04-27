@@ -41,4 +41,8 @@ interface LocalDatabaseDao {
     // ottiene i dettagli del comprensorio avente l'id fornito
     @Query("SELECT * FROM Comprensorio WHERE id = :skiAreaId")
     fun getDettagliComprensorio(skiAreaId: Int): Comprensorio
+
+    // modifica il livello di zoom di un comprensorio
+    @Query("UPDATE Comprensorio SET zoom = :zoom WHERE id = :id")
+    fun updateZoomLevel(zoom: Int, id: Int)
 }

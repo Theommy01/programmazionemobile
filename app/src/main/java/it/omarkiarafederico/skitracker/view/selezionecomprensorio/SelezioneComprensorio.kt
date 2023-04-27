@@ -1,6 +1,7 @@
 package it.omarkiarafederico.skitracker.view.selezionecomprensorio
 
 import android.content.Intent
+import android.database.sqlite.SQLiteConstraintException
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -16,7 +17,7 @@ import model.Comprensorio
 import roomdb.LocalDB
 import utility.ALERT_ERROR
 import utility.ALERT_INFO
-import utility.ApplicationAlert
+import utility.ApplicationDialog
 
 class SelezioneComprensorio : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -58,7 +59,7 @@ class SelezioneComprensorio : AppCompatActivity() {
                     if (skiAreaToAdd.getNome() == "NO") {
                         // se mancano dei dati dal JSON ottenuto dall'API, ergo non sono indicati, ad esempio,
                         // numero di piste e/o impianti di risalita...
-                        ApplicationAlert().openDialog(
+                        ApplicationDialog().openDialog(
                             ALERT_INFO,
                             "Non è possibile selezionare questo comprensorio: " +
                                     "l'API ha restituito dati incompleti.",
@@ -71,7 +72,11 @@ class SelezioneComprensorio : AppCompatActivity() {
 
                         val db = Room.databaseBuilder(applicationContext, LocalDB::class.java,
                             "LocalDatabase").allowMainThreadQueries().build()
-                        db.localDatabaseDao().insertNewComprensorio(comprensorioPerDB)
+                        // uso un try per evitare che, nel caso andassi ad aggiungere un comprensorio
+                        // già esistente, mi causi il crash del programma
+                        try {
+                            db.localDatabaseDao().insertNewComprensorio(comprensorioPerDB)
+                        } catch (_: SQLiteConstraintException) {}
 
                         // vado ad indicare l'id del comprensorio selezionato dall'utente
                         db.localDatabaseDao().modificaComprensorioSelezionato(it.id)
@@ -82,13 +87,13 @@ class SelezioneComprensorio : AppCompatActivity() {
                         startActivity(intent)
                     } else {
                         // se non è pià operativo avviso l'utente di questo fatto
-                        ApplicationAlert().openDialog(
+                        ApplicationDialog().openDialog(
                             ALERT_INFO, "Il comprensorio selezionato non è più " +
                                 "aperto al pubblico.", this@SelezioneComprensorio, false)
                     }
                 }
             } catch (e: Exception) {
-                ApplicationAlert().openDialog(
+                ApplicationDialog().openDialog(
                     ALERT_ERROR,"Impossibile ottenere la lista dei comprensori: " +
                         "${e.message}. Prova a controllare la connessione di rete e la sua " +
                         "disponibilità.", this@SelezioneComprensorio, true)

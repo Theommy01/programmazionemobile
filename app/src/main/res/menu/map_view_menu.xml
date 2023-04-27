@@ -3,24 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:icon="@drawable/baseline_menu_24">
 
-    <item android:id="@+id/item1"
+    <item android:id="@+id/change_skiarea_item"
         android:icon="@drawable/baseline_menu_24"
         android:title="Cambia comprensorio"
         app:showAsAction="never" />
 
-    <item android:id="@+id/item2"
+    <item android:id="@+id/zoom_regulation_item"
         android:icon="@drawable/baseline_menu_24"
         android:title="Regola zoom mappa"
         app:showAsAction="never" />
 
-    <item android:id="@+id/item3"
+    <item android:id="@+id/help_item"
         android:icon="@drawable/baseline_menu_24"
         android:title="Guida"
         app:showAsAction="never"/>
 
-    <item android:id="@+id/item4"
+    <item
+        android:id="@+id/about_us_item"
         android:icon="@drawable/baseline_menu_24"
-        android:title="Informazioni sul'app"
-        app:showAsAction="never"/>
+        android:title="Informazioni sull'app"
+        app:showAsAction="never" />
 
 </menu>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -64,7 +65,6 @@ class MappaFragment : Fragment() {
         map?.overlays?.add(scaleBarOverlay)
 
         // creo un controller della mappa per impostare una posizione iniziale
-        Log.e("sdfjhkgsaioòlduagko", "sdgfldk: ${mySkiArea.getLongitudine()}")
         renderKMLskiArea(mySkiArea.getLatitudine(), mySkiArea.getLongitudine(),
             mySkiArea.getZoomLevel())
 
@@ -92,7 +92,8 @@ class MappaFragment : Fragment() {
         // lo zoom
         val snackbar = Snackbar.make(view, "Problemi con la mappa?", Snackbar.LENGTH_LONG)
         snackbar.setAction("Regola zoom") {
-
+            // l'utente ha richiesto di regolare lo zoom della mappa
+            this.zoomRegulation()
         }
         snackbar.show()
     }
@@ -126,7 +127,46 @@ class MappaFragment : Fragment() {
             long, zoomLevel)
 
         val map = getMap()
+        map?.overlays?.clear()
         map?.overlays?.add(skiAreaKml.mKmlRoot.buildOverlay(map, null, null, skiAreaKml))
         map?.invalidate()
+    }
+
+    // questa funzione permette di regolare lo zoom della mappa.
+    fun zoomRegulation() {
+        // chiedo all'utente (tramite un dialog) qual'è il problema, quindi se vede troppe piste
+        // o ne vede troppo poche
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Cosa succede?")
+
+        val items = arrayOf("Non vedo alcune piste", "Vedo troppe piste")
+        var selectedItem = 0
+
+        builder.setSingleChoiceItems(items, selectedItem) {_, which ->
+            selectedItem = which
+        }
+        builder.setPositiveButton("OK") { _, _ ->
+            // l'utente ha fatto la sua scelta, vado a controllare cosa ha scelto
+            if (selectedItem == 0) {
+                // vado a ridurre lo zoom
+                this.mySkiArea.diminiusciZoom()
+                this.mySkiArea.updateZoom(requireContext())
+            } else if (selectedItem == 1) {
+                // vado ad aumentare lo zoom
+                this.mySkiArea.aumentaZoom()
+                this.mySkiArea.updateZoom(requireContext())
+            }
+
+            // vado a renderizzare la mappa con lo zoom nuovo
+            Log.i("SkiTracker Map Management", "New zoom level for map: ${this.mySkiArea.getZoomLevel()}")
+            renderKMLskiArea(mySkiArea.getLatitudine(), mySkiArea.getLongitudine(),
+                mySkiArea.getZoomLevel())
+        }
+        builder.setNegativeButton("Annulla") { _, _ ->
+            // non succede nulla
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 }

@@ -1,7 +1,10 @@
 package model
 
+import android.content.Context
+import androidx.room.Room
 import org.json.JSONObject
 import roomdb.Comprensorio
+import roomdb.LocalDB
 import utility.ApiCallThread
 
 class Comprensorio(private var id: Int, name: String) {
@@ -111,5 +114,21 @@ class Comprensorio(private var id: Int, name: String) {
             zoom = 13
 
         this.zoom = zoom
+    }
+
+    fun diminiusciZoom() {
+        if (this.zoom > 1)
+            this.zoom -= 1
+    }
+
+    fun aumentaZoom() {
+        if (this.zoom < 18)
+            this.zoom += 1
+    }
+
+    fun updateZoom(appContext: Context) {
+        val db = Room.databaseBuilder(appContext, LocalDB::class.java, "LocalDatabase")
+            .allowMainThreadQueries().build()
+        db.localDatabaseDao().updateZoomLevel(this.zoom, this.id)
     }
 }

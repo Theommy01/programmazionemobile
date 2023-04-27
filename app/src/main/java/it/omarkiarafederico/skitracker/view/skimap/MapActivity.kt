@@ -16,6 +16,7 @@ import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SelezioneCompr
 import it.omarkiarafederico.skitracker.view.tutorial.WelcomeActivity
 import model.Comprensorio
 import roomdb.LocalDB
+import java.lang.NullPointerException
 
 
 class MapActivity : AppCompatActivity() {
@@ -50,7 +51,8 @@ class MapActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // ottengo la posizione precisa dell'utente (tramite il gps)
+        // vado a controllare se ci sono i permessi per poter accedere al GPS. se non ci sono, li
+        // vado a richiedere.
         val locationPermissionRequest = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) { permissions ->
@@ -92,7 +94,11 @@ class MapActivity : AppCompatActivity() {
 
         // vado a popolare il comprensorio selezionato dall'utente con cui avrà a che fare l'intero
         // programma
-        skiArea = getSelectedSkiArea()!!
+        // NOTA: aggiungo un try per evitare un bug che causa il crash immediato dell'app in alcuni
+        // casi sporadici
+        try {
+            skiArea = getSelectedSkiArea()!!
+        } catch (_: NullPointerException) {}
     }
 
     // creazione menu a tendina
@@ -105,14 +111,20 @@ class MapActivity : AppCompatActivity() {
     // configurazione funzioni del menù a tendina
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) { //nel when, si ricorda che si possono mettere solo le costanti
-            R.id.item1 -> { return true }
-            R.id.item2 -> { return true }
-            R.id.item3 -> { //ritorno alla activity del tutorial
+            R.id.zoom_regulation_item -> {
+                val mapFragment: MappaFragment = supportFragmentManager.findFragmentByTag("map") as MappaFragment
+                mapFragment.zoomRegulation()
+            }
+            R.id.change_skiarea_item -> {
+                val intent = Intent(this, SelezioneComprensorio::class.java)
+                startActivity(intent)
+            }
+            R.id.help_item -> { //ritorno alla activity del tutorial
                 val intent = Intent(this, WelcomeActivity::class.java)
                 startActivity(intent)
                 return true
             }
-            R.id.item4 -> { //indirizzamento all'activity "ulteriori informazioni"
+            R.id.about_us_item -> { //indirizzamento all'activity "ulteriori informazioni"
                 val intent = Intent(this, AboutUsActivity::class.java)
                 startActivity(intent)
                 return true
@@ -155,7 +167,6 @@ class MapActivity : AppCompatActivity() {
                 .getDettagliComprensorio(selectedSkiAreaId)
 
             // vado a popolare l'oggetto comprensorio con i dettagli ottenuti dal db
-            Log.e("fjdoiaspugdsajioòh", skiAreaFromDb.long.toString())
             Comprensorio(skiAreaFromDb)
         } else {
             null
