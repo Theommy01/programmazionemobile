@@ -23,6 +23,7 @@
             android:label="Scegli comprensorio"/>
         <activity
             android:name=".view.skimap.AboutUsActivity"
+            android:parentActivityName=".view.skimap.MapActivity"
             android:exported="true" />
         <activity
             android:name=".view.tutorial.WelcomeActivity"

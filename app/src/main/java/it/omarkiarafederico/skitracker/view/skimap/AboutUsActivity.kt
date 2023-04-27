@@ -12,12 +12,18 @@ class AboutUsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about_us)
 
+        supportActionBar?.setTitle("Ulteriori informazioni")
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+
         val back= findViewById<Button>(R.id.back)
 
         back.setOnClickListener {
             val Intent = Intent(this, MapActivity::class.java)
             startActivity(Intent)
         }
+
+
     }
 
 
