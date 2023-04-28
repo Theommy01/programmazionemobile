@@ -5,11 +5,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.room.Room
+import com.google.android.material.navigation.NavigationView
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.databinding.ActivityMapBinding
 import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SelezioneComprensorio
@@ -23,6 +28,7 @@ class MapActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMapBinding
     private var selectedFragmentTag = "map"
     private lateinit var skiArea: Comprensorio
+    private lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // creazione activity
@@ -100,6 +106,28 @@ class MapActivity : AppCompatActivity() {
             skiArea = getSelectedSkiArea()!!
             supportActionBar?.subtitle = "${skiArea.getNome()}, IT"
         } catch (_: NullPointerException) {}
+
+        // hamburger menù
+
+        val drawerLayout: DrawerLayout = findViewById(R.id.homeActivity)
+        val navView: NavigationView = findViewById(R.id.nav_view)
+
+        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+        toggle.syncState()
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        navView.setNavigationItemSelectedListener {
+            when(it.itemId){
+
+                R.id.zoom_regulation_item -> Toast.makeText(applicationContext, "Clicked Zoom Regulation", Toast.LENGTH_SHORT).show()
+                R.id.change_skiarea_item -> Toast.makeText(applicationContext, "Clicked Change", Toast.LENGTH_SHORT).show()
+                R.id.help_item -> Toast.makeText(applicationContext, "Clicked Help", Toast.LENGTH_SHORT).show()
+                R.id.about_us_item -> Toast.makeText(applicationContext, "Clicked About Us", Toast.LENGTH_SHORT).show()
+            }
+
+            true
+        }
     }
 
     // creazione menu a tendina
@@ -132,6 +160,10 @@ class MapActivity : AppCompatActivity() {
                 startActivity(intent)
                 return true
             }
+        }
+
+        if (toggle.onOptionsItemSelected(item)) {
+            return true
         }
         return super.onOptionsItemSelected(item)
     }
