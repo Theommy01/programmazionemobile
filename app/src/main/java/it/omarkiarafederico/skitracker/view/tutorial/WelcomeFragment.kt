@@ -49,6 +49,7 @@ class WelcomeFragment : Fragment() {
             // telefono e il fatto che abbia già visto il tutorial)
             val db = Room.databaseBuilder(it.context, LocalDB::class.java, "LocalDatabase")
                 .allowMainThreadQueries().build()
+
             var intent = Intent(activity, SelezioneComprensorio::class.java)
             val phoneId = Settings.Secure.getString(requireActivity().contentResolver,
                 Settings.Secure.ANDROID_ID)
