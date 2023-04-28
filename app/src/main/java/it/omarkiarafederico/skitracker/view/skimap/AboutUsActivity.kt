@@ -1,10 +1,7 @@
 package it.omarkiarafederico.skitracker.view.skimap
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import androidx.core.view.isVisible
 import it.omarkiarafederico.skitracker.R
 
 class AboutUsActivity : AppCompatActivity() {
@@ -12,11 +9,7 @@ class AboutUsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about_us)
 
-        supportActionBar?.setTitle("Ulteriori informazioni")
+        supportActionBar?.title = "Informazioni su SkiTracker"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-
     }
-
-
 }

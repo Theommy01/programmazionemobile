@@ -1,5 +1,6 @@
 package it.omarkiarafederico.skitracker.view.skimap
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import it.omarkiarafederico.skitracker.R
+import it.omarkiarafederico.skitracker.view.routeTracking.RouteTrackingActivity
 import model.Comprensorio
 import org.osmdroid.bonuspack.kml.KmlDocument
 import org.osmdroid.config.Configuration
@@ -74,8 +76,8 @@ class MappaFragment : Fragment() {
         mapController?.animateTo(startPoint, 16.0, 1200)
 
         // gestione del FAB per la geolocalizzazione manuale
-        val fab = view.findViewById<FloatingActionButton>(R.id.getPositionFAB)
-        fab.setOnClickListener {
+        val centerToPositionFAB = view.findViewById<FloatingActionButton>(R.id.getPositionFAB)
+        centerToPositionFAB.setOnClickListener {
             // Azione da eseguire quando l'utente preme il pulsante
             val locationOverlay = map?.overlays?.get(map.overlays.lastIndex) as MyLocationNewOverlay
 
@@ -86,6 +88,13 @@ class MappaFragment : Fragment() {
             }
             else
                 mapController?.setCenter(locationOverlay.myLocation)
+        }
+        // gestione del FAB per la creazione di un nuovo tracciamento di percorso
+        val newTrackFAB = view.findViewById<FloatingActionButton>(R.id.addRecordFAB)
+        newTrackFAB.setOnClickListener {
+            // apro l'activity per il tracciamento
+            val trackActivityIntent = Intent(this.activity, RouteTrackingActivity::class.java)
+            startActivity(trackActivityIntent)
         }
 
         // uso gli snackbar per chiedere all'utente se si vede tutto nella mappa o bisogna regolare

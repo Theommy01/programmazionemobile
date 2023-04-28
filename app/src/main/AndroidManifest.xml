@@ -18,17 +18,21 @@
         android:theme="@style/Theme.SkiTracker"
         tools:targetApi="31">
         <activity
+            android:name=".view.routeTracking.RouteTrackingActivity"
+            android:exported="false"
+            android:label="@string/title_activity_route_tracking"
+            android:theme="@style/Theme.SkiTracker" />
+        <activity
             android:name=".view.selezionecomprensorio.SelezioneComprensorio"
             android:exported="false"
-            android:label="Scegli comprensorio"/>
+            android:label="Scegli comprensorio" />
         <activity
             android:name=".view.skimap.AboutUsActivity"
-            android:parentActivityName=".view.skimap.MapActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".view.skimap.MapActivity" />
         <activity
             android:name=".view.tutorial.WelcomeActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".view.skimap.MapActivity"
             android:exported="true">
