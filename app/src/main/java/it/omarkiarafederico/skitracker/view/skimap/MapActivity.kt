@@ -98,6 +98,7 @@ class MapActivity : AppCompatActivity() {
         // casi sporadici
         try {
             skiArea = getSelectedSkiArea()!!
+            supportActionBar?.subtitle = "${skiArea.getNome()}, IT"
         } catch (_: NullPointerException) {}
     }
 
