@@ -107,7 +107,7 @@ class MapActivity : AppCompatActivity() {
             supportActionBar?.subtitle = "${skiArea.getNome()}, IT"
         } catch (_: NullPointerException) {}
 
-        // hamburger menù
+        // Creazione e configurazione hamburger menù
 
         val drawerLayout: DrawerLayout = findViewById(R.id.homeActivity)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -119,11 +119,22 @@ class MapActivity : AppCompatActivity() {
 
         navView.setNavigationItemSelectedListener {
             when(it.itemId){
-
-                R.id.zoom_regulation_item -> Toast.makeText(applicationContext, "Clicked Zoom Regulation", Toast.LENGTH_SHORT).show()
-                R.id.change_skiarea_item -> Toast.makeText(applicationContext, "Clicked Change", Toast.LENGTH_SHORT).show()
-                R.id.help_item -> Toast.makeText(applicationContext, "Clicked Help", Toast.LENGTH_SHORT).show()
-                R.id.about_us_item -> Toast.makeText(applicationContext, "Clicked About Us", Toast.LENGTH_SHORT).show()
+                R.id.zoom_regulation_item -> {
+                    val mapFragment: MappaFragment = supportFragmentManager.findFragmentByTag("map") as MappaFragment
+                    mapFragment.zoomRegulation()
+                }
+                R.id.change_skiarea_item -> {
+                    val intent = Intent(this, SelezioneComprensorio::class.java)
+                    startActivity(intent)
+                }
+                R.id.help_item -> {
+                    val intent = Intent(this, WelcomeActivity::class.java)
+                    startActivity(intent)
+                }
+                R.id.about_us_item -> {
+                    val intent = Intent(this, AboutUsActivity::class.java)
+                    startActivity(intent)
+                }
             }
 
             true
@@ -131,6 +142,7 @@ class MapActivity : AppCompatActivity() {
     }
 
     // creazione menu a tendina
+    /*
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.map_view_menu, menu)
@@ -139,8 +151,11 @@ class MapActivity : AppCompatActivity() {
         return true
     }
 
+     */
+
     // configurazione funzioni del menù a tendina
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        /*
         when(item.itemId) { //nel when, si ricorda che si possono mettere solo le costanti
             R.id.zoom_regulation_item -> {
                 val mapFragment: MappaFragment = supportFragmentManager.findFragmentByTag("map") as MappaFragment
@@ -162,6 +177,7 @@ class MapActivity : AppCompatActivity() {
             }
         }
 
+         */
         if (toggle.onOptionsItemSelected(item)) {
             return true
         }

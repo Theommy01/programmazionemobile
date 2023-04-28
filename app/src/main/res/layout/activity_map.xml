@@ -32,6 +32,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/map_bottom_nav" />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -41,7 +44,5 @@
         android:fitsSystemWindows="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>
