@@ -106,6 +106,8 @@ class MapActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.map_view_menu, menu)
+        val menuItem = menu?.findItem(R.id.skiAreaItemIcon)
+        menuItem?.setIcon(R.drawable.baseline_menu_24)
         return true
     }
 
