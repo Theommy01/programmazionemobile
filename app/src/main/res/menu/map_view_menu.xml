@@ -12,25 +12,21 @@
         <menu>
 
         <item android:id="@+id/change_skiarea_item"
-            app:icon="@drawable/baseline_change_circle_24"
             android:title="Cambia comprensorio"
-            app:showAsAction="never" />
+            android:icon="@drawable/baseline_sync_24"/>
 
         <item android:id="@+id/zoom_regulation_item"
-            app:icon="@drawable/baseline_zoom_in_24"
             android:title="Regola zoom mappa"
-            app:showAsAction="never" />
+            android:icon="@drawable/baseline_zoom_in_24"/>
 
         <item android:id="@+id/help_item"
-            android:icon="@drawable/baseline_help_24"
             android:title="Guida"
-            app:showAsAction="never"/>
+            android:icon="@drawable/baseline_help_24"/>
 
         <item
             android:id="@+id/about_us_item"
-            app:icon="@drawable/baseline_info_24"
             android:title="Informazioni sull'app"
-            app:showAsAction="never" />
+            android:icon="@drawable/baseline_info_24"/>
 
         </menu>
 

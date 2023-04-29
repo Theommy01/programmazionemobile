@@ -158,8 +158,7 @@ class MapActivity : AppCompatActivity() {
         /*
         when(item.itemId) { //nel when, si ricorda che si possono mettere solo le costanti
             R.id.zoom_regulation_item -> {
-                val mapFragment: MappaFragment = supportFragmentManager.findFragmentByTag("map") as MappaFragment
-                mapFragment.zoomRegulation()
+                supportActionBar?.setHomeAsUpIndicator(R.drawable.)
             }
             R.id.change_skiarea_item -> {
                 val intent = Intent(this, SelezioneComprensorio::class.java)
