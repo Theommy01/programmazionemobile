@@ -19,9 +19,10 @@
         tools:targetApi="31">
         <activity
             android:name=".view.routeTracking.RouteTrackingActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_route_tracking"
-            android:theme="@style/Theme.SkiTracker" />
+            android:theme="@style/Theme.SkiTracker"
+            android:parentActivityName=".view.skimap.MapActivity"/>
         <activity
             android:name=".view.selezionecomprensorio.SelezioneComprensorio"
             android:exported="false"
