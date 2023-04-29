@@ -9,7 +9,7 @@
     tools:context=".view.skimap.InfoPisteFragment">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/titolo"
         android:layout_width="292dp"
         android:layout_height="271dp"
         android:text="Fragment informazioni sul comprensorio"
