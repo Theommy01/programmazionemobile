@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ListView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
@@ -61,12 +63,12 @@ class InfoPisteFragment : Fragment() {
         val aperto = true //o false ovviamente, ora true per prova
 
         if (aperto) {
-            stato.text="Aperto"
+            stato.text="APERTO"
             context?.let { ContextCompat.getColor(it, R.color.green) }
                 ?.let { stato.setBackgroundColor(it) }
           //  stato.backgroundTintList = context?.let { ContextCompat.getColorStateList(it, R.color.green) }
         } else {
-            stato.text="Chiuso"
+            stato.text="CHIUSO"
             context?.let { ContextCompat.getColor(it, R.color.red) }
                 ?.let { stato.setBackgroundColor(it) }
          //   stato.backgroundTintList = context?.let { ContextCompat.getColorStateList(it, R.color.red) }
@@ -91,6 +93,17 @@ class InfoPisteFragment : Fragment() {
         } else {
             night.visibility = View.GONE
         }
+
+        //ELENCO PISTE DISPONIBILI. Semplice esempio
+
+        val listView = view.findViewById<ListView>(R.id.elenco_piste)
+        val elenco= mutableListOf("primo","secondo","terzo")
+        elenco.add("quarto")
+
+        val arrayAdapter = ArrayAdapter(requireActivity(), android.R.layout.simple_list_item_1, elenco)
+
+        listView.adapter = arrayAdapter
+
     }
 
 }
