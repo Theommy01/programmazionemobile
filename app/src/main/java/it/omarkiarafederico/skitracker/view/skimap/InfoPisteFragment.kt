@@ -1,6 +1,7 @@
 package it.omarkiarafederico.skitracker.view.skimap
 
 import android.app.AlertDialog
+import android.content.Context
 import android.icu.text.CaseMap.Title
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -55,16 +56,40 @@ class InfoPisteFragment : Fragment() {
         min.text = "0"
         sito.text = "SITO UFFICIALE"
 
-        //Personalizzo il pulsante che indica se quel comprensorio è aperto o chiuso
-        val stato = view.findViewById<Button>(R.id.stato)
+        //Personalizzo la scritta che indica se quel comprensorio è aperto o chiuso
+        val stato = view.findViewById<TextView>(R.id.stato)
         val aperto = true //o false ovviamente, ora true per prova
 
         if (aperto) {
             stato.text="Aperto"
-            stato.backgroundTintList = context?.let { ContextCompat.getColorStateList(it, R.color.green) }
+            context?.let { ContextCompat.getColor(it, R.color.green) }
+                ?.let { stato.setBackgroundColor(it) }
+          //  stato.backgroundTintList = context?.let { ContextCompat.getColorStateList(it, R.color.green) }
         } else {
             stato.text="Chiuso"
-            stato.backgroundTintList = context?.let { ContextCompat.getColorStateList(it, R.color.red) }
+            context?.let { ContextCompat.getColor(it, R.color.red) }
+                ?.let { stato.setBackgroundColor(it) }
+         //   stato.backgroundTintList = context?.let { ContextCompat.getColorStateList(it, R.color.red) }
+        }
+
+        //gestisco le scritte snowpark e piste notturne
+
+        val snowpark = view.findViewById<TextView>(R.id.snowpark)
+        val night = view.findViewById<TextView>(R.id.piste_notturne)
+
+        val showsnow = true
+        val shownight = false
+
+        if (showsnow){
+            snowpark.visibility = View.VISIBLE
+        } else {
+            snowpark.visibility = View.GONE
+        }
+
+        if (shownight){
+            night.visibility = View.VISIBLE
+        } else {
+            night.visibility = View.GONE
         }
     }
 
