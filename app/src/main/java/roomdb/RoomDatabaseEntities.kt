@@ -16,18 +16,20 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "Utente",
     foreignKeys = [
         ForeignKey(entity = Comprensorio::class, parentColumns = ["id"],
-            childColumns = ["idComprensorio"])
+            childColumns = ["idComprensorio"], onDelete = ForeignKey.SET_NULL, onUpdate = ForeignKey.CASCADE)
     ])
 data class Utente(
     @PrimaryKey val id: String,
-    val tutorialCompletato: Boolean,
+    val tutorialCompletato: Boolean = false,
     val idComprensorio: Int?
 )
 
 @Entity(tableName = "Tracciamento",
     foreignKeys = [
-        ForeignKey(entity = Utente::class, parentColumns = ["id"], childColumns = ["idUtente"]),
-        ForeignKey(entity = Pista::class, parentColumns = ["id"], childColumns = ["idPista"])
+        ForeignKey(entity = Utente::class, parentColumns = ["id"], childColumns = ["idUtente"],
+            onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE),
+        ForeignKey(entity = Pista::class, parentColumns = ["id"], childColumns = ["idPista"],
+            onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE)
     ])
 data class Tracciamento (
     @PrimaryKey(autoGenerate = true) val id: Int,
@@ -42,8 +44,8 @@ data class Tracciamento (
 
 @Entity(tableName = "Pista",
     foreignKeys = [
-        ForeignKey(entity = Comprensorio::class, parentColumns = ["id"],
-            childColumns = ["idComprensorio"])
+        ForeignKey(entity = Comprensorio::class, parentColumns = ["id"], childColumns = ["idComprensorio"],
+            onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE)
     ])
 data class Pista (
     @PrimaryKey(autoGenerate = true) val id: Int,

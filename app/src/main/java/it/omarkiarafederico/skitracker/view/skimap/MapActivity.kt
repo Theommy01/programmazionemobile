@@ -5,11 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -21,6 +19,7 @@ import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SelezioneCompr
 import it.omarkiarafederico.skitracker.view.tutorial.WelcomeActivity
 import model.Comprensorio
 import roomdb.LocalDB
+import roomdb.RoomHelper
 import java.lang.NullPointerException
 
 
@@ -39,8 +38,7 @@ class MapActivity : AppCompatActivity() {
         // controllo se l'utente ha già visto il tutorial e/o ha già selezionato il comprensorio
         // se non ha fatto almeno una delle due cose, lo redirigo alle varie activities
         // TODO - FORSE METTEREI STA ROBA IN UN ViewModel
-        val db = Room.databaseBuilder(this.applicationContext, LocalDB::class.java, "LocalDatabase")
-            .allowMainThreadQueries().build()
+        val db = RoomHelper().getDatabaseObject(this.applicationContext)
         var intent: Intent? = null
 
         // controllo se il tutorial è stato completato e se il comprensorio è stato scelto
