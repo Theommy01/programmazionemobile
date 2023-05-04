@@ -44,10 +44,11 @@
         android:layout_height="214dp"
         android:text="TITOLO"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.139" />
@@ -58,6 +59,7 @@
         android:layout_height="214dp"
         android:text="PISTE DISPONIBILI"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,10 +73,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Numero di piste: "
+        android:textColor="@color/black"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/titolo"
-        app:layout_constraintHorizontal_bias="0.101"
+        app:layout_constraintHorizontal_bias="0.379"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.193" />
@@ -84,10 +88,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Impianti di risalita: "
+        android:textColor="@color/black"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
+        app:layout_constraintHorizontal_bias="0.377"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.257" />
@@ -97,50 +103,56 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Altitudine minima: "
+        android:textColor="@color/black"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
+        app:layout_constraintHorizontal_bias="0.364"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.383" />
+        app:layout_constraintVertical_bias="0.324" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Altitudine massima: "
+        android:textColor="@color/black"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
+        app:layout_constraintHorizontal_bias="0.396"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.324" />
+        app:layout_constraintVertical_bias="0.387" />
 
     <TextView
         android:id="@+id/website"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sito"
+        android:textColor="@color/dark_blue"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45" />
+        app:layout_constraintVertical_bias="0.454" />
 
     <TextView
         android:id="@+id/numPiste"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.203"
+        app:layout_constraintHorizontal_bias="0.575"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.193" />
@@ -150,39 +162,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.203"
+        app:layout_constraintHorizontal_bias="0.583"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.257" />
-
-    <TextView
-        android:id="@+id/altMax"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="24sp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.203"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.324" />
 
     <TextView
         android:id="@+id/altMin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.168"
+        app:layout_constraintHorizontal_bias="0.583"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.324" />
+
+    <TextView
+        android:id="@+id/altMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.383" />
@@ -201,7 +216,33 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.117" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="44dp"
+        android:layout_height="38dp"
+        android:src="@mipmap/piste"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.076"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.194" />
+
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="45dp"
+        android:layout_height="46dp"
+        android:src="@mipmap/website"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.155"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.452" />
+
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="406dp"
         android:layout_height="217dp"
         android:layout_marginBottom="37dp"
@@ -209,10 +250,47 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <ListView android:id="@+id/elenco_piste"
+        <ListView
+            android:id="@+id/elenco_piste"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="43dp"
+        android:layout_height="44dp"
+        android:src="@drawable/baseline_directions_transit_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.076"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.262" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="47dp"
+        android:layout_height="41dp"
+        android:src="@mipmap/top"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.076"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.379" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="46dp"
+        android:layout_height="43dp"
+        android:src="@mipmap/bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.068"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.329" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
