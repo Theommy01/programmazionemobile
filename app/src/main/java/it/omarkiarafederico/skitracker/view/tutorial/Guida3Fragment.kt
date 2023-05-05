@@ -9,11 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.room.Room
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SelezioneComprensorio
 import org.osmdroid.views.MapView
-import roomdb.LocalDB
+import roomdb.RoomHelper
 import roomdb.Utente
 
 class Guida3Fragment : Fragment() {
@@ -30,8 +29,8 @@ class Guida3Fragment : Fragment() {
 
             // scrivo sul database le info sull'utente locale che sta eseguendo l'app (id del
             // telefono e il fatto che abbia già visto il tutorial)
-            val db = Room.databaseBuilder(it.context, LocalDB::class.java, "LocalDatabase")
-                .allowMainThreadQueries().build()
+            val db = RoomHelper().getDatabaseObject(this.requireContext())
+
             var intent = Intent(activity, SelezioneComprensorio::class.java)
             val phoneId = Settings.Secure.getString(requireActivity().contentResolver,
                 Settings.Secure.ANDROID_ID)

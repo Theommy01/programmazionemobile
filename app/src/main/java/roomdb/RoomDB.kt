@@ -16,7 +16,7 @@ import androidx.room.*
     Comprensorio::class,
     PuntoMappa::class,
     PuntiMappaTracciamenti::class
-], version = 2)
+], version = 3)
 abstract class LocalDB: RoomDatabase() {
     abstract fun localDatabaseDao(): LocalDatabaseDao
 }

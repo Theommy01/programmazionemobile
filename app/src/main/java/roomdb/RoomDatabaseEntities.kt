@@ -7,6 +7,7 @@
 
 package roomdb
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -60,17 +61,17 @@ data class Pista (
 data class Comprensorio (
     @PrimaryKey(autoGenerate = true) var id: Int,
     var nome: String,
-    var aperto: Boolean,
+    @ColumnInfo(defaultValue = "0") var aperto: Boolean,
     var numPiste: Int,
     var numImpianti: Int,
     var website: String,
-    var snowpark: Boolean,
-    var pisteNotturne: Boolean,
+    @ColumnInfo(defaultValue = "0") var snowpark: Boolean,
+    @ColumnInfo(defaultValue = "0") var pisteNotturne: Boolean,
     var lat: Double,
     var long: Double,
     var maxAltitudine: Int,
     var minAltitudine: Int,
-    var zoom: Int
+    @ColumnInfo(defaultValue = "16") var zoom: Int = 16
 ){
     constructor() : this(0, "", false, 0, 0, "",
         false, false, 0.0, 0.0, 0, 0, 16)
@@ -78,10 +79,10 @@ data class Comprensorio (
 
 @Entity(primaryKeys = ["idTracciamento", "idPuntoMappa"],
     foreignKeys = [
-        ForeignKey(entity = Tracciamento::class, parentColumns = ["id"],
-            childColumns = ["idTracciamento"]),
-        ForeignKey(entity = PuntoMappa::class, parentColumns = ["id"],
-            childColumns = ["idPuntoMappa"]),
+        ForeignKey(entity = Tracciamento::class, parentColumns = ["id"], childColumns = ["idTracciamento"],
+            onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE),
+        ForeignKey(entity = PuntoMappa::class, parentColumns = ["id"], childColumns = ["idPuntoMappa"],
+            onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE),
     ])
 data class PuntiMappaTracciamenti (
     val idTracciamento: Int,

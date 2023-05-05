@@ -37,7 +37,6 @@ class MapActivity : AppCompatActivity() {
 
         // controllo se l'utente ha già visto il tutorial e/o ha già selezionato il comprensorio
         // se non ha fatto almeno una delle due cose, lo redirigo alle varie activities
-        // TODO - FORSE METTEREI STA ROBA IN UN ViewModel
         val db = RoomHelper().getDatabaseObject(this.applicationContext)
         var intent: Intent? = null
 
