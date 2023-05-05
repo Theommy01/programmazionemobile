@@ -15,12 +15,16 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import androidx.room.Room
 import it.omarkiarafederico.skitracker.R
+import roomdb.Comprensorio
+import roomdb.LocalDB
 
 class InfoPisteFragment : Fragment() {
 
-    private lateinit var dialog: AlertDialog
-    private lateinit var edit: EditText
+    private lateinit var skiArea: model.Comprensorio
+    private lateinit var mapActivity : MapActivity
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,39 +43,27 @@ class InfoPisteFragment : Fragment() {
         val min: TextView = view.findViewById(R.id.altMin)
         val sito: TextView = view.findViewById(R.id.website)
 
+        skiArea = mapActivity.getSelectedSkiArea()!!
 
-        /*
-        var comprensorio = INSERIRE QUI IL NOME DEL COMPRENSORIO
-        titolo.text = "$comprensorio"
-        numPiste.text = "$numPiste"
-        etc.
-
-         */
-
-        //QUI CI ANDRANNO INSERITI TUTTI I DETTAGLI. PRENDEREMO I CODICI DI OGNI SINGOLA
-        //TEXTVIEW E NE MODIFICHEREMO I CONTENUTI
-
-        titolo.text = "NOME" //modifica di prova
-        numPiste.text = "7"
-        impiantiRisalita.text = "12"
-        max.text = "100"
-        min.text = "0"
-        sito.text = "SITO UFFICIALE"
+        titolo.text = "${skiArea.getNome()}" //modifica di prova
+        numPiste.text = "${skiArea.getNumPiste()}"
+        impiantiRisalita.text = "${skiArea.getNumImpianti()}"
+        max.text = "${skiArea.getMaxAlt()}"
+        min.text = "${skiArea.getMinAlt()}"
+        sito.text = "${skiArea.getWebSite()}"
 
         //Personalizzo la scritta che indica se quel comprensorio è aperto o chiuso
         val stato = view.findViewById<TextView>(R.id.stato)
-        val aperto = true //o false ovviamente, ora true per prova
+        val aperto = skiArea.isOperativo()
 
         if (aperto) {
             stato.text="APERTO"
             context?.let { ContextCompat.getColor(it, R.color.green) }
                 ?.let { stato.setBackgroundColor(it) }
-          //  stato.backgroundTintList = context?.let { ContextCompat.getColorStateList(it, R.color.green) }
         } else {
             stato.text="CHIUSO"
             context?.let { ContextCompat.getColor(it, R.color.red) }
                 ?.let { stato.setBackgroundColor(it) }
-         //   stato.backgroundTintList = context?.let { ContextCompat.getColorStateList(it, R.color.red) }
         }
 
         //gestisco le scritte snowpark e piste notturne
@@ -79,8 +71,8 @@ class InfoPisteFragment : Fragment() {
         val snowpark = view.findViewById<TextView>(R.id.snowpark)
         val night = view.findViewById<TextView>(R.id.piste_notturne)
 
-        val showsnow = true
-        val shownight = false
+        val showsnow = skiArea.getSnowPark()
+        val shownight = skiArea.getNight()
 
         if (showsnow){
             snowpark.visibility = View.VISIBLE
@@ -94,9 +86,9 @@ class InfoPisteFragment : Fragment() {
             night.visibility = View.GONE
         }
 
-        //ELENCO PISTE DISPONIBILI. Semplice esempio
+        //ELENCO PISTE DISPONIBILI
 
-        val listView = view.findViewById<ListView>(R.id.elenco_piste)
+       /* val listView = view.findViewById<ListView>(R.id.elenco_piste)
         val elenco= mutableListOf("primo","secondo","terzo")
         elenco.add("quarto")
 
@@ -104,6 +96,9 @@ class InfoPisteFragment : Fragment() {
 
         listView.adapter = arrayAdapter
 
+        */
+
     }
+
 
 }

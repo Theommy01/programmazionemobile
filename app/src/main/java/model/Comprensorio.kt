@@ -81,6 +81,34 @@ class Comprensorio(private var id: Int, name: String) {
         return this.nome
     }
 
+    fun getNumPiste(): Int {
+        return this.numPiste
+    }
+
+    fun getNumImpianti(): Int {
+        return this.numImpianti
+    }
+
+    fun getMinAlt(): Int {
+        return this.minAltitudine
+    }
+
+    fun getMaxAlt(): Int {
+        return this.maxAltitudine
+    }
+
+    fun getWebSite(): String {
+        return this.website
+    }
+
+    fun getSnowPark(): Boolean {
+        return this.presenteSnowpark
+    }
+
+    fun getNight(): Boolean {
+        return this.presentiPisteNotturne
+    }
+
     fun isOperativo(): Boolean {
         return this.aperto
     }
