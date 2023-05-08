@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.content.Context
 import android.icu.text.CaseMap.Title
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
+import android.text.util.Linkify
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +21,7 @@ import androidx.room.Room
 import it.omarkiarafederico.skitracker.R
 import roomdb.Comprensorio
 import roomdb.LocalDB
+import java.util.regex.Pattern
 
 class InfoPisteFragment : Fragment() {
 
@@ -43,6 +46,9 @@ class InfoPisteFragment : Fragment() {
         val min: TextView = view.findViewById(R.id.altMin)
         val sito: TextView = view.findViewById(R.id.website)
 
+        val url = skiArea.getWebSite()
+        val text = "sito internet"
+
         skiArea = mapActivity.getSelectedSkiArea()!!
 
         titolo.text = "${skiArea.getNome()}" //modifica di prova
@@ -50,7 +56,19 @@ class InfoPisteFragment : Fragment() {
         impiantiRisalita.text = "${skiArea.getNumImpianti()}"
         max.text = "${skiArea.getMaxAlt()}"
         min.text = "${skiArea.getMinAlt()}"
-        sito.text = "${skiArea.getWebSite()}"
+
+        sito.text = text
+
+        //aggiungo link al sito
+        sito.movementMethod = LinkMovementMethod.getInstance()
+        Linkify.addLinks(sito, Pattern.compile(url), "")
+
+        /* metodo alternativo
+        sito.setOnClickListener {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(intent)
+        }
+         */
 
         //Personalizzo la scritta che indica se quel comprensorio è aperto o chiuso
         val stato = view.findViewById<TextView>(R.id.stato)
