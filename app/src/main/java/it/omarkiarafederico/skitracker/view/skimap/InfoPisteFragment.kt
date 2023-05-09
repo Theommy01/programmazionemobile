@@ -1,5 +1,7 @@
 package it.omarkiarafederico.skitracker.view.skimap
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
@@ -51,14 +53,14 @@ class InfoPisteFragment : Fragment() {
 
         //aggiungo link al sito
         sito.movementMethod = LinkMovementMethod.getInstance()
-        Linkify.addLinks(sito, Pattern.compile(url), url)
+        //Linkify.addLinks(sito, Pattern.compile(url), url)
 
-        /* metodo alternativo
+        // metodo alternativo
         sito.setOnClickListener {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(intent)
         }
-         */
+
 
         //Personalizzo la scritta che indica se quel comprensorio è aperto o chiuso
         val stato = view.findViewById<TextView>(R.id.stato)
