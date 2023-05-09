@@ -10,11 +10,10 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.view.skimap.MapActivity
 import model.Comprensorio
-import roomdb.LocalDB
+import roomdb.RoomHelper
 import utility.ALERT_ERROR
 import utility.ALERT_INFO
 import utility.ApplicationDialog
@@ -34,52 +33,43 @@ class SelezioneComprensorio : AppCompatActivity() {
 
         supportActionBar?.subtitle = "Caricamento comprensori..."
 
-        lateinit var listaComprensori:ArrayList<Comprensorio>
+        lateinit var listaComprensori: List<roomdb.Comprensorio>
         skiAreaItemList = ArrayList()
 
         lifecycleScope.launchWhenCreated {
             try {
-                listaComprensori = SkiAreaListDownloadThread().getSkiAreaList()
+                // ottengo la lista dei comprensori dal database
+                val dbConnection = RoomHelper().getDatabaseObject(applicationContext)
+                listaComprensori = dbConnection.localDatabaseDao().getSkiAreasList()
 
+                // aggiungo i comprensori ottenuti alla lista da visualizzare con la RecyclerView
                 supportActionBar?.subtitle = "${listaComprensori.size} comprensori disponibili (paese: IT)"
-                for (c: Comprensorio in listaComprensori) {
-                    skiAreaItemList.add(SkiAreaItem(c.getNome(), c.getId()))
+                for (skiAreaFromDb in listaComprensori) {
+                    skiAreaItemList.add(SkiAreaItem(skiAreaFromDb.nome, skiAreaFromDb.id))
                 }
 
+                // creo l'Adapter per la RecyclerView
                 skiAreaAdapter = SkiAreaAdapter(skiAreaItemList)
                 recyclerView.adapter = skiAreaAdapter
 
+                // questo è quello che succede quando faccio click su un elemento della RecyclerView
                 skiAreaAdapter.onItemClick = {
-                    // creo l'oggetto comprensorio
-                    val skiAreaToAdd = Comprensorio(it.id, it.nome)
-                    // lo vado a popolare con i dati mancanti, che andrò a prendere online con una
-                    // api call
-                    skiAreaToAdd.popolateWithOnlineData()
+                    // creo l'oggetto comprensorio che comprende tutti i dettagli
+                    val skiAreaToAdd = Comprensorio(dbConnection.localDatabaseDao().getDettagliComprensorio(it.id))
 
-                    if (skiAreaToAdd.getNome() == "NO") {
-                        // se mancano dei dati dal JSON ottenuto dall'API, ergo non sono indicati, ad esempio,
-                        // numero di piste e/o impianti di risalita...
-                        ApplicationDialog().openDialog(
-                            ALERT_INFO,
-                            "Non è possibile selezionare questo comprensorio: " +
-                                    "l'API ha restituito dati incompleti.",
-                            this@SelezioneComprensorio,
-                            false
-                        )
-                    } else if (skiAreaToAdd.isOperativo()) {
+                    // controllo se il comprensorio che voglio aggiungere è ancora operativo
+                    if (skiAreaToAdd.isOperativo()) {
                         // se è operativo lo aggiungo al db
                         val comprensorioPerDB: roomdb.Comprensorio = skiAreaToAdd.convertToEntityClass()
 
-                        val db = Room.databaseBuilder(applicationContext, LocalDB::class.java,
-                            "LocalDatabase").allowMainThreadQueries().build()
                         // uso un try per evitare che, nel caso andassi ad aggiungere un comprensorio
                         // già esistente, mi causi il crash del programma
                         try {
-                            db.localDatabaseDao().insertNewComprensorio(comprensorioPerDB)
+                            dbConnection.localDatabaseDao().insertNewComprensorio(comprensorioPerDB)
                         } catch (_: SQLiteConstraintException) {}
 
                         // vado ad indicare l'id del comprensorio selezionato dall'utente
-                        db.localDatabaseDao().modificaComprensorioSelezionato(it.id)
+                        dbConnection.localDatabaseDao().modificaComprensorioSelezionato(it.id)
 
                         // a posto cosi, posso aprire l'activity della mappa
                         finishAffinity()
@@ -94,13 +84,13 @@ class SelezioneComprensorio : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 ApplicationDialog().openDialog(
-                    ALERT_ERROR,"Impossibile ottenere la lista dei comprensori: " +
-                        "${e.message}. Prova a controllare la connessione di rete e la sua " +
-                        "disponibilità.", this@SelezioneComprensorio, true)
+                    ALERT_ERROR,"Impossibile ottenere la lista dei comprensori: ${e.message}.",
+                    this@SelezioneComprensorio, true)
             }
         }
     }
 
+    // Gestione della funzione di ricerca collocata nella parte superiore (ActionBar)
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.seleziona_comprensorio_search_menu, menu)
 

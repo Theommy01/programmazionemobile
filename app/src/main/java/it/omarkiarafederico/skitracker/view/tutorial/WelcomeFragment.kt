@@ -1,9 +1,9 @@
 package it.omarkiarafederico.skitracker.view.tutorial
 
 import android.content.Intent
-import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SelezioneComprensorio
-import org.osmdroid.views.MapView
 import roomdb.RoomHelper
 import roomdb.Utente
 
@@ -48,17 +47,12 @@ class WelcomeFragment : Fragment() {
             // telefono e il fatto che abbia già visto il tutorial)
             val db = RoomHelper().getDatabaseObject(this.requireContext())
 
-            var intent = Intent(activity, SelezioneComprensorio::class.java)
+            val intent = Intent(activity, SelezioneComprensorio::class.java)
             val phoneId = Settings.Secure.getString(requireActivity().contentResolver,
                 Settings.Secure.ANDROID_ID)
+            Log.e("fhujdsklfsdklfldskflkjsdl", "AAAAAAAA: $phoneId")
 
-            try {
-                db.localDatabaseDao()
-                    .insertNewLocalUserInfo(Utente(phoneId, true, null))
-            } catch (e: SQLiteConstraintException) {
-                if (db.localDatabaseDao().getIdComprensorio() != null)
-                    intent = Intent(activity, MapView::class.java)
-            }
+            db.localDatabaseDao().insertNewLocalUserInfo(Utente(phoneId, true, null))
 
             startActivity(intent)
         }

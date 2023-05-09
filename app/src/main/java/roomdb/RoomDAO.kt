@@ -45,4 +45,8 @@ interface LocalDatabaseDao {
     // modifica il livello di zoom di un comprensorio
     @Query("UPDATE Comprensorio SET zoom = :zoom WHERE id = :id")
     fun updateZoomLevel(zoom: Int, id: Int)
+
+    // ottiene la lista di tutti i comprensori memorizzati nel database
+    @Query("SELECT * FROM Comprensorio")
+    fun getSkiAreasList(): List<Comprensorio>
 }

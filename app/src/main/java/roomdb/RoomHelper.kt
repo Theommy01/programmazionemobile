@@ -7,8 +7,14 @@ class RoomHelper {
     fun getDatabaseObject(appContext: Context): LocalDB {
         return Room.databaseBuilder(appContext, LocalDB::class.java, "LocalDatabase")
             .allowMainThreadQueries()
-            .fallbackToDestructiveMigration()
             .createFromAsset("app.db")
             .build()
     }
+
+    /*
+    .allowMainThreadQueries()
+            .fallbackToDestructiveMigration()
+            .createFromAsset("app.db")
+            .build()
+     */
 }

@@ -1,8 +1,5 @@
 package it.omarkiarafederico.skitracker.view.skimap
 
-import android.app.AlertDialog
-import android.content.Context
-import android.icu.text.CaseMap.Title
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
@@ -10,28 +7,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ListView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.navigation.fragment.findNavController
-import androidx.room.Room
 import it.omarkiarafederico.skitracker.R
-import roomdb.Comprensorio
-import roomdb.LocalDB
 import java.util.regex.Pattern
 
 class InfoPisteFragment : Fragment() {
-
     private lateinit var skiArea: model.Comprensorio
-    private lateinit var mapActivity : MapActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        super.onCreate(savedInstanceState)
+
+        val myActivity = this.activity as MapActivity
+        skiArea = myActivity.getComprensorioSelezionato()
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_info_piste, container, false)
     }
@@ -49,9 +41,7 @@ class InfoPisteFragment : Fragment() {
         val url = skiArea.getWebSite()
         val text = "sito internet"
 
-        skiArea = mapActivity.getSelectedSkiArea()!!
-
-        titolo.text = "${skiArea.getNome()}" //modifica di prova
+        titolo.text = skiArea.getNome() //modifica di prova
         numPiste.text = "${skiArea.getNumPiste()}"
         impiantiRisalita.text = "${skiArea.getNumImpianti()}"
         max.text = "${skiArea.getMaxAlt()}"
@@ -61,7 +51,7 @@ class InfoPisteFragment : Fragment() {
 
         //aggiungo link al sito
         sito.movementMethod = LinkMovementMethod.getInstance()
-        Linkify.addLinks(sito, Pattern.compile(url), "")
+        Linkify.addLinks(sito, Pattern.compile(url), url)
 
         /* metodo alternativo
         sito.setOnClickListener {
@@ -75,11 +65,11 @@ class InfoPisteFragment : Fragment() {
         val aperto = skiArea.isOperativo()
 
         if (aperto) {
-            stato.text="APERTO"
+            stato.text = "APERTO"
             context?.let { ContextCompat.getColor(it, R.color.green) }
                 ?.let { stato.setBackgroundColor(it) }
         } else {
-            stato.text="CHIUSO"
+            stato.text = "CHIUSO"
             context?.let { ContextCompat.getColor(it, R.color.red) }
                 ?.let { stato.setBackgroundColor(it) }
         }

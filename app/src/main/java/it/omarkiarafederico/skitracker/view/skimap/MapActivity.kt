@@ -202,7 +202,7 @@ class MapActivity : AppCompatActivity() {
     }
 
     // questa funzione va ad ottenere il Comprensorio che l'utente ha selezionato.
-     fun getSelectedSkiArea(): Comprensorio? {
+    private fun getSelectedSkiArea(): Comprensorio? {
         // ottengo l'id del comprensorio selezionato dall'utente.
         val db = Room.databaseBuilder(applicationContext, LocalDB::class.java, "LocalDatabase")
             .allowMainThreadQueries().build()
