@@ -41,21 +41,15 @@ class InfoPisteFragment : Fragment() {
         val sito: TextView = view.findViewById(R.id.website)
 
         val url = skiArea.getWebSite()
-        val text = "sito internet"
 
-        titolo.text = skiArea.getNome() //modifica di prova
+        titolo.text = skiArea.getNome()
         numPiste.text = "${skiArea.getNumPiste()}"
         impiantiRisalita.text = "${skiArea.getNumImpianti()}"
         max.text = "${skiArea.getMaxAlt()}"
         min.text = "${skiArea.getMinAlt()}"
 
-        sito.text = text
-
         //aggiungo link al sito
         sito.movementMethod = LinkMovementMethod.getInstance()
-        //Linkify.addLinks(sito, Pattern.compile(url), url)
-
-        // metodo alternativo
         sito.setOnClickListener {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(intent)
@@ -96,7 +90,56 @@ class InfoPisteFragment : Fragment() {
             night.visibility = View.GONE
         }
 
-        //ELENCO PISTE DISPONIBILI
+
+        //ELENCO PISTE DISPONIBILI. Con RecyclerView. Occorre creare una classe interna
+
+        /*
+        private class TrackAdapter extends RecyclerView.Adapter<TrackViewHolder> {
+        private List<Track> mTracks;
+
+        public TrackAdapter(List<Track> tracks) {
+            mTracks = tracks;
+        }
+
+        @Override
+        public TrackViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.track_list_item, parent, false);
+            return new TrackViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(TrackViewHolder holder, int position) {
+            Track track = mTracks.get(position);
+            holder.bind(track);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mTracks.size();
+        }
+    }
+
+    private class TrackViewHolder extends RecyclerView.ViewHolder {
+        private TextView mNameTextView;
+        private TextView mDifficultyTextView;
+
+        public TrackViewHolder(View itemView) {
+            super(itemView);
+
+            mNameTextView = itemView.findViewById(R.id.track_name);
+            mDifficultyTextView = itemView.findViewById(R.id.track_difficulty);
+        }
+
+        public void bind(Track track) {
+            mNameTextView.setText(track.getName());
+            mDifficultyTextView.setText(track.getDifficulty());
+        }
+    }
+
+
+
+         */
 
        /* val listView = view.findViewById<ListView>(R.id.elenco_piste)
         val elenco= mutableListOf("primo","secondo","terzo")
