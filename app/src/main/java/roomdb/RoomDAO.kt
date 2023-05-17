@@ -8,7 +8,9 @@ package roomdb
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
+
 
 @Dao
 interface LocalDatabaseDao {
@@ -49,4 +51,12 @@ interface LocalDatabaseDao {
     // ottiene la lista di tutti i comprensori memorizzati nel database
     @Query("SELECT * FROM Comprensorio")
     fun getSkiAreasList(): List<Comprensorio>
+
+    // aggiunge una lista di piste appartenenti ad un certo comprensorio
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun inserisciPiste(order: List<Pista>)
+
+    // ottengo la lista di piste di un certo comprensorio
+    @Query("SELECT * FROM Pista WHERE idComprensorio = :id")
+    fun getSkiAreaPiste(id: Int): List<Pista>
 }

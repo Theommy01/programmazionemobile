@@ -19,6 +19,7 @@ import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SelezioneCompr
 import it.omarkiarafederico.skitracker.view.tutorial.WelcomeActivity
 import model.Comprensorio
 import roomdb.LocalDB
+import roomdb.Pista
 import roomdb.RoomHelper
 import java.lang.NullPointerException
 
@@ -105,7 +106,6 @@ class MapActivity : AppCompatActivity() {
         } catch (_: NullPointerException) {}
 
         // Creazione e configurazione hamburger menù
-
         val drawerLayout: DrawerLayout = findViewById(R.id.homeActivity)
         val navView: NavigationView = findViewById(R.id.nav_view)
 
@@ -138,42 +138,8 @@ class MapActivity : AppCompatActivity() {
         }
     }
 
-    // creazione menu a tendina
-    /*
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.map_view_menu, menu)
-        val menuItem = menu?.findItem(R.id.skiAreaItemIcon)
-        menuItem?.setIcon(R.drawable.baseline_menu_24)
-        return true
-    }
-
-     */
-
     // configurazione funzioni del menù a tendina
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        /*
-        when(item.itemId) { //nel when, si ricorda che si possono mettere solo le costanti
-            R.id.zoom_regulation_item -> {
-                supportActionBar?.setHomeAsUpIndicator(R.drawable.)
-            }
-            R.id.change_skiarea_item -> {
-                val intent = Intent(this, SelezioneComprensorio::class.java)
-                startActivity(intent)
-            }
-            R.id.help_item -> { //ritorno alla activity del tutorial
-                val intent = Intent(this, WelcomeActivity::class.java)
-                startActivity(intent)
-                return true
-            }
-            R.id.about_us_item -> { //indirizzamento all'activity "ulteriori informazioni"
-                val intent = Intent(this, AboutUsActivity::class.java)
-                startActivity(intent)
-                return true
-            }
-        }
-
-         */
         if (toggle.onOptionsItemSelected(item)) {
             return true
         }
@@ -208,15 +174,21 @@ class MapActivity : AppCompatActivity() {
             .allowMainThreadQueries().build()
         val selectedSkiAreaId = db.localDatabaseDao().getIdComprensorio()
 
-        return if (selectedSkiAreaId != null) {
+        if (selectedSkiAreaId != null) {
             // ottengo i dettagli del comprensorio
             val skiAreaFromDb: roomdb.Comprensorio = db.localDatabaseDao()
                 .getDettagliComprensorio(selectedSkiAreaId)
 
+            // ottengo le piste del comprensorio
+            val skiAreaPisteList = db.localDatabaseDao().getSkiAreaPiste(skiAreaFromDb.id)
+
             // vado a popolare l'oggetto comprensorio con i dettagli ottenuti dal db
-            Comprensorio(skiAreaFromDb)
+            val skiArea = Comprensorio(skiAreaFromDb)
+            skiArea.setListaPiste(skiAreaPisteList as ArrayList<Pista>)
+
+            return skiArea
         } else {
-            null
+            return null
         }
     }
 

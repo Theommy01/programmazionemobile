@@ -12,7 +12,7 @@ class RoomHelper {
     }
 
     /*
-    .allowMainThreadQueries()
+            .allowMainThreadQueries()
             .fallbackToDestructiveMigration()
             .createFromAsset("app.db")
             .build()

@@ -24,6 +24,7 @@ class Comprensorio(private var id: Int, name: String) {
     private var maxAltitudine: Int = 0
 
     private var zoom: Int = 16
+    private var listaPiste = ArrayList<Pista>()
 
     constructor(skiAreaFromDb: Comprensorio) : this(skiAreaFromDb.id, skiAreaFromDb.nome) {
         this.aperto = skiAreaFromDb.aperto
@@ -37,10 +38,6 @@ class Comprensorio(private var id: Int, name: String) {
         this.minAltitudine = skiAreaFromDb.minAltitudine
         this.maxAltitudine = skiAreaFromDb.maxAltitudine
         this.zoom = skiAreaFromDb.zoom
-    }
-
-    fun getId(): Int {
-        return this.id
     }
 
     fun getNome(): String {
@@ -97,19 +94,6 @@ class Comprensorio(private var id: Int, name: String) {
             this.longitudine, this.maxAltitudine, this.minAltitudine, this.zoom)
     }
 
-    private fun setupZoomLevel(numPiste: Int) {
-        var zoom = 16
-
-        if (numPiste in 12..22)
-            zoom = 15
-        else if (numPiste in 23..30)
-            zoom = 14
-        else if (numPiste > 30)
-            zoom = 13
-
-        this.zoom = zoom
-    }
-
     fun diminiusciZoom() {
         if (this.zoom > 1)
             this.zoom -= 1
@@ -124,5 +108,12 @@ class Comprensorio(private var id: Int, name: String) {
         val db = Room.databaseBuilder(appContext, LocalDB::class.java, "LocalDatabase")
             .allowMainThreadQueries().build()
         db.localDatabaseDao().updateZoomLevel(this.zoom, this.id)
+    }
+
+    fun setListaPiste(lista: ArrayList<roomdb.Pista>) {
+        for (pistaDB in lista) {
+            val pistaDaAggiungere = Pista(pistaDB)
+            this.listaPiste.add(pistaDaAggiungere)
+        }
     }
 }

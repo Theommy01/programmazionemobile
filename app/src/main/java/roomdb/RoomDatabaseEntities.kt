@@ -10,6 +10,7 @@ package roomdb
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 // NOTA: la tabella utente conterrà solamente 1 utente, ovvero quello locale che viene rappresentato
@@ -47,7 +48,9 @@ data class Tracciamento (
     foreignKeys = [
         ForeignKey(entity = Comprensorio::class, parentColumns = ["id"], childColumns = ["idComprensorio"],
             onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE)
-    ])
+    ],
+    indices = [Index(value = ["nome"], unique = true)]
+)
 data class Pista (
     @PrimaryKey(autoGenerate = true) val id: Int,
     val nome: String,

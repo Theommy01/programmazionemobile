@@ -1,9 +1,10 @@
 package it.omarkiarafederico.skitracker.view.skimap
 
 import org.json.JSONObject
-import org.osmdroid.bonuspack.kml.KmlDocument
+import org.w3c.dom.Document
+import org.xml.sax.InputSource
 import utility.ApiCallThread
-import utility.OsmXmlConverter
+import javax.xml.parsers.DocumentBuilderFactory
 
 class SkiAreaFullMap {
     /*
@@ -15,7 +16,7 @@ class SkiAreaFullMap {
     livello nazionale), con 18 si avrebbe una precisione estrema (si prenderebbero i punti che
     giacciono esattamente sul punto indicato dalle coordinate).
      */
-    fun ottieniXmlMappaComprensorio(lat: Double, long: Double, zoomLevel: Int): KmlDocument {
+    fun ottieniXmlMappaComprensorio(lat: Double, long: Double, zoomLevel: Int): Document {
         // vado a ottenere il JSON che contiene le informazioni geografiche del comprensorio
         // in particolar modo, mi serviranno sapere le coordinate in cui la sua area è compresa
         val skiAreaGeocodedText = ApiCallThread()
@@ -35,19 +36,13 @@ class SkiAreaFullMap {
         val requestBody = composeOverpassRequest(skiAreaW as Double,
             skiAreaS as Double, skiAreaE as Double, skiAreaN as Double)
 
-        val skiAreaOsmXml = ApiCallThread().callWithXmlArgument(
+        val skiAreaOsmString = ApiCallThread().callWithXmlArgument(
             requestBody,
             "https://overpass-api.de/api/interpreter"
         )
 
-        // converto l'osm xml in un GeoJSON e in un KML document, che sarà rappresentabile
-        // sulla mappa
-        val skiAreaGeoJsonString = OsmXmlConverter().toGeoJson(skiAreaOsmXml)
-        val skiAreaKml = KmlDocument()
-        skiAreaKml.parseGeoJSON(skiAreaGeoJsonString)
-
-        // ritorno il documento in tipo kml
-        return skiAreaKml
+        // Converto l'osm xml ricevuto come stringa in un documento XML
+        return convertStringToXmlDocument(skiAreaOsmString)
     }
 
     /*
@@ -73,5 +68,12 @@ class SkiAreaFullMap {
                 "   <recurse type=\"down\" />" +
                 "   <print mode=\"skeleton\" order=\"quadtile\" />" +
                 "</osm-script>"
+    }
+
+    private fun convertStringToXmlDocument(xmlString: String): Document {
+        val factory = DocumentBuilderFactory.newInstance()
+        val builder = factory.newDocumentBuilder()
+        val inputSource = InputSource(xmlString.reader())
+        return builder.parse(inputSource)
     }
 }

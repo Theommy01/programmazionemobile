@@ -12,11 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.view.skimap.MapActivity
+import it.omarkiarafederico.skitracker.view.skimap.SkiAreaFullMap
 import model.Comprensorio
 import roomdb.RoomHelper
 import utility.ALERT_ERROR
 import utility.ALERT_INFO
 import utility.ApplicationDialog
+import utility.OsmXmlAnalyzer
 
 class SelezioneComprensorio : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -70,6 +72,13 @@ class SelezioneComprensorio : AppCompatActivity() {
 
                         // vado ad indicare l'id del comprensorio selezionato dall'utente
                         dbConnection.localDatabaseDao().modificaComprensorioSelezionato(it.id)
+
+                        // vado ad ottenere l'elenco di piste a partire dall'xml osm del comprensorio
+                        val skiAreaXml = SkiAreaFullMap().ottieniXmlMappaComprensorio(comprensorioPerDB.lat,
+                            comprensorioPerDB.long, comprensorioPerDB.zoom)
+                        val skiAreaPiste = OsmXmlAnalyzer().getPistaList(skiAreaXml, comprensorioPerDB.id)
+                        // vado ad inserirlo all'interno del db
+                        dbConnection.localDatabaseDao().inserisciPiste(skiAreaPiste)
 
                         // a posto cosi, posso aprire l'activity della mappa
                         finishAffinity()

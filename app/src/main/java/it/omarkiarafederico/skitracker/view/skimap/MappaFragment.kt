@@ -8,21 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.view.routeTracking.RouteTrackingActivity
 import model.Comprensorio
-import org.osmdroid.bonuspack.kml.KmlDocument
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
-import org.osmdroid.views.overlay.FolderOverlay
-import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
@@ -136,23 +132,11 @@ class MappaFragment : Fragment() {
     // document che contiene i punti del comprensorio e rappresentarlo sulla mappa
     // NOTA: la funzione andrà anche ad aggiungere i comprensori
     private fun renderKMLskiArea(lat: Double, long: Double, zoomLevel: Int) {
-        val skiAreaKml: KmlDocument = SkiAreaFullMap().ottieniXmlMappaComprensorio(lat,
-            long, zoomLevel)
+        // ottengo l'osm xml del comprensorio
 
-        val map = getMap()
-        map?.overlays?.clear()
+        // ottengo l'overlay dei vari polyline delle piste del comprensorio
 
-        val kmlOverlay: FolderOverlay = skiAreaKml.mKmlRoot.buildOverlay(map, null,
-            null, skiAreaKml) as FolderOverlay
-
-        for (item in kmlOverlay.items) {
-            if (item is Marker) {
-                item.icon = ContextCompat.getDrawable(requireContext(), R.drawable.pista_point)
-            }
-        }
-
-        map?.overlays?.add(kmlOverlay)
-        map?.invalidate()
+        // le visualizzo nella mappa
     }
 
     // questa funzione permette di regolare lo zoom della mappa.
