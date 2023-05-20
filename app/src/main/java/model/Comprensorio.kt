@@ -4,8 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import roomdb.Comprensorio
 import roomdb.LocalDB
+import java.io.Serializable
 
-class Comprensorio(private var id: Int, name: String) {
+class Comprensorio(private var id: Int, name: String): Serializable{
     private var nome:String = name
 
     private var aperto:Boolean = false
@@ -90,6 +91,10 @@ class Comprensorio(private var id: Int, name: String) {
 
     fun getZoomLevel(): Int {
         return this.zoom
+    }
+
+    fun getListaPiste(): ArrayList<Pista> {
+        return this.listaPiste
     }
 
     fun convertToEntityClass(): Comprensorio {

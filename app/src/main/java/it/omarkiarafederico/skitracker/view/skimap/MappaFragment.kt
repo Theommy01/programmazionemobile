@@ -94,6 +94,7 @@ class MappaFragment : Fragment() {
         newTrackFAB.setOnClickListener {
             // apro l'activity per il tracciamento
             val trackActivityIntent = Intent(this.activity, RouteTrackingActivity::class.java)
+            trackActivityIntent.putExtra("selectedSkiArea", this.mySkiArea)
             startActivity(trackActivityIntent)
         }
 

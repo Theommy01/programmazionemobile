@@ -81,11 +81,11 @@ class InfoPisteFragment : Fragment() {
 
         if (aperto) {
             stato.text = "APERTO"
-            context?.let { ContextCompat.getColor(it, R.color.green) }
+            context?.let { ContextCompat.getColor(it, R.color.comprensorioAperto) }
                 ?.let { stato.setBackgroundColor(it) }
         } else {
             stato.text = "CHIUSO"
-            context?.let { ContextCompat.getColor(it, R.color.red) }
+            context?.let { ContextCompat.getColor(it, R.color.comprensorioChiuso) }
                 ?.let { stato.setBackgroundColor(it) }
         }
 
@@ -209,7 +209,7 @@ class InfoPisteFragment : Fragment() {
 
     }
 
-    override fun onResume() {
+    /*override fun onResume() {
         super.onResume()
         lifecycleScope.launch{
             val dbcon = RoomHelper().getDatabaseObject(requireContext())
@@ -221,5 +221,5 @@ class InfoPisteFragment : Fragment() {
                 }
             }
         }
-    }
+    }*/
 }
