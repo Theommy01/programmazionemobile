@@ -4,21 +4,14 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
-import android.text.util.Linkify
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import it.omarkiarafederico.skitracker.R
-import it.omarkiarafederico.skitracker.databinding.ActivityMapBinding
 import it.omarkiarafederico.skitracker.databinding.FragmentInfoPisteBinding
-import kotlinx.coroutines.launch
-import java.util.regex.Pattern
 
 class InfoPisteFragment : Fragment() {
     private lateinit var skiArea: model.Comprensorio
@@ -42,7 +35,7 @@ class InfoPisteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var titolo: TextView = view.findViewById(R.id.titolo)
+        val titolo: TextView = view.findViewById(R.id.titolo)
         val numPiste: TextView = view.findViewById(R.id.numPiste)
         val impiantiRisalita: TextView = view.findViewById(R.id.impiantiRisalita)
         val max: TextView = view.findViewById(R.id.altMax)
@@ -60,7 +53,7 @@ class InfoPisteFragment : Fragment() {
         //gestisco la lunghezza del titolo. Se troppo lungo, per evitare
         //sovrapposizioni con altre TextView viene accorciato
 
-        var lunghezzanome = titolo.text.length
+        val lunghezzanome = titolo.text.length
         var titolocorto = ""
         if (lunghezzanome > 10) {
             for (i in 0..7) {
@@ -212,19 +205,19 @@ class InfoPisteFragment : Fragment() {
 
     }
 
-    override fun onResume() {
+    /*override fun onResume() {
         super.onResume()
         lifecycleScope.launch{
-            val pisteList = RoomDAO(roomdb.Pista).getSkiAreaPiste
-            (skiArea.getIdComprensorio)
+            val dbcon = RoomHelper().getDatabaseObject(requireContext())
+            val pisteList = dbcon.localDatabaseDao().getSkiAreaPiste(skiArea.getId())
         }
         binding.myRecyclerView.apply{
             layoutManager = LinearLayoutManager(this)
             adapter = ListAdapter().apply {
-                setData(pisteList)
+                //setData(pisteList)
             }
         }
-    }
+    }*/
 
 
 }

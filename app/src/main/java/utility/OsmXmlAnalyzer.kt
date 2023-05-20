@@ -1,11 +1,15 @@
 package utility
 
+import android.graphics.Color
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.overlay.FolderOverlay
+import org.osmdroid.views.overlay.Polyline
 import org.w3c.dom.Document
 import roomdb.Pista
 
 data class OSMWayTag (val k: String, val v: String)
 data class OSMWay (val id: Long, val nodesId: List<Long>, val tags: List<OSMWayTag>)
-data class OSMNode (val id: Long, val lat: Float, val long: Float)
+data class OSMNode (val id: Long, val lat: Double, val long: Double)
 
 class OsmXmlAnalyzer {
     private fun getWays(document: Document): MutableList<OSMWay> {
@@ -48,8 +52,8 @@ class OsmXmlAnalyzer {
             val nodeElement = nodeNodes.item(i)
 
             val nodeId = nodeElement.attributes.getNamedItem("id").nodeValue.toLong()
-            val nodeLat = nodeElement.attributes.getNamedItem("lat").nodeValue.toFloat()
-            val nodeLong = nodeElement.attributes.getNamedItem("lon").nodeValue.toFloat()
+            val nodeLat = nodeElement.attributes.getNamedItem("lat").nodeValue.toDouble()
+            val nodeLong = nodeElement.attributes.getNamedItem("lon").nodeValue.toDouble()
 
             nodes.add(OSMNode(nodeId, nodeLat, nodeLong))
         }
@@ -82,16 +86,51 @@ class OsmXmlAnalyzer {
         return listaPiste
     }
 
-    fun getSkiAreaOverlay(document: Document) {
+    fun getSkiAreaOverlay(document: Document): FolderOverlay {
         // ottengo i ways (le piste) e i nodes (i punti che le compongono)
         val ways = this.getWays(document)
         val nodes = this.getNodes(document)
+        val overlays = FolderOverlay()
 
         // per ogni way, ottengo le coordinate dei suoi nodi, e per ognuno di questi creo un GeoPoint
         for (way in ways) {
-            for (wayNodeId in way.nodesId) {
+            val geoPoints = ArrayList<GeoPoint>()
 
+            for (wayNodeId in way.nodesId) {
+                val node = this.findNodeById(nodes, wayNodeId)
+                if (node != null)
+                    geoPoints.add(GeoPoint(node.lat, node.long))
             }
+
+            var polyline = Polyline()
+            for (point in geoPoints)
+                polyline.addPoint(point)
+
+            val wayDifficultyTag = getDifficultyFromWayTags(way.tags)
+            if (wayDifficultyTag != null)
+                polyline = this.polyLineColor(wayDifficultyTag.v, polyline)
+
+            overlays.add(polyline)
         }
+
+        return overlays
+    }
+
+    private fun findNodeById(nodes: MutableList<OSMNode>, nodeId: Long): OSMNode? {
+        return nodes.find { it.id == nodeId }
+    }
+
+    private fun getDifficultyFromWayTags(wayTags: List<OSMWayTag>): OSMWayTag? {
+        return wayTags.find { it.k == "piste:difficulty" }
+    }
+
+    private fun polyLineColor(diff: String, poly: Polyline): Polyline {
+        when (diff) {
+            "easy" -> poly.color = Color.BLUE
+            "intermediate" -> poly.color = Color.RED
+            "advanced" -> poly.color = Color.BLACK
+        }
+
+        return poly
     }
 }

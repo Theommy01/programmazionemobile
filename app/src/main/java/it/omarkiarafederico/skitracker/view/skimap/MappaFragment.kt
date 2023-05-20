@@ -23,6 +23,7 @@ import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
+import utility.OsmXmlAnalyzer
 
 
 class MappaFragment : Fragment() {
@@ -133,10 +134,15 @@ class MappaFragment : Fragment() {
     // NOTA: la funzione andrà anche ad aggiungere i comprensori
     private fun renderKMLskiArea(lat: Double, long: Double, zoomLevel: Int) {
         // ottengo l'osm xml del comprensorio
+        val skiAreaOsmXml = SkiAreaFullMap().ottieniXmlMappaComprensorio(lat, long, zoomLevel)
 
         // ottengo l'overlay dei vari polyline delle piste del comprensorio
+        val mapOverlay = OsmXmlAnalyzer().getSkiAreaOverlay(skiAreaOsmXml)
 
         // le visualizzo nella mappa
+        val map = getMap()
+        map?.overlays?.add(mapOverlay)
+        map?.invalidate()
     }
 
     // questa funzione permette di regolare lo zoom della mappa.

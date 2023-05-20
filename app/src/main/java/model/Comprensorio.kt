@@ -40,6 +40,10 @@ class Comprensorio(private var id: Int, name: String) {
         this.zoom = skiAreaFromDb.zoom
     }
 
+    fun getId(): Int {
+        return this.id
+    }
+
     fun getNome(): String {
         return this.nome
     }
