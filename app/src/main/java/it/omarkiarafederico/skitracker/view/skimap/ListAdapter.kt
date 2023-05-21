@@ -14,12 +14,12 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_info_piste, parent,false)
+            .inflate(R.layout.fragment_info_piste, parent, false)
         return MyViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val pista: Pista = list.get(position)  // pista = list(position) da YT
+        val pista: Pista = list[position]
         holder.nome.text = pista.nome
         holder.difficolta.text = pista.difficolta
     }
@@ -28,8 +28,8 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
         return list.size
     }
 
-    fun setData(data: List<Pista>){
-        list.apply{
+    fun setData(data: List<Pista>) {
+        list.apply {
             clear()
             addAll(data)
         }
@@ -41,21 +41,19 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
         //gestione colore sfondo livello di difficolta
         /*
-        when (difficolta) {
-            "Facile" -> {
-                context?.let { ContextCompat.getColor(it, R.color.dark_blue) }
-                    ?.let { difficolta.setBackgroundColor(it) }
-            }
-            "Medio" -> {
-
-            }
-            "Avanzato" -> {
-
-            }
-            }
-
-
-         */
+        val controllo: String = difficolta.text.toString()
+        if (controllo == "Facile") {
+            context?.let { ContextCompat.getColor(it, R.color.dark_blue) }
+                ?.let { difficolta.setBackgroundColor(it) }
+        }
+        if (controllo == "Medio") {
+            context?.let { ContextCompat.getColor(it, R.color.red) }
+                ?.let { difficolta.setBackgroundColor(it) }
+        }
+        if (controllo == "Avanzato") {
+            context?.let { ContextCompat.getColor(it, R.color.black) }
+                ?.let { difficolta.setBackgroundColor(it) }
+        }
+        */
     }
-
 }

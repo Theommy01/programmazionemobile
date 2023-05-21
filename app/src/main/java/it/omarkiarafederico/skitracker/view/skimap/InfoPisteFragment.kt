@@ -10,8 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.databinding.FragmentInfoPisteBinding
+import kotlinx.coroutines.launch
+import roomdb.RoomHelper
 
 class InfoPisteFragment : Fragment() {
     private lateinit var skiArea: model.Comprensorio
@@ -205,19 +209,17 @@ class InfoPisteFragment : Fragment() {
 
     }
 
-    /*override fun onResume() {
+    override fun onResume() {
         super.onResume()
         lifecycleScope.launch{
             val dbcon = RoomHelper().getDatabaseObject(requireContext())
             val pisteList = dbcon.localDatabaseDao().getSkiAreaPiste(skiArea.getId())
-        }
-        binding.myRecyclerView.apply{
-            layoutManager = LinearLayoutManager(this)
-            adapter = ListAdapter().apply {
-                //setData(pisteList)
+            binding.myRecyclerView.apply{
+                layoutManager = LinearLayoutManager(context)
+                adapter = ListAdapter().apply {
+                    setData(pisteList)
+                }
             }
         }
-    }*/
-
-
+    }
 }
