@@ -1,14 +1,17 @@
 package it.omarkiarafederico.skitracker.view.routeTracking
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
+import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import it.omarkiarafederico.skitracker.R
 import model.Comprensorio
 
 class RouteTrackingActivity : AppCompatActivity() {
-    private lateinit var mySkiArea: Comprensorio
-
+    private lateinit var myViewModel: TrackingViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         // inizializzazione activity
         super.onCreate(savedInstanceState)
@@ -21,11 +24,10 @@ class RouteTrackingActivity : AppCompatActivity() {
         // NOTA: ho utilizzato la versione deprecata del metodo getSerializableExtra perchè in alternativa
         // avrei dovuto mettere come versione minima delle SDK di Android la 13, riducendo drasticamente
         // l'utenza supportata dall'app.
-        mySkiArea = intent.getSerializableExtra("selectedSkiArea") as Comprensorio
+        val mySkiArea = intent.getSerializableExtra("selectedSkiArea") as Comprensorio
         supportActionBar?.subtitle = "${mySkiArea.getNome()}, IT"
-    }
 
-    fun getSkiArea(): Comprensorio {
-        return this.mySkiArea
+        myViewModel = ViewModelProvider(this)[TrackingViewModel::class.java]
+        myViewModel.setComprensorio(mySkiArea)
     }
 }

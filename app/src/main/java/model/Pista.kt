@@ -21,4 +21,8 @@ class Pista(private var id: Int, private var nome: String, private var idCompren
     fun getDifficolta(): String {
         return this.difficolta
     }
+
+    fun getId(): Int {
+        return this.id
+    }
 }

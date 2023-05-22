@@ -97,6 +97,10 @@ class Comprensorio(private var id: Int, name: String): Serializable{
         return this.listaPiste
     }
 
+    fun getPistaById(id: Int): Pista? {
+        return this.listaPiste.find { it.getId() == id }
+    }
+
     fun convertToEntityClass(): Comprensorio {
         return Comprensorio(this.id, this.nome, this.aperto, this.numPiste, this.numImpianti,
             this.website, this.presenteSnowpark, this.presentiPisteNotturne, this.latitudine,

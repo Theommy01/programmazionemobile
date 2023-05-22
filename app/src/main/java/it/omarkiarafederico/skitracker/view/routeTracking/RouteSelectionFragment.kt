@@ -1,57 +1,77 @@
 package it.omarkiarafederico.skitracker.view.routeTracking
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.view.skimap.PistaAdapter
 import it.omarkiarafederico.skitracker.view.skimap.PistaItem
-import model.Comprensorio
-import model.Pista
+import utility.ApplicationDialog
 
 class RouteSelectionFragment : Fragment() {
-    private lateinit var skiArea: Comprensorio
+    private var myViewModel: TrackingViewModel? = null
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var pistaAdapter: PistaAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val myActivity = this.activity as RouteTrackingActivity
-        skiArea = myActivity.getSkiArea()
+        // ottengo il riferimento al viewmodel
+        myViewModel = activity?.let {
+            ViewModelProvider(it)[TrackingViewModel::class.java]
+        }
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_route_selection, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // esecuzione del metodo padre
         super.onViewCreated(view, savedInstanceState)
 
+        // impostazione della recyclerview
         recyclerView = view.findViewById(R.id.trackingPistaSelectionRecyclerView)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
 
+        // vado a popolare la lista delle piste da visualizzare nella recyclerview
+        val skiArea = myViewModel?.getComprensorio()
         val pisteItemList = ArrayList<PistaItem>()
-        for (pistaItem in skiArea.getListaPiste())
-            pisteItemList.add(PistaItem(pistaItem.getNome(), pistaItem.getDifficolta()))
+        if (skiArea != null) {
+            for (pistaItem in skiArea.getListaPiste())
+                pisteItemList.add(PistaItem(pistaItem.getNome(), pistaItem.getDifficolta(), pistaItem.getId()))
+        }
 
+        // preparo l'adapter e visualizzo a schermo la recyclerview
         pistaAdapter = PistaAdapter(pisteItemList)
         recyclerView.adapter = pistaAdapter
 
+        // cosa succede se clicco su un elemento
         pistaAdapter.onItemClick = {
-            // TODO - sta roba andrà tolta e sostitutia con quella uffucuale
-            val viewModel = ViewModelProvider(requireActivity())[TrackingFragmentViewModel::class.java]
-            val pistacchio = roomdb.Pista(10, "dsjkf", "sadasd", 1)
-            viewModel.setPista(Pista(pistacchio))
+            val selectedPista = skiArea?.getPistaById(it.id)
+            if (selectedPista != null) {
+                // questa è la pista selezionata, che la vado ad impostare sul viewmodel
+                myViewModel?.setPista(selectedPista)
 
-            val fragmentManager = this.parentFragmentManager
-            val fragmentTransaction = fragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.route_sel_fragment_container, TrackingFragment())
-            fragmentTransaction.commit()
+                // avviso all'utente che per far si che il tracciamento vada avanti, non bisogna assolutamente
+                // abbandonare l'activity
+                ApplicationDialog().openDialog("Informazione", "Tra poco inizierà il tracciamento lungo la pista ${selectedPista.getNome()}. " +
+                        "Durante il tracciamento, si consiglia di bloccare il telefono e di NON terminare l'applicazione.",
+                    requireContext() as AppCompatActivity, false)
+
+                // vado ad aprire il fragment per il tracking della pista
+                val fragmentManager = parentFragmentManager
+                fragmentManager.commit {
+                    replace(R.id.route_sel_fragment_container, TrackingFragment())
+                }
+            }
         }
     }
 }
