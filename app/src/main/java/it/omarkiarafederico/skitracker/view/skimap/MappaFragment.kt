@@ -110,7 +110,7 @@ class MappaFragment : Fragment() {
 
     // ottiene l'istanza della mappa di OSM presente in questo fragment.
     private fun getMap(): MapView? {
-        return view?.findViewById(R.id.map)
+        return view?.findViewById(R.id.trackingMap)
     }
 
     // quando viene caricata l'activity completamente, viene richiesta la geolocalizzazione.

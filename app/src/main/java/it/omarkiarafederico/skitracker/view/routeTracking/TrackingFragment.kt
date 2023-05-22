@@ -9,6 +9,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import it.omarkiarafederico.skitracker.R
 import model.Pista
+import org.osmdroid.config.Configuration
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.views.CustomZoomButtonsController
+import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
 class TrackingFragment : Fragment() {
     private var myViewModel: TrackingViewModel? = null
@@ -45,6 +51,19 @@ class TrackingFragment : Fragment() {
         pistaNomeTextView.text = this.selectedPista.getNome()
         pistaDifficultyTextView.text = this.selectedPista.getDifficolta().uppercase()
         this.changeDifficultyIndicatorColor(pistaDifficultyTextView, this.selectedPista.getDifficolta())
+
+        // inizializzazione della mappa
+        val map = view.findViewById<MapView>(R.id.trackingMap)
+        if (map != null) {
+            map.setTileSource(TileSourceFactory.MAPNIK)
+            map.setMultiTouchControls(true)
+            map.zoomController?.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
+            map.isTilesScaledToDpi = true
+        }
+        Configuration.getInstance().userAgentValue = "skitracker"
+
+        val mapController = map?.controller
+        val startPoint = getCurrentLocation(map)
     }
 
     private fun changeDifficultyIndicatorColor(textView: TextView, diff: String) {
@@ -53,5 +72,12 @@ class TrackingFragment : Fragment() {
             "Medio" -> textView.setBackgroundResource(R.color.pistaMedia)
             "Avanzato" -> textView.setBackgroundResource(R.color.black)
         }
+    }
+
+    private fun getCurrentLocation(map: MapView) {
+        val locationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), map)
+        locationOverlay.enableMyLocation()
+
+        map.overlays?.add(locationOverlay)
     }
 }

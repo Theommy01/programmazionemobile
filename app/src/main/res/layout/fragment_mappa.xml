@@ -34,7 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <org.osmdroid.views.MapView
-        android:id="@+id/map"
+        android:id="@+id/trackingMap"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
