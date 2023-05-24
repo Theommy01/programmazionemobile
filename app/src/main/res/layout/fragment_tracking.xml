@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="0,0 mt"
+                android:text="0 mt"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
@@ -75,7 +75,7 @@
                 android:baselineAlignBottom="false"
                 android:contentDescription="Icona della distanza del percorso compiuto"
                 android:maxWidth="40dp"
-                android:src="@drawable/baseline_directions_transit_24"
+                android:src="@drawable/distance"
                 app:srcCompat="@drawable/distance" />
 
         </TableRow>
@@ -102,7 +102,7 @@
                 android:layout_width="70dp"
                 android:layout_height="38dp"
                 android:contentDescription="Icona della velocità di percorrimento della pista"
-                android:src="@drawable/baseline_help_24"
+                android:src="@drawable/speed"
                 app:srcCompat="@drawable/speed" />
 
         </TableRow>
@@ -130,7 +130,7 @@
                 android:layout_width="130dp"
                 android:layout_height="38dp"
                 android:contentDescription="Icona della durata temporale del percorso"
-                android:src="@drawable/baseline_info_24"
+                android:src="@drawable/time"
                 app:srcCompat="@drawable/time" />
 
         </TableRow>

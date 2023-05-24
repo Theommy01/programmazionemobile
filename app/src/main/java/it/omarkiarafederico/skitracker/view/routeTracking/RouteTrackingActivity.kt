@@ -1,11 +1,7 @@
 package it.omarkiarafederico.skitracker.view.routeTracking
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
-import android.util.Log
-import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import it.omarkiarafederico.skitracker.R
 import model.Comprensorio
@@ -29,5 +25,15 @@ class RouteTrackingActivity : AppCompatActivity() {
 
         myViewModel = ViewModelProvider(this)[TrackingViewModel::class.java]
         myViewModel.setComprensorio(mySkiArea)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.route_sel_fragment_container)
+        if (fragment is TrackingFragment) {
+            fragment.stopTracking()
+        } else {
+            super.onBackPressed()
+        }
     }
 }

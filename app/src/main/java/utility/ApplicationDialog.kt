@@ -11,8 +11,21 @@ import androidx.appcompat.app.AppCompatActivity
 
 const val ALERT_ERROR = "Errore"
 const val ALERT_INFO = "Informazione"
+const val ALERT_QUESTION = "Domanda"
 
 class ApplicationDialog {
+    /*
+    definizione del listener del dialog: questo serve per i dialoghi che richiedono l'input diretto
+    dall'utente: si mette in attesa di questo e, quando egli risponde, è in grado di intercettare l'evento
+    e, in base a cosa ha risposto, di attivare una certa funzione.
+    */
+    private lateinit var yesNoListener: YesNoDialogListener
+
+    interface YesNoDialogListener {
+        fun onYesClicked()
+        fun onNoClicked()
+    }
+
     /*
     Crea un dialog avente un titolo e un messaggio personalizzato.
     Con l'attributo autoclose è possibile decidere se la chiusura del dialog comporta la chiusura
@@ -32,5 +45,29 @@ class ApplicationDialog {
         dialog.setCancelable(false)
         dialog.setCanceledOnTouchOutside(false)
         dialog.show()
+    }
+
+    fun openYesNoDialog(msg: String, activityContext: AppCompatActivity) {
+        val builder = AlertDialog.Builder(activityContext)
+
+        builder.setTitle(ALERT_QUESTION)
+        builder.setMessage(msg)
+        builder.setPositiveButton("Sì") { dialog, _ ->
+                yesNoListener.onYesClicked()
+                dialog.dismiss()
+            }
+        builder.setNegativeButton("No") { dialog, _ ->
+                yesNoListener.onNoClicked()
+                dialog.dismiss()
+            }
+
+        val dialog = builder.create()
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.show()
+    }
+
+    fun setListener(listener: YesNoDialogListener) {
+        this.yesNoListener = listener
     }
 }

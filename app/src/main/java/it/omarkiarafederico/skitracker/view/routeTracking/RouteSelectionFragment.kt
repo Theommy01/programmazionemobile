@@ -1,7 +1,6 @@
 package it.omarkiarafederico.skitracker.view.routeTracking
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.view.skimap.PistaAdapter
 import it.omarkiarafederico.skitracker.view.skimap.PistaItem
+import utility.ALERT_INFO
 import utility.ApplicationDialog
 
 class RouteSelectionFragment : Fragment() {
@@ -62,7 +62,8 @@ class RouteSelectionFragment : Fragment() {
 
                 // avviso all'utente che per far si che il tracciamento vada avanti, non bisogna assolutamente
                 // abbandonare l'activity
-                ApplicationDialog().openDialog("Informazione", "Tra poco inizierà il tracciamento lungo la pista ${selectedPista.getNome()}. " +
+                ApplicationDialog().openDialog(
+                    ALERT_INFO, "Tra poco inizierà il tracciamento lungo la pista ${selectedPista.getNome()}. " +
                         "Durante il tracciamento, si consiglia di bloccare il telefono e di NON terminare l'applicazione.",
                     requireContext() as AppCompatActivity, false)
 
