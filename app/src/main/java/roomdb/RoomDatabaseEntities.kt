@@ -40,7 +40,7 @@ data class Tracciamento (
     val dislivello: Int,
     val dataOraInizio: Long,
     val dataOraFine: Long,
-    val idUtente: Int,
+    val idUtente: String,
     val idPista: Int
 )
 

@@ -2,29 +2,39 @@ package it.omarkiarafederico.skitracker.view.routeTracking
 
 import android.annotation.SuppressLint
 import android.content.Context.LOCATION_SERVICE
+import android.content.Intent
 import android.location.Location
 import android.location.LocationManager
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
+import android.os.SystemClock
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Chronometer
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import it.omarkiarafederico.skitracker.R
+import it.omarkiarafederico.skitracker.view.skimap.MapActivity
 import model.Pista
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
+import roomdb.PuntiMappaTracciamenti
+import roomdb.RoomHelper
+import roomdb.Tracciamento
 import utility.ApplicationDialog
 import utility.MyLocationListener
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import kotlin.math.roundToInt
 
 class TrackingFragment : Fragment() {
@@ -63,8 +73,12 @@ class TrackingFragment : Fragment() {
 
         // mappo i tasti della view
         val stopTrackingButton = view.findViewById<Button>(R.id.trackingFragmentCancelBtn)
+        val finishTrackingButton = view.findViewById<Button>(R.id.trackingFragmentEndBtn)
         stopTrackingButton.setOnClickListener {
             this.stopTracking()
+        }
+        finishTrackingButton.setOnClickListener {
+            this.finishTracking()
         }
 
         // visualizzo nome e difficoltà della pista sul fragment
@@ -72,10 +86,7 @@ class TrackingFragment : Fragment() {
         val pistaDifficultyTextView = view.findViewById<TextView>(R.id.trackPistaDifficulty)
         pistaNomeTextView.text = this.selectedPista.getNome()
         pistaDifficultyTextView.text = this.selectedPista.getDifficolta().uppercase()
-        this.changeDifficultyIndicatorColor(
-            pistaDifficultyTextView,
-            this.selectedPista.getDifficolta()
-        )
+        this.changeDifficultyIndicatorColor(pistaDifficultyTextView, this.selectedPista.getDifficolta())
 
         // inizializzazione della mappa
         this.mapView = view.findViewById(R.id.trackingMap)
@@ -92,9 +103,11 @@ class TrackingFragment : Fragment() {
         val lastKnownLocation: Location? = myLocationOverlay.lastFix
         if (lastKnownLocation != null) {
             mapView.controller.setCenter(GeoPoint(lastKnownLocation.latitude, lastKnownLocation.longitude))
+        } else {
+            Toast.makeText(requireContext(), "Ottenimento della posizione GPS in corso...", Toast.LENGTH_LONG).show()
         }
 
-        // creo questo thread che ogni volta che mi sposto rileva lo spostamento
+        // individuo la posizione in cui giace l'utente: una volta individuata, faccio un po' di cose
         myLocationOverlay.runOnFirstFix {
             // Ottieni le nuove coordinate della posizione
             val newLocation: Location? = myLocationOverlay.lastFix
@@ -104,12 +117,19 @@ class TrackingFragment : Fragment() {
             // Crea un oggetto GeoPoint con le nuove coordinate
             val newPoint = GeoPoint(newLatitude, newLongitude)
 
-            Log.e("TTTT", "Change Position Detected: $newLatitude, $newLongitude")
-
-            // Aggiorna la posizione della mappa
+            // Aggiorna la posizione della mappa e faccio partire il cronometro in questa
+            // area particolare, che permette di modificare gli elementi nella view direttamente dal
+            // thread che le ha create
             Handler(Looper.getMainLooper()).post {
+                // imposto il punto di partenza nella mappa e mi ci zoommo
                 mapView.controller.setCenter(newPoint)
                 mapView.controller.animateTo(newPoint, 16.0, 1200)
+
+                // faccio partire il cronometro
+                val chrono = view.findViewById<Chronometer>(R.id.trackTime)
+                this.myViewModel?.setChrono(chrono)
+                chrono.base = SystemClock.elapsedRealtime()
+                chrono.start()
             }
         }
 
@@ -163,5 +183,38 @@ class TrackingFragment : Fragment() {
     private fun updateInstantData(textViewId: Int, value: String, view: View) {
         val textView = view.findViewById<TextView>(textViewId)
         textView.text = value
+    }
+
+    private fun finishTracking() {
+        // connessione al database
+        val dbCon = RoomHelper().getDatabaseObject(requireContext())
+
+        // salvo il tracciamento
+        val distanza = this.myViewModel?.getTotalDistance()
+        val velocita = this.myViewModel?.getAverageSpeed()?.toFloat()
+        val dislivello = this.myViewModel?.getDislivello()?.roundToInt()
+        val dataOraInizio = this.myViewModel?.getStartDateTime()?.toEpochSecond(ZoneOffset.UTC)
+        val dataOraFine = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+        val idPista = this.myViewModel?.getPista()?.getId()
+        val userId = Settings.Secure.getString(requireActivity().contentResolver, Settings.Secure.ANDROID_ID)
+
+        val trackForDB = Tracciamento(0, distanza!!, velocita!!, dislivello!!, dataOraInizio!!, dataOraFine, userId, idPista!!)
+        val insertedTrackingID = dbCon.localDatabaseDao().insertNewTracciamento(trackForDB)
+
+        // salvo tutti i punti della mappa
+        val puntiMappa = this.myViewModel?.convertLocationsToPuntiMappa()
+        val puntiMappaIds = puntiMappa?.let { dbCon.localDatabaseDao().insertPuntiMappa(it) }
+
+        // salvo le tuple idTracciamento - idPuntoMappa nell'apposita entità
+        if (puntiMappaIds != null) {
+            for (puntoId in puntiMappaIds)
+                dbCon.localDatabaseDao()
+                    .insertPuntoMappaForTrack(PuntiMappaTracciamenti(insertedTrackingID.toInt(), puntoId.toInt(), 0))
+        }
+
+        // ritorno all'activity della mappa
+        this.activity?.finishAffinity()
+        val intent = Intent(requireContext(), MapActivity::class.java)
+        startActivity(intent)
     }
 }

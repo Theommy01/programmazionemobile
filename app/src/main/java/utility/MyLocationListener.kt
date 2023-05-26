@@ -9,24 +9,19 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 
 class MyLocationListener(private val mapView: MapView, private val viewModel: TrackingViewModel) : LocationListener {
-    private var startPointLocation: Location? = null
-
     override fun onLocationChanged(location: Location) {
-        // Ottieni le nuove coordinate della posizione
-        val newLatitude: Double = location.latitude
-        val newLongitude: Double = location.longitude
+        // vado ad aggiungere il nuovo punto all'interno dell'array di punti contenuto nel ViewModel
+        viewModel.addPointToList(location)
 
-        // Crea un oggetto GeoPoint con le nuove coordinate
-        val newPoint = GeoPoint(newLatitude, newLongitude)
-        if (this.startPointLocation == null)
-            this.startPointLocation = location
+        // creo il punto fatto dalle coordinate della location trovata
+        val newPoint = GeoPoint(location.latitude, location.longitude)
 
         // vado ad impostare i valori istantanei di velocità e distanza sul viewModel
         viewModel.updateSpeed(location.speed)
-        viewModel.updateDistance(location.distanceTo(this.startPointLocation!!))
+        viewModel.updateDistance(viewModel.getTotalDistance())
         viewModel.updateAltitudes(location.altitude)
 
-        // Aggiorna la posizione della mappa sulla thread principale
+        // Aggiorna la posizione della mappa sul thread principale
         Handler(Looper.getMainLooper()).post {
             mapView.controller.animateTo(newPoint)
         }

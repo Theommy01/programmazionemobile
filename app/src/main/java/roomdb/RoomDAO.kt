@@ -59,4 +59,16 @@ interface LocalDatabaseDao {
     // ottengo la lista di piste di un certo comprensorio
     @Query("SELECT * FROM Pista WHERE idComprensorio = :id")
     fun getSkiAreaPiste(id: Int): List<Pista>
+
+    // inserisce un nuovo Tracciamento.
+    @Insert(entity = Tracciamento::class)
+    fun insertNewTracciamento(track: Tracciamento): Long
+
+    // Inserisce un elenco di punti che compongono un tracciamento.
+    @Insert(entity = PuntoMappa::class)
+    fun insertPuntiMappa(points: List<PuntoMappa>): List<Long>
+
+    // Inserisce una corrispondenza tra il tracciamento e uno dei punti da cui è composto.
+    @Insert(entity = PuntiMappaTracciamenti::class)
+    fun insertPuntoMappaForTrack(point: PuntiMappaTracciamenti)
 }
