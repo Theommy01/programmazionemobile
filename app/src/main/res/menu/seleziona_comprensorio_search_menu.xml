@@ -8,5 +8,5 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView"
 
-        android:title="Ricerca comprensorio" />
+        android:title="@string/selezionecomprensorio" />
 </menu>

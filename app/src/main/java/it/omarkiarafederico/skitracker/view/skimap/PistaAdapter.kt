@@ -32,20 +32,20 @@ class PistaAdapter(private val pisteList: ArrayList<PistaItem>): RecyclerView.Ad
         holder.difficoltaPista.text = pista.difficolta.uppercase()
 
         when(pista.difficolta) {
-            "novice" -> {
+            "novice", "Novizio" -> {
                 holder.difficoltaPista.setBackgroundResource(R.color.white)
                 holder.difficoltaPista.setTextColor(Color.parseColor("#000000"))
                 holder.difficoltaPista.text = "Novizio"
             }
 
-            "easy" -> { holder.difficoltaPista.setBackgroundResource(R.color.pistaFacile)
+            "easy", "Facile" -> { holder.difficoltaPista.setBackgroundResource(R.color.pistaFacile)
                 holder.difficoltaPista.text = "Facile"
             }
-            "intermediate" -> {
+            "intermediate", "Medio" -> {
                 holder.difficoltaPista.setBackgroundResource(R.color.pistaMedia)
                 holder.difficoltaPista.text = "Medio"
             }
-            "advanced" -> {
+            "advanced", "Avanzato" -> {
                 holder.difficoltaPista.setBackgroundResource(R.color.black)
                 holder.difficoltaPista.text = "Avanzato"
             }

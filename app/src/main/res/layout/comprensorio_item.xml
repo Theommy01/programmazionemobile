@@ -27,7 +27,7 @@
         android:layout_marginBottom="8dp"
         android:breakStrategy="high_quality"
         android:gravity="center|start"
-        android:text="Caricamento..."
+        android:text="@string/uploading"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

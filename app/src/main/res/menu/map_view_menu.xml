@@ -6,26 +6,26 @@
 
     <item android:id="@+id/menuitem"
         android:icon="@drawable/baseline_menu_24"
-        android:title="Menu"
+        android:title="@string/menu"
         app:showAsAction="never">
 
         <menu>
 
         <item android:id="@+id/change_skiarea_item"
-            android:title="Cambia comprensorio"
+            android:title="@string/change"
             android:icon="@drawable/baseline_sync_24"/>
 
         <item android:id="@+id/zoom_regulation_item"
-            android:title="Regola zoom mappa"
+            android:title="@string/zoom"
             android:icon="@drawable/baseline_zoom_in_24"/>
 
         <item android:id="@+id/help_item"
-            android:title="Guida"
+            android:title="@string/guide"
             android:icon="@drawable/baseline_help_24"/>
 
         <item
             android:id="@+id/about_us_item"
-            android:title="Informazioni sull'app"
+            android:title="@string/info"
             android:icon="@drawable/baseline_info_24"/>
 
         </menu>

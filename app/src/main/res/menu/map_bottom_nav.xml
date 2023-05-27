@@ -4,15 +4,14 @@
     <item
         android:id="@+id/bottomNavMapItem"
         android:icon="@drawable/map"
-        android:title="Mappa" />
+        android:title="@string/map" />
     <item
         android:id="@+id/bottomNavInformationItem"
         android:icon="@drawable/ski_map_info"
-        android:title="Info piste" />
+        android:title="@string/infopiste" />
     <item
         android:id="@+id/bottomNavHistoryItem"
         android:icon="@drawable/history"
-        android:title="Cronologia" />
-
+        android:title="@string/history" />
 
 </menu>
