@@ -12,21 +12,24 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import it.omarkiarafederico.skitracker.R
-import it.omarkiarafederico.skitracker.databinding.FragmentInfoPisteBinding
+import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SkiAreaAdapter
+import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SkiAreaItem
 import kotlinx.coroutines.launch
 import roomdb.RoomHelper
 
 class InfoPisteFragment : Fragment() {
     private lateinit var skiArea: model.Comprensorio
-    private lateinit var binding: FragmentInfoPisteBinding
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var pisteItemList: ArrayList<PistaItem>
+    private lateinit var pistaAdapter: PistaAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         super.onCreate(savedInstanceState)
-        binding = FragmentInfoPisteBinding.inflate(layoutInflater)
 
         val myActivity = this.activity as MapActivity
         skiArea = myActivity.getComprensorioSelezionato()
@@ -70,8 +73,8 @@ class InfoPisteFragment : Fragment() {
         //aggiungo link al sito
         sito.movementMethod = LinkMovementMethod.getInstance()
         sito.setOnClickListener {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        startActivity(intent)
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
         }
 
 
@@ -97,13 +100,13 @@ class InfoPisteFragment : Fragment() {
         val showsnow = skiArea.getSnowPark()
         val shownight = skiArea.getNight()
 
-        if (showsnow){
+        if (showsnow) {
             snowpark.visibility = View.VISIBLE
         } else {
             snowpark.visibility = View.GONE
         }
 
-        if (shownight){
+        if (shownight) {
             night.visibility = View.VISIBLE
         } else {
             night.visibility = View.GONE
@@ -112,114 +115,25 @@ class InfoPisteFragment : Fragment() {
 
         //ELENCO PISTE DISPONIBILI. Con RecyclerView.
 
+        lateinit var listaPiste: List<roomdb.Pista>
+        pisteItemList = ArrayList()
 
+        recyclerView = view.findViewById(R.id.piste_recycler_view)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = LinearLayoutManager(context)
 
+        // ottengo la lista delle piste del comprensorio dal database
 
-        /*
-        class MyAdapter(private val myDataset: Array<String>) :
-            RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+        val dbConnection = RoomHelper().getDatabaseObject(requireActivity())
+        listaPiste = dbConnection.localDatabaseDao().getSkiAreaPiste(skiArea.getId())
 
-            class MyViewHolder(val textView1: TextView, val textView2: TextView) : RecyclerView.ViewHolder(textView1)
-
-            override fun onCreateViewHolder(parent: ViewGroup,
-                                            viewType: Int): MyAdapter.MyViewHolder {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.my_textviews_layout, parent, false) as LinearLayout
-                val textView1 = view.findViewById<TextView>(R.id.textview1)
-                val textView2 = view.findViewById<TextView>(R.id.textview2)
-                return MyViewHolder(textView1, textView2)
-            }
-
-            override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-                holder.textView1.text = myDataset[position * 2]
-                holder.textView2.text = myDataset[position * 2 + 1]
-            }
-
-            override fun getItemCount() = (myDataset.size + 1) / 2
-        }
-         */
-
-
-        /*  METODO PER AGGIUNGERE UNA TEXTVIEW DA CODICE
-        val textView = TextView(this)
-        textView.text = "Hello, world!"
-        textView.textSize = 20f
-
-        val layout = findViewById<LinearLayout>(R.id.layout)
-        layout.addView(textView)
-        */
-
-        /*
-        private class TrackAdapter extends RecyclerView.Adapter<TrackViewHolder> {
-        private List<Track> mTracks;
-
-        public TrackAdapter(List<Track> tracks) {
-            mTracks = tracks;
+        // aggiungo i comprensori ottenuti alla lista da visualizzare con la RecyclerView
+        for (pistaFromDb in listaPiste) {
+            pisteItemList.add(PistaItem(pistaFromDb.nome, pistaFromDb.difficolta, pistaFromDb.id))
         }
 
-        @Override
-        public TrackViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.track_list_item, parent, false);
-            return new TrackViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(TrackViewHolder holder, int position) {
-            Track track = mTracks.get(position);
-            holder.bind(track);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mTracks.size();
-        }
+        // creo l'Adapter per la RecyclerView
+        pistaAdapter = PistaAdapter(pisteItemList)
+        recyclerView.adapter = pistaAdapter
     }
-
-    private class TrackViewHolder extends RecyclerView.ViewHolder {
-        private TextView mNameTextView;
-        private TextView mDifficultyTextView;
-
-        public TrackViewHolder(View itemView) {
-            super(itemView);
-
-            mNameTextView = itemView.findViewById(R.id.track_name);
-            mDifficultyTextView = itemView.findViewById(R.id.track_difficulty);
-        }
-
-        public void bind(Track track) {
-            mNameTextView.setText(track.getName());
-            mDifficultyTextView.setText(track.getDifficulty());
-        }
-    }
-
-
-
-         */
-
-       /* val listView = view.findViewById<ListView>(R.id.elenco_piste)
-        val elenco= mutableListOf("primo","secondo","terzo")
-        elenco.add("quarto")
-
-        val arrayAdapter = ArrayAdapter(requireActivity(), android.R.layout.simple_list_item_1, elenco)
-
-        listView.adapter = arrayAdapter
-
-        */
-
-    }
-
-    /*override fun onResume() {
-        super.onResume()
-        lifecycleScope.launch{
-            val dbcon = RoomHelper().getDatabaseObject(requireContext())
-            val pisteList = dbcon.localDatabaseDao().getSkiAreaPiste(skiArea.getId())
-            binding.myRecyclerView.apply{
-                layoutManager = LinearLayoutManager(context)
-                adapter = ListAdapter().apply {
-                    setData(pisteList)
-                }
-            }
-        }
-    }*/
 }

@@ -1,5 +1,6 @@
 package it.omarkiarafederico.skitracker.view.skimap
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,9 +32,23 @@ class PistaAdapter(private val pisteList: ArrayList<PistaItem>): RecyclerView.Ad
         holder.difficoltaPista.text = pista.difficolta.uppercase()
 
         when(pista.difficolta) {
-            "Facile" -> holder.difficoltaPista.setBackgroundResource(R.color.pistaFacile)
-            "Medio" -> holder.difficoltaPista.setBackgroundResource(R.color.pistaMedia)
-            "Avanzato" -> holder.difficoltaPista.setBackgroundResource(R.color.black)
+            "novice" -> {
+                holder.difficoltaPista.setBackgroundResource(R.color.white)
+                holder.difficoltaPista.setTextColor(Color.parseColor("#000000"))
+                holder.difficoltaPista.text = "Novizio"
+            }
+
+            "easy" -> { holder.difficoltaPista.setBackgroundResource(R.color.pistaFacile)
+                holder.difficoltaPista.text = "Facile"
+            }
+            "intermediate" -> {
+                holder.difficoltaPista.setBackgroundResource(R.color.pistaMedia)
+                holder.difficoltaPista.text = "Medio"
+            }
+            "advanced" -> {
+                holder.difficoltaPista.setBackgroundResource(R.color.black)
+                holder.difficoltaPista.text = "Avanzato"
+            }
         }
 
         holder.itemView.setOnClickListener {

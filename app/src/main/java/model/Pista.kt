@@ -11,6 +11,7 @@ class Pista(private var id: Int, private var nome: String, private var idCompren
             "easy" -> this.difficolta = "Facile"
             "intermediate" -> this.difficolta = "Medio"
             "advanced" -> this.difficolta = "Avanzato"
+            "novice" -> this.difficolta = "Novizio"
         }
     }
 
