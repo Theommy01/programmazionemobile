@@ -81,6 +81,15 @@ class MapActivity : AppCompatActivity() {
         val infoFragment = InfoPisteFragment()
         val historyFragment = CronologiaFragment()
 
+        // vado a popolare il comprensorio selezionato dall'utente con cui avrà a che fare l'intero
+        // programma
+        // NOTA: aggiungo un try per evitare un bug che causa il crash immediato dell'app in alcuni
+        // casi sporadici
+        try {
+            skiArea = getSelectedSkiArea()!!
+            supportActionBar?.subtitle = "${skiArea.getNome()}, IT"
+        } catch (_: NullPointerException) {}
+
         // visualizzo il fragment della mappa, che è quello di default
         replaceFragment(mapFragment, "map")
 
@@ -95,15 +104,6 @@ class MapActivity : AppCompatActivity() {
             }
             true
         }
-
-        // vado a popolare il comprensorio selezionato dall'utente con cui avrà a che fare l'intero
-        // programma
-        // NOTA: aggiungo un try per evitare un bug che causa il crash immediato dell'app in alcuni
-        // casi sporadici
-        try {
-            skiArea = getSelectedSkiArea()!!
-            supportActionBar?.subtitle = "${skiArea.getNome()}, IT"
-        } catch (_: NullPointerException) {}
 
         // Creazione e configurazione hamburger menù
         val drawerLayout: DrawerLayout = findViewById(R.id.homeActivity)
@@ -164,6 +164,7 @@ class MapActivity : AppCompatActivity() {
         }
 
         selectedFragmentTag = tag
+        this.setActivityTitle(tag)
         fragmentTransaction.commit()
     }
 
@@ -195,5 +196,25 @@ class MapActivity : AppCompatActivity() {
     // ottiene il comprensorio selezionato
     fun getComprensorioSelezionato(): Comprensorio {
         return this.skiArea
+    }
+
+    // imposta il titolo dell'activity
+    private fun setActivityTitle(tag: String) {
+        var title = ""
+        var subtitle = ""
+
+        if (tag == "map") {
+            title = "SkiTracker"
+            subtitle = "${this.skiArea.getNome()}, IT"
+        } else if (tag == "info") {
+            title = "Informazioni comprensorio"
+            subtitle = "${this.skiArea.getNome()}, IT"
+        } else if (tag == "history") {
+            title = "Cronologia registrazioni"
+            subtitle = ""
+        }
+
+        this.supportActionBar?.title = title
+        this.supportActionBar?.subtitle = subtitle
     }
 }

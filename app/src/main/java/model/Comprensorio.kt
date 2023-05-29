@@ -129,4 +129,8 @@ class Comprensorio(private var id: Int, name: String): Serializable{
             this.listaPiste.add(pistaDaAggiungere)
         }
     }
+
+    override fun toString(): String {
+        return this.getNome()
+    }
 }

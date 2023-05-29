@@ -10,13 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import it.omarkiarafederico.skitracker.R
-import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SkiAreaAdapter
-import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SkiAreaItem
-import kotlinx.coroutines.launch
 import roomdb.RoomHelper
 
 class InfoPisteFragment : Fragment() {
@@ -54,21 +50,8 @@ class InfoPisteFragment : Fragment() {
         titolo.text = skiArea.getNome()
         numPiste.text = "${skiArea.getNumPiste()}"
         impiantiRisalita.text = "${skiArea.getNumImpianti()}"
-        max.text = "${skiArea.getMaxAlt()}"
-        min.text = "${skiArea.getMinAlt()}"
-
-        //gestisco la lunghezza del titolo. Se troppo lungo, per evitare
-        //sovrapposizioni con altre TextView viene accorciato
-
-        val lunghezzanome = titolo.text.length
-        var titolocorto = ""
-        if (lunghezzanome > 10) {
-            for (i in 0..7) {
-                titolocorto += titolo.text[i]
-            }
-            titolocorto += "..."
-            titolo.text = titolocorto
-        }
+        max.text = getString(R.string.altitude).format(skiArea.getMaxAlt())
+        min.text = getString(R.string.altitude).format(skiArea.getMinAlt())
 
         //aggiungo link al sito
         sito.movementMethod = LinkMovementMethod.getInstance()

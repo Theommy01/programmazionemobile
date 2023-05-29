@@ -8,17 +8,27 @@
     android:background="@color/activityBGColor"
     tools:context=".view.skimap.CronologiaFragment">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="318dp"
-        android:layout_height="206dp"
-        android:text="Fragment cronologia registrazioni"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="377dp"
+        android:layout_height="757dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintTop_toBottomOf="@+id/skiAreaSelectionSpinner" />
 
+    <Spinner
+        android:id="@+id/skiAreaSelectionSpinner"
+        android:layout_width="357dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:spinnerMode="dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

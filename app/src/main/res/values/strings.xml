@@ -1,4 +1,5 @@
 <resources>
+    <!-- nome dell'app -->
     <string name="app_name">SkiTracker</string>
 
     <!-- Stringhe per i Fragment di tutorial -->
@@ -16,6 +17,8 @@
     <!-- Stringhe per About Us -->
     <string name="developers">Sviluppatori: Arduini Federico, Naja Omar Versione: 1.0</string>
     <string name="copyright">TUTTI I DIRITTI RISERVATI</string>
+    <string name="logo_image_description">Logo dell\'app SkiTracker</string>
+    <string name="univpm_image_description">Logo dell\'Università Politecnica delle Marche</string>
 
     <!-- Stringhe per Fragment Welcome -->
     <string name="welcome1">Ottieni le mappe del tuo comprensorio</string>
@@ -25,15 +28,17 @@
     <!-- Stringhe per Fragment Info Piste -->
     <string name="night"> PISTE NOTTURNE</string>
     <string name="snowpark"> SNOWPARK</string>
-    <string name="title">TITOLO</string>
+    <string name="title">Comprensorio dal lungo nome</string>
     <string name="availability">PISTE DISPONIBILI</string>
     <string name="numpiste">🏂 Numero di piste:</string>
     <string name="impianti">🚡 Impianti di risalita:</string>
     <string name="altMin">⛰ Altitudine minima: </string>
-    <string name="altMax">🏔 Altitudine massima: </string>
+    <string name="altMax">🏔 Altitudine max: </string>
     <string name="website">🌐 Sito Internet</string>
     <string name="type">Stato</string>
-
+    <string name="empty_num">0</string>
+    <string name="empty_altitude">1000 m s.l.m.</string>
+    <string name="altitude">%1$d m s.l.m.</string>
 
     <!-- Stringhe di menu -->
     <string name="selezionecomprensorio">Ricerca comprensorio</string>
@@ -53,9 +58,6 @@
     <string name="back">Indietro</string>
     <string name="next">Avanti</string>
 
-
-
+    <!-- altri testi utili -->
     <string name="uploading">Caricamento...</string>
-
-
 </resources>
