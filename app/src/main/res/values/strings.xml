@@ -104,6 +104,7 @@
     <string name="trackingDislivello">🏔️ Dislivello:</string>
     <string name="trackingDateTime">🗓️ %1$s</string>
     <string name="averageSpeed">%1$d km/h</string>
+    <string name="spinnerContentDescription">Lista dei comprensori in cui hai tracciato una tua sciata</string>
 
     <!-- altri testi utili -->
     <string name="uploading">Caricamento…</string>

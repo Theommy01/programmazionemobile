@@ -5,12 +5,12 @@ class Tracciamento(var id: Int, var distanza: Float, var velocita: Float, var di
     fun getDurationString(): String {
         val seconds = this.dataOraFine - this.dataOraInizio
 
-        val hours = seconds / 3600
-        val minutes = (seconds % 3600) / 60
+        val minutes = seconds / 60
+        val remainingSeconds = seconds % 60
 
-        val formattedHours = String.format("%02d", hours)
         val formattedMinutes = String.format("%02d", minutes)
+        val formattedSeconds = String.format("%02d", remainingSeconds)
 
-        return "$formattedHours:$formattedMinutes"
+        return "$formattedMinutes:$formattedSeconds"
     }
 }
