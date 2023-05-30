@@ -14,7 +14,7 @@ class RouteTrackingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_route_tracking)
 
         // imposto il titolo all'activity e metto il tasto Indietro nella TitleBar
-        supportActionBar?.title = "Selezione pista"
+        supportActionBar?.title = getString(R.string.tracciamentoSelPistaTitle)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // NOTA: ho utilizzato la versione deprecata del metodo getSerializableExtra perchè in alternativa

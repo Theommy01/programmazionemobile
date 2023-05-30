@@ -11,8 +11,8 @@
 
     <TextView
         android:id="@+id/secondTutorialText"
-        android:layout_width="300dp"
-        android:layout_height="132dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:text="@string/guide2"
         android:textAlignment="center"
@@ -53,7 +53,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="52dp"
         android:layout_marginEnd="1dp"
-        android:contentDescription="Esempio di percorso tracciato con SkiTracker"
+        android:contentDescription="@string/guida2Image1Description"
         android:src="@drawable/tutorial2"
         app:layout_constraintBottom_toTopOf="@+id/secondTutorialBackBtn"
         app:layout_constraintEnd_toStartOf="@+id/linearLayout"
@@ -80,7 +80,7 @@
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_marginBottom="17dp"
-            android:contentDescription="icona della distanza"
+            android:contentDescription="@string/guida2DistanceIconDescription"
             android:src="@drawable/distance"
             app:srcCompat="@drawable/distance"
             tools:srcCompat="@drawable/distance" />
@@ -90,7 +90,7 @@
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_marginBottom="17dp"
-            android:contentDescription="icona della velocità"
+            android:contentDescription="@string/guida2SpeedIconDescription"
             android:src="@drawable/speed"
             app:srcCompat="@drawable/speed"
             tools:srcCompat="@drawable/speed" />
@@ -100,7 +100,7 @@
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_marginBottom="17dp"
-            android:contentDescription="Icona della durata temporale"
+            android:contentDescription="@string/guida2TimeIconDescription"
             android:src="@drawable/time"
             app:srcCompat="@drawable/time"
             tools:srcCompat="@drawable/time" />
@@ -109,7 +109,7 @@
             android:id="@+id/secondTutorialImg5"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:contentDescription="Icona del dislivello"
+            android:contentDescription="@string/guida2AltitudeIconDescription"
             android:src="@drawable/dislivello"
             app:srcCompat="@drawable/dislivello"
             tools:srcCompat="@drawable/dislivello" />

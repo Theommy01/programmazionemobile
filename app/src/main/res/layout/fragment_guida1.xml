@@ -11,8 +11,8 @@
 
     <TextView
         android:id="@+id/firstTutorialText"
-        android:layout_width="300dp"
-        android:layout_height="130dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:text="@string/guide1"
         android:textAlignment="center"
@@ -53,7 +53,7 @@
         android:id="@+id/firstTutorialImg"
         android:layout_width="300dp"
         android:layout_height="0dp"
-        android:contentDescription="Mappa di un comprensorio di esempio"
+        android:contentDescription="@string/guida1ImageDescription"
         android:src="@drawable/tutorial1"
         app:layout_constraintBottom_toTopOf="@+id/firstTutorialBackBtn"
         app:layout_constraintEnd_toEndOf="parent"

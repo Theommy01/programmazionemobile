@@ -52,7 +52,7 @@ class TrackingFragment : Fragment() {
 
         // preparo l'activity: Metto un titolo diverso e disabilito il tasto Back nella titleBar
         val myActivity = this.activity as RouteTrackingActivity
-        myActivity.supportActionBar?.title = "Tracciamento percorso"
+        myActivity.supportActionBar?.title = getString(R.string.tracciamentoPercorsoTitle)
         myActivity.supportActionBar?.subtitle = ""
         myActivity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
 

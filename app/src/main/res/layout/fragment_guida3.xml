@@ -11,8 +11,8 @@
 
     <TextView
         android:id="@+id/thirdTutorialText"
-        android:layout_width="300dp"
-        android:layout_height="122dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="60dp"
         android:layout_marginEnd="43dp"
@@ -59,7 +59,7 @@
         android:layout_marginTop="60dp"
         android:layout_marginEnd="56dp"
         android:layout_marginBottom="60dp"
-        android:contentDescription="Scala di valutazione dello stato delle piste"
+        android:contentDescription="@string/guida3Image2Description"
         android:src="@drawable/gradient"
         app:layout_constraintBottom_toTopOf="@+id/thirdTutorialStartBtn"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +70,7 @@
         android:layout_width="189dp"
         android:layout_height="0dp"
         android:layout_marginStart="52dp"
-        android:contentDescription="Immagine di esempio di una pista da sci"
+        android:contentDescription="@string/guida3Image1Description"
         android:src="@drawable/stato_piste"
         app:layout_constraintBottom_toTopOf="@+id/thirdTutorialBtnBack"
         app:layout_constraintStart_toStartOf="parent"

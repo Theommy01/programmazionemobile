@@ -6,6 +6,17 @@
     <string name="guide1">Ottieni le piste del comprensorio in cui ti trovi</string>
     <string name="guide2">Scegli la pista ed inizia a tracciare i tuoi percorsi </string>
     <string name="guide3">Puoi comunicare lo stato delle piste agli altri sciatori</string>
+
+    <string name="appIconDescription">Logo dell\'app SkiTracker</string>
+    <string name="guida1ImageDescription">Mappa di un comprensorio di esempio</string>
+    <string name="guida2Image1Description">Esempio di percorso tracciato con SkiTracker</string>
+    <string name="guida2DistanceIconDescription">Icona della distanza</string>
+    <string name="guida2SpeedIconDescription">Icona della velocità</string>
+    <string name="guida2TimeIconDescription">Icona della durata temporale</string>
+    <string name="guida2AltitudeIconDescription">Icona del dislivello</string>
+    <string name="guida3Image1Description">Immagine di esempio di una pista da sci</string>
+    <string name="guida3Image2Description">Scala di valutazione dello stato delle piste</string>
+
     <string name="welcome_blank_fragment">Ski Tracker</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -29,7 +40,7 @@
     <string name="night"> PISTE NOTTURNE</string>
     <string name="snowpark"> SNOWPARK</string>
     <string name="title">Comprensorio dal lungo nome</string>
-    <string name="availability">PISTE DISPONIBILI</string>
+    <string name="availability">Piste disponibili</string>
     <string name="numpiste">🏂 Numero di piste:</string>
     <string name="impianti">🚡 Impianti di risalita:</string>
     <string name="altMin">⛰ Altitudine minima: </string>
@@ -51,13 +62,48 @@
     <string name="guide">Guida</string>
     <string name="info">Informazioni sull\'app</string>
 
-
     <!-- Stringe per testi dei Button -->
     <string name="tour">Inizia il tour</string>
     <string name="skip">Salta</string>
     <string name="back">Indietro</string>
     <string name="next">Avanti</string>
+    <string name="cancel">Annulla</string>
+    <string name="end">Termina</string>
+
+    <!-- stringhe per fragment selezione comprensorio -->
+    <string name="skiAreaItemDescription">Immagine comprensorio</string>
+
+    <!-- stringhe per fragment della mappa -->
+    <string name="addRecordFabContentDescription">Crea nuovo tracciamento</string>
+    <string name="getPositionFabContentDescription">Centra la mappa sulla tua posizione</string>
+
+    <!-- stringhe per fragment tracciamento piste -->
+    <string name="tracciamentoSelPistaTitle">Selezione pista</string>
+    <string name="tracciamentoPercorsoTitle">Tracciamento percorso</string>
+
+    <string name="examplePistaName">Pista nome lungo</string>
+    <string name="exampleDifficulty">DIFFICILE</string>
+    <string name="exampleDistance">0 mt</string>
+    <string name="exampleSpeed">0 km/h</string>
+    <string name="exampleTime">00:00</string>
+
+    <string name="distanceIconDescription">Icona della distanza del percorso compiuto</string>
+    <string name="speedIconDescription">Icona della velocità di percorrimento della pista</string>
+    <string name="timeIconDescription">Icona della durata temporale del percorso</string>
+
+    <!-- stringhe per i Dialogs -->
+    <string name="trackingStartWarningDialog">
+        Tra poco inizierà il tracciamento lungo la pista %1$s.
+        Durante il tracciamento, si consiglia di bloccare il telefono e di NON terminare l\'applicazione.
+    </string>
+
+    <!-- stringhe per fragment cronologia tracciamenti -->
+    <string name="trackingAverageSpeed">💥 Velocità media:</string>
+    <string name="trackingDuration">🕓 Durata:</string>
+    <string name="trackingDistance">🚩 Lunghezza:</string>
+    <string name="trackingDislivello">🏔️ Dislivello:</string>
+    <string name="trackingDateTime">🗓️ %1$s</string>
 
     <!-- altri testi utili -->
-    <string name="uploading">Caricamento...</string>
+    <string name="uploading">Caricamento…</string>
 </resources>

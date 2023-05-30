@@ -71,4 +71,23 @@ interface LocalDatabaseDao {
     // Inserisce una corrispondenza tra il tracciamento e uno dei punti da cui è composto.
     @Insert(entity = PuntiMappaTracciamenti::class)
     fun insertPuntoMappaForTrack(point: PuntiMappaTracciamenti)
+
+    // Ottiene la lista di comprensori che compaiono in almeno un tracciamento.
+    @Query(
+        "SELECT Comprensorio.* FROM Comprensorio " +
+        "JOIN Pista ON Pista.idComprensorio = Comprensorio.id " +
+        "JOIN Tracciamento ON Tracciamento.idPista = Pista.id"
+    )
+    fun getComprensoriConTracciamenti(): List<Comprensorio>
+
+    // Ottiene le registrazioni effettuate in un comprensorio.
+    @Query(
+        "SELECT tracciamento.id AS id, tracciamento.distanza AS distanza, tracciamento.velocita AS velocita, tracciamento.dislivello AS dislivello, " +
+            "tracciamento.dataOraInizio AS dataOraInizio, tracciamento.dataOraFine AS dataOraFine, " +
+            "pista.nome AS pistaNome, pista.difficolta AS pistaDifficolta FROM tracciamento " +
+        "JOIN pista ON tracciamento.idPista = pista.id " +
+        "JOIN comprensorio ON pista.idComprensorio = comprensorio.id " +
+        "WHERE comprensorio.id = :id"
+    )
+    fun getTracciamentiByComprensorio(id: Int): List<model.Tracciamento>
 }

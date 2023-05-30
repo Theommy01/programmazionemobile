@@ -26,12 +26,14 @@
 
     <TextView
         android:id="@+id/snowpark"
-        android:layout_width="155dp"
+        android:layout_width="0dp"
         android:layout_height="41dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:background="@color/white"
         android:gravity="center"
+        android:paddingStart="20sp"
+        android:paddingEnd="20sp"
         android:text="@string/snowpark"
         android:textColor="@color/black"
         android:textSize="20sp"
