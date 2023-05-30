@@ -74,7 +74,7 @@ interface LocalDatabaseDao {
 
     // Ottiene la lista di comprensori che compaiono in almeno un tracciamento.
     @Query(
-        "SELECT Comprensorio.* FROM Comprensorio " +
+        "SELECT DISTINCT Comprensorio.* FROM Comprensorio " +
         "JOIN Pista ON Pista.idComprensorio = Comprensorio.id " +
         "JOIN Tracciamento ON Tracciamento.idPista = Pista.id"
     )

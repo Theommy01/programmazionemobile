@@ -103,6 +103,7 @@
     <string name="trackingDistance">🚩 Lunghezza:</string>
     <string name="trackingDislivello">🏔️ Dislivello:</string>
     <string name="trackingDateTime">🗓️ %1$s</string>
+    <string name="averageSpeed">%1$d km/h</string>
 
     <!-- altri testi utili -->
     <string name="uploading">Caricamento…</string>

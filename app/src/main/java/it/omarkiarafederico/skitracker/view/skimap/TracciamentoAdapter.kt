@@ -1,5 +1,6 @@
 package it.omarkiarafederico.skitracker.view.skimap
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +11,13 @@ import java.time.format.DateTimeFormatter
 
 class TracciamentoAdapter(private val tracciamentoList: ArrayList<TracciamentoItem>): RecyclerView.Adapter<TracciamentoAdapter.TracciamentoViewHolder>() {
     class TracciamentoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val tracciamentoPistaNome = itemView.findViewById<TextView>(R.id.tracciamentoPistaName)
-        val tracciamentoPistaDifficolta = itemView.findViewById<TextView>(R.id.tracciamentoPistaDifficulty)
-        val tracciamentoAverageSpeed = itemView.findViewById<TextView>(R.id.trackAverageSpeed)
-        val tracciamentoDurata = itemView.findViewById<TextView>(R.id.trackDuration)
-        val tracciamentoLunghezza = itemView.findViewById<TextView>(R.id.trackingDistance)
-        val tracciamentoDislivello = itemView.findViewById<TextView>(R.id.trackingDislivello)
-        val tracciamentoDataOra = itemView.findViewById<TextView>(R.id.trackDateTime)
+        val tracciamentoPistaNome: TextView = itemView.findViewById(R.id.tracciamentoPistaName)
+        val tracciamentoPistaDifficolta: TextView = itemView.findViewById(R.id.tracciamentoPistaDifficulty)
+        val tracciamentoAverageSpeed: TextView = itemView.findViewById(R.id.trackAverageSpeed)
+        val tracciamentoDurata: TextView = itemView.findViewById(R.id.trackDuration)
+        val tracciamentoLunghezza: TextView = itemView.findViewById(R.id.trackingDistance)
+        val tracciamentoDislivello: TextView = itemView.findViewById(R.id.trackingDislivello)
+        val tracciamentoDataOra: TextView = itemView.findViewById(R.id.trackDateTime)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TracciamentoViewHolder {
@@ -32,11 +33,31 @@ class TracciamentoAdapter(private val tracciamentoList: ArrayList<TracciamentoIt
         val tracciamento = tracciamentoList[position]
 
         holder.tracciamentoPistaNome.text = tracciamento.nome
-        holder.tracciamentoPistaDifficolta.text = tracciamento.difficolta
-        holder.tracciamentoAverageSpeed.text = tracciamento.velocitaMedia.toString()
+        holder.tracciamentoAverageSpeed.text = "${tracciamento.velocitaMedia} km/h"
         holder.tracciamentoDurata.text = tracciamento.durata
-        holder.tracciamentoLunghezza.text = tracciamento.lunghezza.toString()
-        holder.tracciamentoDislivello.text = tracciamento.dislivello.toString()
+        holder.tracciamentoLunghezza.text = "${tracciamento.lunghezza} mt"
+        holder.tracciamentoDislivello.text = "${tracciamento.dislivello} mt"
         holder.tracciamentoDataOra.text = tracciamento.dataOra.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))
+
+        when(tracciamento.difficolta) {
+            "novice", "Novizio" -> {
+                holder.tracciamentoPistaDifficolta.setBackgroundResource(R.color.white)
+                holder.tracciamentoPistaDifficolta.setTextColor(Color.parseColor("#000000"))
+                holder.tracciamentoPistaDifficolta.text = "Novizio"
+            }
+
+            "easy", "Facile" -> {
+                holder.tracciamentoPistaDifficolta.setBackgroundResource(R.color.pistaFacile)
+                holder.tracciamentoPistaDifficolta.text = "Facile"
+            }
+            "intermediate", "Medio" -> {
+                holder.tracciamentoPistaDifficolta.setBackgroundResource(R.color.pistaMedia)
+                holder.tracciamentoPistaDifficolta.text = "Medio"
+            }
+            "advanced", "Avanzato" -> {
+                holder.tracciamentoPistaDifficolta.setBackgroundResource(R.color.black)
+                holder.tracciamentoPistaDifficolta.text = "Avanzato"
+            }
+        }
     }
 }

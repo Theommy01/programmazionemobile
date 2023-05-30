@@ -1,5 +1,8 @@
 package it.omarkiarafederico.skitracker.view.skimap
 
-data class TracciamentoItem(val nome: String, val difficolta: String, val velocitaMedia: Float,
-                            val durata: String, val lunghezza: Float, val dislivello: Int,
-                            val dataOra: String)
+import java.time.LocalDateTime
+
+data class TracciamentoItem(
+    val nome: String, val difficolta: String, val velocitaMedia: Int,
+    val durata: String, val lunghezza: Int, val dislivello: Int,
+    val dataOra: LocalDateTime)

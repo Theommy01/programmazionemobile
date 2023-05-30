@@ -3,8 +3,8 @@ package it.omarkiarafederico.skitracker.view.skimap
 import androidx.lifecycle.ViewModel
 import model.Comprensorio
 import model.Tracciamento
-import okhttp3.internal.UTC
 import java.time.LocalDateTime
+import kotlin.math.roundToInt
 
 class CronologiaViewModel: ViewModel() {
     private var selectedSkiAreaID: Int = 0
@@ -34,8 +34,8 @@ class CronologiaViewModel: ViewModel() {
         for (tracciamento in this.listaTracciamenti)
             itemList.add(
                 TracciamentoItem(tracciamento.pistaNome, tracciamento.pistaDifficolta,
-                tracciamento.velocita, "no", tracciamento.distanza,
-                tracciamento.dislivello, "122")
+                tracciamento.velocita.roundToInt(), tracciamento.getDurationString(), tracciamento.distanza.roundToInt(),
+                tracciamento.dislivello, LocalDateTime.now())
             )
 
         return itemList
