@@ -10,11 +10,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import it.omarkiarafederico.skitracker.R
 import it.omarkiarafederico.skitracker.view.routeTracking.RouteTrackingActivity
-import model.Comprensorio
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
@@ -30,23 +30,25 @@ import utility.OsmXmlAnalyzer
 
 
 class MappaFragment : Fragment() {
-    private lateinit var mySkiArea: Comprensorio
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    private var myViewModel: SkiMapViewModel? = null
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // metodo padre
         super.onCreate(savedInstanceState)
 
-        val myActivity = this.activity as MapActivity
-        mySkiArea = myActivity.getComprensorioSelezionato()
+        // impostazione ViewModel
+        myViewModel = activity?.let { ViewModelProvider(it)[SkiMapViewModel::class.java]}
 
+        // ritorno il layout
         return inflater.inflate(R.layout.fragment_mappa, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // metodo padre
         super.onViewCreated(view, savedInstanceState)
 
         // inizializzazione mappa
+        val mySkiArea = this.myViewModel?.getSkiArea()
         val map = getMap()
         if (map != null) {
             map.setTileSource(TileSourceFactory.MAPNIK)
@@ -70,11 +72,13 @@ class MappaFragment : Fragment() {
         map?.overlays?.add(scaleBarOverlay)
 
         // creo un controller della mappa per impostare una posizione iniziale
-        renderKMLskiArea(mySkiArea.getLatitudine(), mySkiArea.getLongitudine(),
-            mySkiArea.getZoomLevel())
+        if (mySkiArea != null) {
+            renderKMLskiArea(mySkiArea.getLatitudine(), mySkiArea.getLongitudine(),
+                mySkiArea.getZoomLevel())
+        }
 
         val mapController = map?.controller
-        val startPoint = GeoPoint(mySkiArea.getLatitudine(), mySkiArea.getLongitudine())
+        val startPoint = mySkiArea?.let { GeoPoint(it.getLatitudine(), mySkiArea.getLongitudine()) }
         mapController?.setCenter(startPoint)
         mapController?.animateTo(startPoint, 16.0, 1200)
 
@@ -97,7 +101,7 @@ class MappaFragment : Fragment() {
         newTrackFAB.setOnClickListener {
             // apro l'activity per il tracciamento
             val trackActivityIntent = Intent(this.activity, RouteTrackingActivity::class.java)
-            trackActivityIntent.putExtra("selectedSkiArea", this.mySkiArea)
+            trackActivityIntent.putExtra("selectedSkiArea", mySkiArea)
             startActivity(trackActivityIntent)
         }
 
@@ -158,6 +162,7 @@ class MappaFragment : Fragment() {
     fun zoomRegulation() {
         // chiedo all'utente (tramite un dialog) qual'è il problema, quindi se vede troppe piste
         // o ne vede troppo poche
+        val mySkiArea = this.myViewModel?.getSkiArea()
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(getString(R.string.zoomRegulationDialogTitle))
 
@@ -171,18 +176,21 @@ class MappaFragment : Fragment() {
             // l'utente ha fatto la sua scelta, vado a controllare cosa ha scelto
             if (selectedItem == 0) {
                 // vado a ridurre lo zoom
-                this.mySkiArea.diminiusciZoom()
-                this.mySkiArea.updateZoom(requireContext())
+                mySkiArea?.diminiusciZoom()
+                mySkiArea?.updateZoom(requireContext())
             } else if (selectedItem == 1) {
                 // vado ad aumentare lo zoom
-                this.mySkiArea.aumentaZoom()
-                this.mySkiArea.updateZoom(requireContext())
+                mySkiArea?.aumentaZoom()
+                mySkiArea?.updateZoom(requireContext())
             }
 
             // vado a renderizzare la mappa con lo zoom nuovo
-            Log.i("SkiTracker Map Management", "New zoom level for map: ${this.mySkiArea.getZoomLevel()}")
-            renderKMLskiArea(mySkiArea.getLatitudine(), mySkiArea.getLongitudine(),
-                mySkiArea.getZoomLevel())
+            Log.i("SkiTracker Map Management", "New zoom level for map: ${mySkiArea?.getZoomLevel()}")
+
+            if (mySkiArea != null) {
+                renderKMLskiArea(mySkiArea.getLatitudine(), mySkiArea.getLongitudine(),
+                    mySkiArea.getZoomLevel())
+            }
         }
         builder.setNegativeButton(getString(R.string.cancel)) { _, _ ->
             // non succede nulla

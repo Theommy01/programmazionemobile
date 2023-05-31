@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import it.omarkiarafederico.skitracker.R
@@ -17,19 +18,17 @@ import model.Pista
 import roomdb.RoomHelper
 
 class InfoPisteFragment : Fragment() {
-    private lateinit var skiArea: model.Comprensorio
+    private var myViewModel: SkiMapViewModel? = null
     private lateinit var recyclerView: RecyclerView
     private lateinit var pisteItemList: ArrayList<PistaItem>
     private lateinit var pistaAdapter: PistaAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // metodo padre
         super.onCreate(savedInstanceState)
 
-        val myActivity = this.activity as MapActivity
-        skiArea = myActivity.getComprensorioSelezionato()
+        // impostazione ViewModel
+        myViewModel = activity?.let { ViewModelProvider(it)[SkiMapViewModel::class.java]}
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_info_piste, container, false)
@@ -38,6 +37,7 @@ class InfoPisteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val skiArea = this.myViewModel?.getSkiArea()
 
         val titolo: TextView = view.findViewById(R.id.titolo)
         val numPiste: TextView = view.findViewById(R.id.numPiste)
@@ -46,13 +46,15 @@ class InfoPisteFragment : Fragment() {
         val min: TextView = view.findViewById(R.id.altMin)
         val sito: TextView = view.findViewById(R.id.website)
 
-        val url = skiArea.getWebSite()
+        val url = skiArea?.getWebSite()
 
-        titolo.text = skiArea.getNome()
-        numPiste.text = "${skiArea.getNumPiste()}"
-        impiantiRisalita.text = "${skiArea.getNumImpianti()}"
-        max.text = getString(R.string.altitude).format(skiArea.getMaxAlt())
-        min.text = getString(R.string.altitude).format(skiArea.getMinAlt())
+        if (skiArea != null) {
+            titolo.text = skiArea.getNome()
+            numPiste.text = "${skiArea.getNumPiste()}"
+            impiantiRisalita.text = "${skiArea.getNumImpianti()}"
+            max.text = getString(R.string.altitude).format(skiArea.getMaxAlt())
+            min.text = getString(R.string.altitude).format(skiArea.getMinAlt())
+        }
 
         //aggiungo link al sito
         sito.movementMethod = LinkMovementMethod.getInstance()
@@ -64,9 +66,9 @@ class InfoPisteFragment : Fragment() {
 
         //Personalizzo la scritta che indica se quel comprensorio è aperto o chiuso
         val stato = view.findViewById<TextView>(R.id.stato)
-        val aperto = skiArea.isOperativo()
+        val aperto = skiArea?.isOperativo()
 
-        if (aperto) {
+        if (aperto == true) {
             stato.text = getString(R.string.skiAreaOpen)
             context?.let { ContextCompat.getColor(it, R.color.comprensorioAperto) }
                 ?.let { stato.setBackgroundColor(it) }
@@ -81,16 +83,16 @@ class InfoPisteFragment : Fragment() {
         val snowpark = view.findViewById<TextView>(R.id.snowpark)
         val night = view.findViewById<TextView>(R.id.piste_notturne)
 
-        val showsnow = skiArea.getSnowPark()
-        val shownight = skiArea.getNight()
+        val showsnow = skiArea?.getSnowPark()
+        val shownight = skiArea?.getNight()
 
-        if (showsnow) {
+        if (showsnow == true) {
             snowpark.visibility = View.VISIBLE
         } else {
             snowpark.visibility = View.GONE
         }
 
-        if (shownight) {
+        if (shownight == true) {
             night.visibility = View.VISIBLE
         } else {
             night.visibility = View.GONE
@@ -98,7 +100,6 @@ class InfoPisteFragment : Fragment() {
 
 
         //ELENCO PISTE DISPONIBILI. Con RecyclerView.
-
         lateinit var listaPiste: List<roomdb.Pista>
         pisteItemList = ArrayList()
 
@@ -109,7 +110,9 @@ class InfoPisteFragment : Fragment() {
         // ottengo la lista delle piste del comprensorio dal database
 
         val dbConnection = RoomHelper().getDatabaseObject(requireActivity())
-        listaPiste = dbConnection.localDatabaseDao().getSkiAreaPiste(skiArea.getId())
+        if (skiArea != null) {
+            listaPiste = dbConnection.localDatabaseDao().getSkiAreaPiste(skiArea.getId())
+        }
 
         // aggiungo i comprensori ottenuti alla lista da visualizzare con la RecyclerView
         for (pistaFromDb in listaPiste) {
