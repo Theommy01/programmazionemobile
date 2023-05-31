@@ -63,6 +63,7 @@
     <string name="next">Avanti</string>
     <string name="cancel">Annulla</string>
     <string name="end">Termina</string>
+    <string name="start">Inizia</string>
     <string name="yes">Sì</string>
     <string name="no">No</string>
 
@@ -114,13 +115,16 @@
 
     <!-- stringhe per fragment cronologia tracciamenti -->
     <string name="historyFragmentTitle">Cronologia tracciamenti</string>
-    <string name="trackingAverageSpeed">💥 Velocità media:</string>
+    <string name="spinnerContentDescription">Lista dei comprensori in cui hai tracciato una tua sciata</string>
+
+    <string name="trackingAverageSpeedIndicator">💥 Velocità media:</string>
     <string name="trackingDuration">🕓 Durata:</string>
     <string name="trackingDistance">🚩 Lunghezza:</string>
     <string name="trackingDislivello">🏔️ Dislivello:</string>
+
     <string name="trackingDateTime">🗓️ %1$s</string>
     <string name="averageSpeed">%1$d km/h</string>
-    <string name="spinnerContentDescription">Lista dei comprensori in cui hai tracciato una tua sciata</string>
+    <string name="trackDistance">%1$d mt</string>
 
     <!-- altri testi utili -->
     <string name="uploading">Caricamento…</string>

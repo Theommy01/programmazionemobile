@@ -35,10 +35,10 @@ class TracciamentoAdapter(private val tracciamentoList: ArrayList<TracciamentoIt
         val tracciamento = tracciamentoList[position]
 
         holder.tracciamentoPistaNome.text = tracciamento.nome
-        holder.tracciamentoAverageSpeed.text = "${tracciamento.velocitaMedia} km/h"
+        holder.tracciamentoAverageSpeed.text = context.getString(R.string.averageSpeed).format(tracciamento.velocitaMedia)
         holder.tracciamentoDurata.text = tracciamento.durata
-        holder.tracciamentoLunghezza.text = "${tracciamento.lunghezza} mt"
-        holder.tracciamentoDislivello.text = "${tracciamento.dislivello} mt"
+        holder.tracciamentoLunghezza.text = context.getString(R.string.trackDistance).format(tracciamento.lunghezza)
+        holder.tracciamentoDislivello.text = context.getString(R.string.trackDistance).format(tracciamento.dislivello)
         holder.tracciamentoDataOra.text = tracciamento.dataOra.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))
 
         when(tracciamento.difficolta) {

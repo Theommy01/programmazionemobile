@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="22dp"
-        android:text="@string/trackingAverageSpeed"
+        android:text="@string/trackingAverageSpeedIndicator"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tracciamentoPistaName" />

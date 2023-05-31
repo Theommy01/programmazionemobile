@@ -1,8 +1,6 @@
 package it.omarkiarafederico.skitracker.view.tutorial
 
-import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +8,14 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import it.omarkiarafederico.skitracker.R
-import it.omarkiarafederico.skitracker.view.selezionecomprensorio.SelezioneComprensorio
-import roomdb.RoomHelper
-import roomdb.Utente
 
 class WelcomeFragment : Fragment() {
+    private lateinit var activity: WelcomeActivity
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity = this.getActivity() as WelcomeActivity
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_welcome, container, false)
@@ -24,35 +25,22 @@ class WelcomeFragment : Fragment() {
 
         tourBtn.setOnClickListener {
             val fragment = Guida1Fragment()
-            val fragmentManager = activity?.supportFragmentManager
-            val fragmentTransaction = fragmentManager?.beginTransaction()
+            val fragmentManager = activity.supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
 
             // vado a inserire il fragment corrente nel back stack, in modo tale che posso tornare
             // al passo precedente anche solamente premendo il tasto Back di android
-            fragmentTransaction?.addToBackStack("tutorialFragmentWelcome")
+            fragmentTransaction.addToBackStack("tutorialFragmentWelcome")
 
             // imposto una transizione durante il cambio di fragment
-            fragmentTransaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
 
             // vado a rimpiazzare il fragment corrente (welcome) con quello nuovo (passo 1)
-            fragmentTransaction?.replace(R.id.tutorialFragmentsContainerView, fragment)?.commit()
+            fragmentTransaction.replace(R.id.tutorialFragmentsContainerView, fragment).commit()
         }
 
         skipBtn.setOnClickListener {
-            // svuoto il back stack, in modo tale che se premo indietro non ritorno al tutorial
-            this.activity?.finishAffinity()
-
-            // scrivo sul database le info sull'utente locale che sta eseguendo l'app (id del
-            // telefono e il fatto che abbia già visto il tutorial)
-            val db = RoomHelper().getDatabaseObject(this.requireContext())
-
-            val intent = Intent(activity, SelezioneComprensorio::class.java)
-            val phoneId = Settings.Secure.getString(requireActivity().contentResolver,
-                Settings.Secure.ANDROID_ID)
-
-            db.localDatabaseDao().insertNewLocalUserInfo(Utente(phoneId, true, null))
-
-            startActivity(intent)
+            this.activity.finishTutorial()
         }
 
         return view

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
 import it.omarkiarafederico.skitracker.R
@@ -25,9 +26,8 @@ import java.lang.NullPointerException
 
 
 class MapActivity : AppCompatActivity() {
+    private var myViewModel: SkiMapViewModel? = null
     private lateinit var binding: ActivityMapBinding
-    private var selectedFragmentTag = "map"
-    private lateinit var skiArea: Comprensorio
     private lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +35,9 @@ class MapActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // ottenimento riferimento al viewModel
+        myViewModel = this.let { ViewModelProvider(it)[SkiMapViewModel::class.java]}
 
         // controllo se l'utente ha già visto il tutorial e/o ha già selezionato il comprensorio
         // se non ha fatto almeno una delle due cose, lo redirigo alle varie activities
@@ -86,8 +89,7 @@ class MapActivity : AppCompatActivity() {
         // NOTA: aggiungo un try per evitare un bug che causa il crash immediato dell'app in alcuni
         // casi sporadici
         try {
-            skiArea = getSelectedSkiArea()!!
-            supportActionBar?.subtitle = "${skiArea.getNome()}, IT"
+            setSelectedSkiArea()
         } catch (_: NullPointerException) {}
 
         // visualizzo il fragment della mappa, che è quello di default
@@ -152,7 +154,7 @@ class MapActivity : AppCompatActivity() {
         val fragmentManager: FragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
 
-        val fragmentPrecedente = fragmentManager.findFragmentByTag(selectedFragmentTag)
+        val fragmentPrecedente = fragmentManager.findFragmentByTag(this.myViewModel?.getSelectedFragmentTag())
 
         if (fragmentManager.findFragmentByTag(tag) == null) {
             fragmentTransaction.add(R.id.frame_layout, fragmentDaVisualizzare, tag)
@@ -163,13 +165,13 @@ class MapActivity : AppCompatActivity() {
             }
         }
 
-        selectedFragmentTag = tag
+        this.myViewModel?.updateSelectedFragmentTag(tag)
         this.setActivityTitle(tag)
         fragmentTransaction.commit()
     }
 
-    // questa funzione va ad ottenere il Comprensorio che l'utente ha selezionato.
-    private fun getSelectedSkiArea(): Comprensorio? {
+    // questa funzione va ad impostare il Comprensorio che l'utente ha selezionato.
+    private fun setSelectedSkiArea() {
         // ottengo l'id del comprensorio selezionato dall'utente.
         val db = Room.databaseBuilder(applicationContext, LocalDB::class.java, "LocalDatabase")
             .allowMainThreadQueries().build()
@@ -187,31 +189,28 @@ class MapActivity : AppCompatActivity() {
             val skiArea = Comprensorio(skiAreaFromDb)
             skiArea.setListaPiste(skiAreaPisteList as ArrayList<Pista>, applicationContext)
 
-            return skiArea
-        } else {
-            return null
+            this.myViewModel?.setSkiArea(skiArea)
+            supportActionBar?.subtitle = "${skiArea.getNome()}, IT"
         }
-    }
-
-    // ottiene il comprensorio selezionato
-    fun getComprensorioSelezionato(): Comprensorio {
-        return this.skiArea
     }
 
     // imposta il titolo dell'activity
     private fun setActivityTitle(tag: String) {
         var title = ""
         var subtitle = ""
+        val skiArea = this.myViewModel?.getSkiArea()
 
-        if (tag == "map") {
-            title = getString(R.string.app_name)
-            subtitle = "${this.skiArea.getNome()}, IT"
-        } else if (tag == "info") {
-            title = getString(R.string.infoPisteFragmentTitle)
-            subtitle = "${this.skiArea.getNome()}, IT"
-        } else if (tag == "history") {
-            title = getString(R.string.historyFragmentTitle)
-            subtitle = ""
+        if (skiArea != null) {
+            if (tag == "map") {
+                title = getString(R.string.app_name)
+                subtitle = "${skiArea.getNome()}, IT"
+            } else if (tag == "info") {
+                title = getString(R.string.infoPisteFragmentTitle)
+                subtitle = "${skiArea.getNome()}, IT"
+            } else if (tag == "history") {
+                title = getString(R.string.historyFragmentTitle)
+                subtitle = ""
+            }
         }
 
         this.supportActionBar?.title = title
