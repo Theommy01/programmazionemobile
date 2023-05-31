@@ -1,7 +1,10 @@
 package it.omarkiarafederico.skitracker
 
 import android.content.Intent
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import it.omarkiarafederico.skitracker.view.skimap.AboutUsActivity
 import it.omarkiarafederico.skitracker.view.skimap.MapActivity
@@ -10,10 +13,16 @@ import org.junit.Test
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import org.junit.Assert
 
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.runner.RunWith
+import roomdb.LocalDB
+import roomdb.LocalDatabaseDao
+import roomdb.Pista
+import roomdb.RoomHelper
+import roomdb.Utente
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -30,32 +39,36 @@ class ExampleUnitTest {
 @RunWith(AndroidJUnit4::class)
 class MyActivityTest {
 
-    private lateinit var scenario: ActivityScenario<MapActivity>
+
+    lateinit var roomDB: LocalDB
+    lateinit var roomDAO: LocalDatabaseDao
 
     @Before
     fun setUp() {
-        // Avvia lo scenario dell'attività da testare
-        scenario = ActivityScenario.launch(MapActivity::class.java)
-        // Inizializza Intents per la verifica delle intent
-        Intents.init()
+        roomDB =  Room.inMemoryDatabaseBuilder(
+            ApplicationProvider.getApplicationContext(),
+            LocalDB::class.java
+        ).allowMainThreadQueries().build()
+        roomDAO = roomDB.localDatabaseDao()
+
+    }
+
+    @Test
+    fun testPistaInComprensorio() {
+        val pista = Pista(1, "Belladonna", "Medio", 9)
+        assertEquals(pista.idComprensorio, 9)
+    }
+
+    @Test
+    fun testTutorialCompletato() {
+        val utente = Utente("id", true , 9)
+        assertEquals(utente.tutorialCompletato, true)
     }
 
     @After
     fun tearDown() {
-        // Chiude lo scenario dell'attività da testare
-        scenario.close()
-        // Rilascia Intents dopo il test
-        Intents.release()
+        roomDB.close()
     }
 
-    @Test
-    fun testStartActivity() {  //Per verificare il corretto funzionamento del passaggio da MapActivity
-        //ad AboutUsActivity, su cui ci sono state delle problematiche
-
-        // Esegui la funzione startActivity
-        scenario.onActivity { it.startActivity(Intent(it, AboutUsActivity::class.java)) }
-        // Verifica che sia stata lanciata un'Intent per l'attività MyOtherActivity
-        intended(hasComponent(AboutUsActivity::class.java.name))
-    }
 }
 
