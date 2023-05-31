@@ -9,7 +9,7 @@ class AboutUsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about_us)
 
-        supportActionBar?.title = "Informazioni su SkiTracker"
+        supportActionBar?.title = getString(R.string.aboutUsActivityTitle)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 }

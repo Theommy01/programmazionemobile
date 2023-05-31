@@ -50,7 +50,7 @@ class RouteSelectionFragment : Fragment() {
         }
 
         // preparo l'adapter e visualizzo a schermo la recyclerview
-        pistaAdapter = PistaAdapter(pisteItemList)
+        pistaAdapter = PistaAdapter(pisteItemList, requireContext())
         recyclerView.adapter = pistaAdapter
 
         // cosa succede se clicco su un elemento
@@ -62,7 +62,7 @@ class RouteSelectionFragment : Fragment() {
 
                 // avviso all'utente che per far si che il tracciamento vada avanti, non bisogna assolutamente
                 // abbandonare l'activity
-                ApplicationDialog().openDialog(
+                ApplicationDialog(requireContext()).openDialog(
                     ALERT_INFO, getString(R.string.trackingStartWarningDialog).format(skiArea.getNome()),
                     requireContext() as AppCompatActivity, false)
 

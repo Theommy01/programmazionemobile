@@ -185,7 +185,7 @@ class MapActivity : AppCompatActivity() {
 
             // vado a popolare l'oggetto comprensorio con i dettagli ottenuti dal db
             val skiArea = Comprensorio(skiAreaFromDb)
-            skiArea.setListaPiste(skiAreaPisteList as ArrayList<Pista>)
+            skiArea.setListaPiste(skiAreaPisteList as ArrayList<Pista>, applicationContext)
 
             return skiArea
         } else {
@@ -204,13 +204,13 @@ class MapActivity : AppCompatActivity() {
         var subtitle = ""
 
         if (tag == "map") {
-            title = "SkiTracker"
+            title = getString(R.string.app_name)
             subtitle = "${this.skiArea.getNome()}, IT"
         } else if (tag == "info") {
-            title = "Informazioni comprensorio"
+            title = getString(R.string.infoPisteFragmentTitle)
             subtitle = "${this.skiArea.getNome()}, IT"
         } else if (tag == "history") {
-            title = "Cronologia registrazioni"
+            title = getString(R.string.historyFragmentTitle)
             subtitle = ""
         }
 

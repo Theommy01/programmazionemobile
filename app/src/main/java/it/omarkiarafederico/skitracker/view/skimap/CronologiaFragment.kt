@@ -60,7 +60,7 @@ class CronologiaFragment : Fragment() {
 
                 // preparo la lista dei TracciamentoItem da visualizzare sul RecyclerView
                 val tracciamentiItem = myViewModel!!.prepareTracciamentiForRecyclerView()
-                tracciamentoAdapter = TracciamentoAdapter(tracciamentiItem)
+                tracciamentoAdapter = TracciamentoAdapter(tracciamentiItem, requireContext())
                 recyclerView.adapter = tracciamentoAdapter
             }
 

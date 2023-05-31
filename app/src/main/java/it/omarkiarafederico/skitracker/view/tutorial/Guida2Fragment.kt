@@ -35,7 +35,7 @@ class Guida2Fragment : Fragment() {
             // sostituendolo a quello corrente e togliendolo dal back stack.
             val fragmentManager = activity?.supportFragmentManager
             if (fragmentManager?.backStackEntryCount!! > 0) {
-                fragmentManager?.popBackStack()
+                fragmentManager.popBackStack()
             }
         }
 

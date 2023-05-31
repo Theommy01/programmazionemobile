@@ -123,9 +123,9 @@ class Comprensorio(private var id: Int, name: String): Serializable{
         db.localDatabaseDao().updateZoomLevel(this.zoom, this.id)
     }
 
-    fun setListaPiste(lista: ArrayList<roomdb.Pista>) {
+    fun setListaPiste(lista: ArrayList<roomdb.Pista>, context: Context) {
         for (pistaDB in lista) {
-            val pistaDaAggiungere = Pista(pistaDB)
+            val pistaDaAggiungere = Pista(pistaDB, context)
             this.listaPiste.add(pistaDaAggiungere)
         }
     }

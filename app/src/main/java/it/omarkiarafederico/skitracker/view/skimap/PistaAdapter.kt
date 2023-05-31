@@ -1,5 +1,6 @@
 package it.omarkiarafederico.skitracker.view.skimap
 
+import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.omarkiarafederico.skitracker.R
 
-class PistaAdapter(private val pisteList: ArrayList<PistaItem>): RecyclerView.Adapter<PistaAdapter.PistaViewHolder>() {
+class PistaAdapter(private val pisteList: ArrayList<PistaItem>, private val context: Context): RecyclerView.Adapter<PistaAdapter.PistaViewHolder>() {
     var onItemClick: ((PistaItem) -> Unit)? = null
 
     class PistaViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -29,25 +30,21 @@ class PistaAdapter(private val pisteList: ArrayList<PistaItem>): RecyclerView.Ad
         val pista = pisteList[position]
 
         holder.nomePista.text = pista.nome
-        holder.difficoltaPista.text = pista.difficolta.uppercase()
+        holder.difficoltaPista.text = pista.difficolta
 
         when(pista.difficolta) {
-            "novice", "Novizio" -> {
+            context.getString(R.string.pistaNovizio) -> {
                 holder.difficoltaPista.setBackgroundResource(R.color.white)
                 holder.difficoltaPista.setTextColor(Color.parseColor("#000000"))
-                holder.difficoltaPista.text = "Novizio"
             }
-
-            "easy", "Facile" -> { holder.difficoltaPista.setBackgroundResource(R.color.pistaFacile)
-                holder.difficoltaPista.text = "Facile"
+            context.getString(R.string.pistaFacile) -> {
+                holder.difficoltaPista.setBackgroundResource(R.color.pistaFacile)
             }
-            "intermediate", "Medio" -> {
+            context.getString(R.string.pistaMedia) -> {
                 holder.difficoltaPista.setBackgroundResource(R.color.pistaMedia)
-                holder.difficoltaPista.text = "Medio"
             }
-            "advanced", "Avanzato" -> {
+            context.getString(R.string.pistaDifficile) -> {
                 holder.difficoltaPista.setBackgroundResource(R.color.black)
-                holder.difficoltaPista.text = "Avanzato"
             }
         }
 

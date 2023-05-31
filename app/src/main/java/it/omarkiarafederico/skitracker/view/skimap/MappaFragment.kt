@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -23,6 +24,8 @@ import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
+import utility.ALERT_ERROR
+import utility.ApplicationDialog
 import utility.OsmXmlAnalyzer
 
 
@@ -82,7 +85,7 @@ class MappaFragment : Fragment() {
             val locationOverlay = map?.overlays?.get(map.overlays.lastIndex) as MyLocationNewOverlay
 
             if (locationOverlay.myLocation == null) {
-                Toast.makeText(this.context, "Ottenimento della posizione tramite GPS...",
+                Toast.makeText(this.context, getString(R.string.lookingForGPS),
                     Toast.LENGTH_SHORT).show()
                 getCurrentLocation()
             }
@@ -100,8 +103,8 @@ class MappaFragment : Fragment() {
 
         // uso gli snackbar per chiedere all'utente se si vede tutto nella mappa o bisogna regolare
         // lo zoom
-        val snackbar = Snackbar.make(view, "Problemi con la mappa?", Snackbar.LENGTH_LONG)
-        snackbar.setAction("Regola zoom") {
+        val snackbar = Snackbar.make(view, getString(R.string.snackBarMapProblems), Snackbar.LENGTH_LONG)
+        snackbar.setAction(getString(R.string.zoomRegulationSnackbarButton)) {
             // l'utente ha richiesto di regolare lo zoom della mappa
             this.zoomRegulation()
         }
@@ -134,16 +137,21 @@ class MappaFragment : Fragment() {
     // document che contiene i punti del comprensorio e rappresentarlo sulla mappa
     // NOTA: la funzione andrà anche ad aggiungere i comprensori
     private fun renderKMLskiArea(lat: Double, long: Double, zoomLevel: Int) {
-        // ottengo l'osm xml del comprensorio
-        val skiAreaOsmXml = SkiAreaFullMap().ottieniXmlMappaComprensorio(lat, long, zoomLevel)
+        try {
+            // ottengo l'osm xml del comprensorio
+            val skiAreaOsmXml = SkiAreaFullMap().ottieniXmlMappaComprensorio(lat, long, zoomLevel)
 
-        // ottengo l'overlay dei vari polyline delle piste del comprensorio
-        val mapOverlay = OsmXmlAnalyzer().getSkiAreaOverlay(skiAreaOsmXml)
+            // ottengo l'overlay dei vari polyline delle piste del comprensorio
+            val mapOverlay = OsmXmlAnalyzer().getSkiAreaOverlay(skiAreaOsmXml)
 
-        // le visualizzo nella mappa
-        val map = getMap()
-        map?.overlays?.add(mapOverlay)
-        map?.invalidate()
+            // le visualizzo nella mappa
+            val map = getMap()
+            map?.overlays?.add(mapOverlay)
+            map?.invalidate()
+        } catch (e: Exception) {
+            ApplicationDialog(requireContext()).openDialog(ALERT_ERROR, getString(R.string.mapXMLloadingError),
+                requireContext() as AppCompatActivity, false)
+        }
     }
 
     // questa funzione permette di regolare lo zoom della mappa.
@@ -151,9 +159,9 @@ class MappaFragment : Fragment() {
         // chiedo all'utente (tramite un dialog) qual'è il problema, quindi se vede troppe piste
         // o ne vede troppo poche
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Cosa succede?")
+        builder.setTitle(getString(R.string.zoomRegulationDialogTitle))
 
-        val items = arrayOf("Non vedo alcune piste", "Vedo troppe piste")
+        val items = arrayOf(getString(R.string.increaseZoomRequest), getString(R.string.decreaseZoomRequest))
         var selectedItem = 0
 
         builder.setSingleChoiceItems(items, selectedItem) {_, which ->
@@ -176,7 +184,7 @@ class MappaFragment : Fragment() {
             renderKMLskiArea(mySkiArea.getLatitudine(), mySkiArea.getLongitudine(),
                 mySkiArea.getZoomLevel())
         }
-        builder.setNegativeButton("Annulla") { _, _ ->
+        builder.setNegativeButton(getString(R.string.cancel)) { _, _ ->
             // non succede nulla
         }
 

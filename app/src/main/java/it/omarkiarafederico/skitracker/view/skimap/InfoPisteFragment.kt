@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import it.omarkiarafederico.skitracker.R
+import model.Pista
 import roomdb.RoomHelper
 
 class InfoPisteFragment : Fragment() {
@@ -66,11 +67,11 @@ class InfoPisteFragment : Fragment() {
         val aperto = skiArea.isOperativo()
 
         if (aperto) {
-            stato.text = "APERTO"
+            stato.text = getString(R.string.skiAreaOpen)
             context?.let { ContextCompat.getColor(it, R.color.comprensorioAperto) }
                 ?.let { stato.setBackgroundColor(it) }
         } else {
-            stato.text = "CHIUSO"
+            stato.text = getString(R.string.skiAreaClose)
             context?.let { ContextCompat.getColor(it, R.color.comprensorioChiuso) }
                 ?.let { stato.setBackgroundColor(it) }
         }
@@ -112,11 +113,12 @@ class InfoPisteFragment : Fragment() {
 
         // aggiungo i comprensori ottenuti alla lista da visualizzare con la RecyclerView
         for (pistaFromDb in listaPiste) {
-            pisteItemList.add(PistaItem(pistaFromDb.nome, pistaFromDb.difficolta, pistaFromDb.id))
+            val pista = Pista(pistaFromDb, requireContext())
+            pisteItemList.add(PistaItem(pista.getNome(), pista.getDifficolta(), pista.getId()))
         }
 
         // creo l'Adapter per la RecyclerView
-        pistaAdapter = PistaAdapter(pisteItemList)
+        pistaAdapter = PistaAdapter(pisteItemList, requireContext())
         recyclerView.adapter = pistaAdapter
     }
 }

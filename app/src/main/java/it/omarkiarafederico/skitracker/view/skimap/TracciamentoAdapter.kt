@@ -1,5 +1,6 @@
 package it.omarkiarafederico.skitracker.view.skimap
 
+import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import it.omarkiarafederico.skitracker.R
 import java.time.format.DateTimeFormatter
 
-class TracciamentoAdapter(private val tracciamentoList: ArrayList<TracciamentoItem>): RecyclerView.Adapter<TracciamentoAdapter.TracciamentoViewHolder>() {
+class TracciamentoAdapter(private val tracciamentoList: ArrayList<TracciamentoItem>, private val context: Context):
+    RecyclerView.Adapter<TracciamentoAdapter.TracciamentoViewHolder>() {
     class TracciamentoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val tracciamentoPistaNome: TextView = itemView.findViewById(R.id.tracciamentoPistaName)
         val tracciamentoPistaDifficolta: TextView = itemView.findViewById(R.id.tracciamentoPistaDifficulty)
@@ -40,23 +42,22 @@ class TracciamentoAdapter(private val tracciamentoList: ArrayList<TracciamentoIt
         holder.tracciamentoDataOra.text = tracciamento.dataOra.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))
 
         when(tracciamento.difficolta) {
-            "novice", "Novizio" -> {
+            "novice" -> {
                 holder.tracciamentoPistaDifficolta.setBackgroundResource(R.color.white)
                 holder.tracciamentoPistaDifficolta.setTextColor(Color.parseColor("#000000"))
-                holder.tracciamentoPistaDifficolta.text = "Novizio"
+                holder.tracciamentoPistaDifficolta.text = context.getString(R.string.pistaNovizio)
             }
-
-            "easy", "Facile" -> {
+            "easy" -> {
                 holder.tracciamentoPistaDifficolta.setBackgroundResource(R.color.pistaFacile)
-                holder.tracciamentoPistaDifficolta.text = "Facile"
+                holder.tracciamentoPistaDifficolta.text = context.getString(R.string.pistaFacile)
             }
-            "intermediate", "Medio" -> {
+            "intermediate" -> {
                 holder.tracciamentoPistaDifficolta.setBackgroundResource(R.color.pistaMedia)
-                holder.tracciamentoPistaDifficolta.text = "Medio"
+                holder.tracciamentoPistaDifficolta.text = context.getString(R.string.pistaMedia)
             }
-            "advanced", "Avanzato" -> {
+            "advanced" -> {
                 holder.tracciamentoPistaDifficolta.setBackgroundResource(R.color.black)
-                holder.tracciamentoPistaDifficolta.text = "Avanzato"
+                holder.tracciamentoPistaDifficolta.text = context.getString(R.string.pistaDifficile)
             }
         }
     }
