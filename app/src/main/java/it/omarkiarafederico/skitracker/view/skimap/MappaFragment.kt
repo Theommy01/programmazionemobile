@@ -82,7 +82,7 @@ class MappaFragment : Fragment() {
             val locationOverlay = map?.overlays?.get(map.overlays.lastIndex) as MyLocationNewOverlay
 
             if (locationOverlay.myLocation == null) {
-                Toast.makeText(this.context, "Ottenimento della posizione tramite GPS...",
+                Toast.makeText(this.context, getString(R.string.lookingForGPS),
                     Toast.LENGTH_SHORT).show()
                 getCurrentLocation()
             }
@@ -100,8 +100,8 @@ class MappaFragment : Fragment() {
 
         // uso gli snackbar per chiedere all'utente se si vede tutto nella mappa o bisogna regolare
         // lo zoom
-        val snackbar = Snackbar.make(view, "Problemi con la mappa?", Snackbar.LENGTH_LONG)
-        snackbar.setAction("Regola zoom") {
+        val snackbar = Snackbar.make(view, getString(R.string.snackBarMapProblems), Snackbar.LENGTH_LONG)
+        snackbar.setAction(getString(R.string.zoomRegulationSnackbarButton)) {
             // l'utente ha richiesto di regolare lo zoom della mappa
             this.zoomRegulation()
         }
@@ -151,9 +151,9 @@ class MappaFragment : Fragment() {
         // chiedo all'utente (tramite un dialog) qual'è il problema, quindi se vede troppe piste
         // o ne vede troppo poche
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Cosa succede?")
+        builder.setTitle(getString(R.string.zoomRegulationDialogTitle))
 
-        val items = arrayOf("Non vedo alcune piste", "Vedo troppe piste")
+        val items = arrayOf(getString(R.string.increaseZoomRequest), getString(R.string.decreaseZoomRequest))
         var selectedItem = 0
 
         builder.setSingleChoiceItems(items, selectedItem) {_, which ->
@@ -176,7 +176,7 @@ class MappaFragment : Fragment() {
             renderKMLskiArea(mySkiArea.getLatitudine(), mySkiArea.getLongitudine(),
                 mySkiArea.getZoomLevel())
         }
-        builder.setNegativeButton("Annulla") { _, _ ->
+        builder.setNegativeButton(getString(R.string.cancel)) { _, _ ->
             // non succede nulla
         }
 

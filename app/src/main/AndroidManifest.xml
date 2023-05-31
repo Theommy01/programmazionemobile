@@ -19,7 +19,6 @@
         <activity
             android:name=".view.routeTracking.RouteTrackingActivity"
             android:exported="true"
-            android:label="@string/title_activity_route_tracking"
             android:theme="@style/Theme.SkiTracker"
             android:parentActivityName=".view.skimap.MapActivity"/>
         <activity

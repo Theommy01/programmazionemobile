@@ -1,3 +1,3 @@
 package utility
 
-class ApiBadResponseException(responseCode: Int) : Exception("API call fallita con errore $responseCode")
+class ApiBadResponseException(responseCode: Int) : Exception("API call with error: $responseCode")

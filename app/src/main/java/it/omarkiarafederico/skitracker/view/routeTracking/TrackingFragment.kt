@@ -85,7 +85,7 @@ class TrackingFragment : Fragment() {
         val pistaNomeTextView = view.findViewById<TextView>(R.id.trackPistaName)
         val pistaDifficultyTextView = view.findViewById<TextView>(R.id.trackPistaDifficulty)
         pistaNomeTextView.text = this.selectedPista.getNome()
-        pistaDifficultyTextView.text = this.selectedPista.getDifficolta().uppercase()
+        pistaDifficultyTextView.text = this.selectedPista.getDifficolta()
         this.changeDifficultyIndicatorColor(pistaDifficultyTextView, this.selectedPista.getDifficolta())
 
         // inizializzazione della mappa
@@ -104,7 +104,7 @@ class TrackingFragment : Fragment() {
         if (lastKnownLocation != null) {
             mapView.controller.setCenter(GeoPoint(lastKnownLocation.latitude, lastKnownLocation.longitude))
         } else {
-            Toast.makeText(requireContext(), "Ottenimento della posizione GPS in corso...", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), getString(R.string.lookingForGPS), Toast.LENGTH_LONG).show()
         }
 
         // individuo la posizione in cui giace l'utente: una volta individuata, faccio un po' di cose
@@ -159,15 +159,15 @@ class TrackingFragment : Fragment() {
 
     private fun changeDifficultyIndicatorColor(textView: TextView, diff: String) {
         when(diff) {
-            "Facile" -> textView.setBackgroundResource(R.color.pistaFacile)
-            "Medio" -> textView.setBackgroundResource(R.color.pistaMedia)
-            "Avanzato" -> textView.setBackgroundResource(R.color.black)
+            getString(R.string.pistaFacile) -> textView.setBackgroundResource(R.color.pistaFacile)
+            getString(R.string.pistaMedia) -> textView.setBackgroundResource(R.color.pistaMedia)
+            getString(R.string.pistaDifficile) -> textView.setBackgroundResource(R.color.black)
         }
     }
 
     fun stopTracking() {
         // chiedo all'utente se vuole fermare il tracciamento
-        val dialog = ApplicationDialog()
+        val dialog = ApplicationDialog(requireContext())
         dialog.setListener(object : ApplicationDialog.YesNoDialogListener {
             override fun onYesClicked() {
                 requireActivity().finishAffinity()
@@ -177,7 +177,7 @@ class TrackingFragment : Fragment() {
                 // non fa nulla
             }
         })
-        dialog.openYesNoDialog("Desideri interrompere il tracking della pista?", requireContext() as AppCompatActivity)
+        dialog.openYesNoDialog(getString(R.string.stopTrackingDialog), requireContext() as AppCompatActivity)
     }
 
     private fun updateInstantData(textViewId: Int, value: String, view: View) {

@@ -7,13 +7,15 @@
 package utility
 
 import android.app.AlertDialog
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
+import it.omarkiarafederico.skitracker.R
 
 const val ALERT_ERROR = "Errore"
 const val ALERT_INFO = "Informazione"
 const val ALERT_QUESTION = "Domanda"
 
-class ApplicationDialog {
+class ApplicationDialog(private val context: Context) {
     /*
     definizione del listener del dialog: questo serve per i dialoghi che richiedono l'input diretto
     dall'utente: si mette in attesa di questo e, quando egli risponde, è in grado di intercettare l'evento
@@ -52,11 +54,11 @@ class ApplicationDialog {
 
         builder.setTitle(ALERT_QUESTION)
         builder.setMessage(msg)
-        builder.setPositiveButton("Sì") { dialog, _ ->
+        builder.setPositiveButton(context.getString(R.string.yes)) { dialog, _ ->
                 yesNoListener.onYesClicked()
                 dialog.dismiss()
             }
-        builder.setNegativeButton("No") { dialog, _ ->
+        builder.setNegativeButton(context.getString(R.string.no)) { dialog, _ ->
                 yesNoListener.onNoClicked()
                 dialog.dismiss()
             }

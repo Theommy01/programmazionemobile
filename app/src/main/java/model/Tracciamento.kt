@@ -1,7 +1,7 @@
 package model
 
 class Tracciamento(var id: Int, var distanza: Float, var velocita: Float, var dislivello: Int,
-                   var dataOraInizio: Long, var dataOraFine: Long, var pistaNome: String, var pistaDifficolta: String) {
+                   private var dataOraInizio: Long, private var dataOraFine: Long, var pistaNome: String, var pistaDifficolta: String) {
     fun getDurationString(): String {
         val seconds = this.dataOraFine - this.dataOraInizio
 

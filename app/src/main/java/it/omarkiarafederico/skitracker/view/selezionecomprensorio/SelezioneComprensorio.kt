@@ -33,7 +33,7 @@ class SelezioneComprensorio : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        supportActionBar?.subtitle = "Caricamento comprensori..."
+        supportActionBar?.subtitle = getString(R.string.loadingSkiAreas)
 
         lateinit var listaComprensori: List<roomdb.Comprensorio>
         skiAreaItemList = ArrayList()
@@ -45,7 +45,7 @@ class SelezioneComprensorio : AppCompatActivity() {
                 listaComprensori = dbConnection.localDatabaseDao().getSkiAreasList()
 
                 // aggiungo i comprensori ottenuti alla lista da visualizzare con la RecyclerView
-                supportActionBar?.subtitle = "${listaComprensori.size} comprensori disponibili (paese: IT)"
+                supportActionBar?.subtitle = getString(R.string.numberOfSkiAreasAvaiableInItaly).format(listaComprensori.size)
                 for (skiAreaFromDb in listaComprensori) {
                     skiAreaItemList.add(SkiAreaItem(skiAreaFromDb.nome, skiAreaFromDb.id))
                 }
@@ -86,14 +86,13 @@ class SelezioneComprensorio : AppCompatActivity() {
                         startActivity(intent)
                     } else {
                         // se non è pià operativo avviso l'utente di questo fatto
-                        ApplicationDialog().openDialog(
-                            ALERT_INFO, "Il comprensorio selezionato non è più " +
-                                "aperto al pubblico.", this@SelezioneComprensorio, false)
+                        ApplicationDialog(applicationContext).openDialog(ALERT_INFO, getString(R.string.skiAreaClosedDialog),
+                            this@SelezioneComprensorio, false)
                     }
                 }
             } catch (e: Exception) {
-                ApplicationDialog().openDialog(
-                    ALERT_ERROR,"Impossibile ottenere la lista dei comprensori: ${e.message}.",
+                ApplicationDialog(applicationContext).openDialog(
+                    ALERT_ERROR,getString(R.string.skiAreaGetErrorDialog).format(e.message),
                     this@SelezioneComprensorio, true)
             }
         }
@@ -105,7 +104,7 @@ class SelezioneComprensorio : AppCompatActivity() {
 
         val menuItem: MenuItem? = menu?.findItem(R.id.skiAreaSearchItem)
         val searchView: SearchView = menuItem?.actionView as SearchView
-        searchView.queryHint = "Ricerca comprensorio"
+        searchView.queryHint = getString(R.string.skiAreaSearchPlaceholder)
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
