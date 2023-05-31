@@ -30,7 +30,7 @@ class ApiCallThread {
                 if (response.isSuccessful) {
                     return@async response.body!!.string()
                 } else {
-                    throw ApiBadResponseException(response.code)
+                    throw ApiCallException(response.code)
                 }
             }
         }
@@ -68,7 +68,7 @@ class ApiCallThread {
                 if (response.isSuccessful) {
                     return@async response.body!!.string()
                 } else {
-                    throw ApiBadResponseException(response.code)
+                    throw ApiCallException(response.code)
                 }
             }
         }

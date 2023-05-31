@@ -74,19 +74,27 @@ class SelezioneComprensorio : AppCompatActivity() {
                         dbConnection.localDatabaseDao().modificaComprensorioSelezionato(it.id)
 
                         // vado ad ottenere l'elenco di piste a partire dall'xml osm del comprensorio
-                        val skiAreaXml = SkiAreaFullMap().ottieniXmlMappaComprensorio(comprensorioPerDB.lat,
-                            comprensorioPerDB.long, comprensorioPerDB.zoom)
-                        val skiAreaPiste = OsmXmlAnalyzer().getPistaList(skiAreaXml, comprensorioPerDB.id)
-                        // vado ad inserirlo all'interno del db
-                        dbConnection.localDatabaseDao().inserisciPiste(skiAreaPiste)
+                        try {
+                            val skiAreaXml = SkiAreaFullMap().ottieniXmlMappaComprensorio(
+                                comprensorioPerDB.lat,
+                                comprensorioPerDB.long, comprensorioPerDB.zoom
+                            )
+                            val skiAreaPiste =
+                                OsmXmlAnalyzer().getPistaList(skiAreaXml, comprensorioPerDB.id)
+                            // vado ad inserirlo all'interno del db
+                            dbConnection.localDatabaseDao().inserisciPiste(skiAreaPiste)
 
-                        // a posto cosi, posso aprire l'activity della mappa
-                        finishAffinity()
-                        val intent = Intent(applicationContext, MapActivity::class.java)
-                        startActivity(intent)
+                            // a posto cosi, posso aprire l'activity della mappa
+                            finishAffinity()
+                            val intent = Intent(applicationContext, MapActivity::class.java)
+                            startActivity(intent)
+                        } catch (e: Exception) {
+                            ApplicationDialog(applicationContext).openDialog(ALERT_INFO, getString(R.string.pisteDownloadError),
+                                this@SelezioneComprensorio, false)
+                        }
                     } else {
                         // se non è pià operativo avviso l'utente di questo fatto
-                        ApplicationDialog(applicationContext).openDialog(ALERT_INFO, getString(R.string.skiAreaClosedDialog),
+                        ApplicationDialog(applicationContext).openDialog(ALERT_ERROR, getString(R.string.skiAreaClosedDialog),
                             this@SelezioneComprensorio, false)
                     }
                 }

@@ -73,6 +73,7 @@
     <string name="skiAreaClosedDialog">Il comprensorio selezionato non è più aperto al pubblico.</string>
     <string name="skiAreaGetErrorDialog">Impossibile ottenere la lista dei comprensori: %1$s</string>
     <string name="skiAreaSearchPlaceholder">Ricerca comprensorio</string>
+    <string name="pisteDownloadError">Impossibile ottenere la lista delle piste per questo comprensorio.</string>
 
     <!-- stringhe per fragment della mappa -->
     <string name="snackBarMapProblems">Problemi con la mappa?</string>
@@ -82,8 +83,16 @@
     <string name="decreaseZoomRequest">Vedo troppe piste</string>
     <string name="addRecordFabContentDescription">Crea nuovo tracciamento</string>
     <string name="getPositionFabContentDescription">Centra la mappa sulla tua posizione</string>
+    <string name="mapXMLloadingError">
+        Impossibile caricare la mappa del comprensorio, probabilmente è assente la connessione Internet. Verrà visualizzata la mappa locale.
+    </string>
 
     <!-- stringhe per fragment tracciamento piste -->
+    <string name="trackingStartWarningDialog">
+        Tra poco inizierà il tracciamento lungo la pista %1$s.
+        Durante il tracciamento, si consiglia di bloccare il telefono e di NON terminare l\'applicazione.
+    </string>
+
     <string name="tracciamentoSelPistaTitle">Selezione pista</string>
     <string name="tracciamentoPercorsoTitle">Tracciamento percorso</string>
 
@@ -99,10 +108,6 @@
     <string name="stopTrackingDialog">Desideri interrompere il tracciamento della pista?</string>
 
     <!-- stringhe per i Dialogs -->
-    <string name="trackingStartWarningDialog">
-        Tra poco inizierà il tracciamento lungo la pista %1$s.
-        Durante il tracciamento, si consiglia di bloccare il telefono e di NON terminare l\'applicazione.
-    </string>
     <string name="alertErrorTitle">Errore</string>
     <string name="alertInfoTitle">Informazione</string>
     <string name="alertQuestionTitle">Domanda</string>

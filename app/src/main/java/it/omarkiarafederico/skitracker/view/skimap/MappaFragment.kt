@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -23,6 +24,8 @@ import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
+import utility.ALERT_ERROR
+import utility.ApplicationDialog
 import utility.OsmXmlAnalyzer
 
 
@@ -134,16 +137,21 @@ class MappaFragment : Fragment() {
     // document che contiene i punti del comprensorio e rappresentarlo sulla mappa
     // NOTA: la funzione andrà anche ad aggiungere i comprensori
     private fun renderKMLskiArea(lat: Double, long: Double, zoomLevel: Int) {
-        // ottengo l'osm xml del comprensorio
-        val skiAreaOsmXml = SkiAreaFullMap().ottieniXmlMappaComprensorio(lat, long, zoomLevel)
+        try {
+            // ottengo l'osm xml del comprensorio
+            val skiAreaOsmXml = SkiAreaFullMap().ottieniXmlMappaComprensorio(lat, long, zoomLevel)
 
-        // ottengo l'overlay dei vari polyline delle piste del comprensorio
-        val mapOverlay = OsmXmlAnalyzer().getSkiAreaOverlay(skiAreaOsmXml)
+            // ottengo l'overlay dei vari polyline delle piste del comprensorio
+            val mapOverlay = OsmXmlAnalyzer().getSkiAreaOverlay(skiAreaOsmXml)
 
-        // le visualizzo nella mappa
-        val map = getMap()
-        map?.overlays?.add(mapOverlay)
-        map?.invalidate()
+            // le visualizzo nella mappa
+            val map = getMap()
+            map?.overlays?.add(mapOverlay)
+            map?.invalidate()
+        } catch (e: Exception) {
+            ApplicationDialog(requireContext()).openDialog(ALERT_ERROR, getString(R.string.mapXMLloadingError),
+                requireContext() as AppCompatActivity, false)
+        }
     }
 
     // questa funzione permette di regolare lo zoom della mappa.

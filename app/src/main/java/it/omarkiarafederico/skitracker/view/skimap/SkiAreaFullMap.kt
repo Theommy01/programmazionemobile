@@ -3,6 +3,7 @@ package it.omarkiarafederico.skitracker.view.skimap
 import org.json.JSONObject
 import org.w3c.dom.Document
 import org.xml.sax.InputSource
+import utility.ApiCallException
 import utility.ApiCallThread
 import javax.xml.parsers.DocumentBuilderFactory
 
@@ -16,6 +17,7 @@ class SkiAreaFullMap {
     livello nazionale), con 18 si avrebbe una precisione estrema (si prenderebbero i punti che
     giacciono esattamente sul punto indicato dalle coordinate).
      */
+    @Throws(ApiCallException::class)
     fun ottieniXmlMappaComprensorio(lat: Double, long: Double, zoomLevel: Int): Document {
         // vado a ottenere il JSON che contiene le informazioni geografiche del comprensorio
         // in particolar modo, mi serviranno sapere le coordinate in cui la sua area è compresa
