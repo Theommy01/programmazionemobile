@@ -101,7 +101,6 @@ class MapActivity : AppCompatActivity() {
                 R.id.bottomNavMapItem -> replaceFragment(mapFragment, "map")
                 R.id.bottomNavInformationItem -> replaceFragment(infoFragment, "info")
                 R.id.bottomNavHistoryItem -> replaceFragment(historyFragment, "history")
-
                 else -> {}
             }
             true
@@ -113,7 +112,6 @@ class MapActivity : AppCompatActivity() {
 
         toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
         toggle.syncState()
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         navView.setNavigationItemSelectedListener {
@@ -126,16 +124,11 @@ class MapActivity : AppCompatActivity() {
                     val intent = Intent(this, SelezioneComprensorio::class.java)
                     startActivity(intent)
                 }
-                R.id.help_item -> {
-                    val intent = Intent(this, WelcomeActivity::class.java)
-                    startActivity(intent)
-                }
                 R.id.about_us_item -> {
                     val intent = Intent(this, AboutUsActivity::class.java)
                     startActivity(intent)
                 }
             }
-
             true
         }
     }

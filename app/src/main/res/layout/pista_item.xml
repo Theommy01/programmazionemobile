@@ -15,6 +15,7 @@
         android:gravity="center|start"
         android:text="@string/examplePistaName"
         android:textSize="16sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/pista_item_difficulty"
         app:layout_constraintHorizontal_bias="1.0"

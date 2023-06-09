@@ -15,6 +15,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:text="@string/exampleTime"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tracciamentoDurationIndicator"
         app:layout_constraintTop_toBottomOf="@+id/trackAverageSpeed" />
@@ -26,6 +27,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/trackingDuration"
+        android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tracciamentoAverageSpeedIndicator" />
@@ -37,6 +39,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="22dp"
         android:layout_marginEnd="16dp"
+        android:textColor="@color/black"
         android:text="@string/exampleSpeed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tracciamentoAverageSpeedIndicator"
@@ -50,6 +53,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:ellipsize="end"
+        android:textColor="@color/black"
         android:text="@string/examplePistaName"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/tracciamentoPistaDifficulty"
@@ -77,6 +81,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="22dp"
         android:text="@string/trackingAverageSpeedIndicator"
+        android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tracciamentoPistaName" />
@@ -88,6 +93,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/trackingDistance"
+        android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tracciamentoDurationIndicator" />
@@ -100,6 +106,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:text="@string/exampleDistance"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/trackDistanceIndicator"
         app:layout_constraintTop_toBottomOf="@+id/trackDuration" />
@@ -111,6 +118,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/trackingDislivello"
+        android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/trackDistanceIndicator" />
@@ -123,6 +131,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:text="@string/exampleDistance"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tracciamentoDislivelloIndicator"
         app:layout_constraintTop_toBottomOf="@+id/trackingDistance" />
@@ -135,6 +144,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginBottom="16dp"
         android:text="@string/trackingDateTime"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tracciamentoDislivelloIndicator" />
