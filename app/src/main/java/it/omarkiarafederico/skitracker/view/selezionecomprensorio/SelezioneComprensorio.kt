@@ -9,7 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import it.omarkiarafederico.skitracker.R
@@ -40,71 +39,69 @@ class SelezioneComprensorio : AppCompatActivity() {
         lateinit var listaComprensori: List<roomdb.Comprensorio>
         skiAreaItemList = ArrayList()
 
-        lifecycleScope.launchWhenCreated {
-            try {
-                // ottengo la lista dei comprensori dal database
-                val dbConnection = RoomHelper().getDatabaseObject(applicationContext)
-                listaComprensori = dbConnection.localDatabaseDao().getSkiAreasList()
+        try {
+            // ottengo la lista dei comprensori dal database
+            val dbConnection = RoomHelper().getDatabaseObject(applicationContext)
+            listaComprensori = dbConnection.localDatabaseDao().getSkiAreasList()
 
-                // aggiungo i comprensori ottenuti alla lista da visualizzare con la RecyclerView
-                supportActionBar?.subtitle = getString(R.string.numberOfSkiAreasAvaiableInItaly).format(listaComprensori.size)
-                for (skiAreaFromDb in listaComprensori) {
-                    skiAreaItemList.add(SkiAreaItem(skiAreaFromDb.nome, skiAreaFromDb.id))
-                }
+            // aggiungo i comprensori ottenuti alla lista da visualizzare con la RecyclerView
+            supportActionBar?.subtitle = getString(R.string.numberOfSkiAreasAvaiableInItaly).format(listaComprensori.size)
+            for (skiAreaFromDb in listaComprensori) {
+                skiAreaItemList.add(SkiAreaItem(skiAreaFromDb.nome, skiAreaFromDb.id))
+            }
 
-                // creo l'Adapter per la RecyclerView
-                skiAreaAdapter = SkiAreaAdapter(skiAreaItemList)
-                recyclerView.adapter = skiAreaAdapter
+            // creo l'Adapter per la RecyclerView
+            skiAreaAdapter = SkiAreaAdapter(skiAreaItemList)
+            recyclerView.adapter = skiAreaAdapter
 
-                // questo è quello che succede quando faccio click su un elemento della RecyclerView
-                skiAreaAdapter.onItemClick = {
-                    // creo l'oggetto comprensorio che comprende tutti i dettagli
-                    val skiAreaToAdd = Comprensorio(dbConnection.localDatabaseDao().getDettagliComprensorio(it.id))
+            // questo è quello che succede quando faccio click su un elemento della RecyclerView
+            skiAreaAdapter.onItemClick = {
+                // creo l'oggetto comprensorio che comprende tutti i dettagli
+                val skiAreaToAdd = Comprensorio(dbConnection.localDatabaseDao().getDettagliComprensorio(it.id))
 
-                    // controllo se il comprensorio che voglio aggiungere è ancora operativo
-                    if (skiAreaToAdd.isOperativo()) {
-                        // se è operativo lo aggiungo al db
-                        val comprensorioPerDB: roomdb.Comprensorio = skiAreaToAdd.convertToEntityClass()
+                // controllo se il comprensorio che voglio aggiungere è ancora operativo
+                if (skiAreaToAdd.isOperativo()) {
+                    // se è operativo lo aggiungo al db
+                    val comprensorioPerDB: roomdb.Comprensorio = skiAreaToAdd.convertToEntityClass()
 
-                        // uso un try per evitare che, nel caso andassi ad aggiungere un comprensorio
-                        // già esistente, mi causi il crash del programma
-                        try {
-                            dbConnection.localDatabaseDao().insertNewComprensorio(comprensorioPerDB)
-                        } catch (_: SQLiteConstraintException) {}
+                    // uso un try per evitare che, nel caso andassi ad aggiungere un comprensorio
+                    // già esistente, mi causi il crash del programma
+                    try {
+                        dbConnection.localDatabaseDao().insertNewComprensorio(comprensorioPerDB)
+                    } catch (_: SQLiteConstraintException) {}
 
-                        // vado ad indicare l'id del comprensorio selezionato dall'utente
-                        dbConnection.localDatabaseDao().modificaComprensorioSelezionato(it.id)
+                    // vado ad indicare l'id del comprensorio selezionato dall'utente
+                    dbConnection.localDatabaseDao().modificaComprensorioSelezionato(it.id)
 
-                        // vado ad ottenere l'elenco di piste a partire dall'xml osm del comprensorio
-                        try {
-                            val skiAreaXml = SkiAreaFullMap().ottieniXmlMappaComprensorio(
-                                comprensorioPerDB.lat,
-                                comprensorioPerDB.long, comprensorioPerDB.zoom
-                            )
-                            val skiAreaPiste =
-                                OsmXmlAnalyzer().getPistaList(skiAreaXml, comprensorioPerDB.id)
-                            // vado ad inserirlo all'interno del db
-                            dbConnection.localDatabaseDao().inserisciPiste(skiAreaPiste)
+                    // vado ad ottenere l'elenco di piste a partire dall'xml osm del comprensorio
+                    try {
+                        val skiAreaXml = SkiAreaFullMap().ottieniXmlMappaComprensorio(
+                            comprensorioPerDB.lat,
+                            comprensorioPerDB.long, comprensorioPerDB.zoom
+                        )
+                        val skiAreaPiste =
+                            OsmXmlAnalyzer().getPistaList(skiAreaXml, comprensorioPerDB.id)
+                        // vado ad inserirlo all'interno del db
+                        dbConnection.localDatabaseDao().inserisciPiste(skiAreaPiste)
 
-                            // a posto cosi, posso aprire l'activity della mappa
-                            finishAffinity()
-                            val intent = Intent(applicationContext, MapActivity::class.java)
-                            startActivity(intent)
-                        } catch (e: Exception) {
-                            ApplicationDialog(applicationContext).openDialog(ALERT_INFO, getString(R.string.pisteDownloadError),
-                                this@SelezioneComprensorio, false)
-                        }
-                    } else {
-                        // se non è pià operativo avviso l'utente di questo fatto
-                        ApplicationDialog(applicationContext).openDialog(ALERT_ERROR, getString(R.string.skiAreaClosedDialog),
+                        // a posto cosi, posso aprire l'activity della mappa
+                        finishAffinity()
+                        val intent = Intent(applicationContext, MapActivity::class.java)
+                        startActivity(intent)
+                    } catch (e: Exception) {
+                        ApplicationDialog(applicationContext).openDialog(ALERT_INFO, getString(R.string.pisteDownloadError),
                             this@SelezioneComprensorio, false)
                     }
+                } else {
+                    // se non è pià operativo avviso l'utente di questo fatto
+                    ApplicationDialog(applicationContext).openDialog(ALERT_ERROR, getString(R.string.skiAreaClosedDialog),
+                        this@SelezioneComprensorio, false)
                 }
-            } catch (e: Exception) {
-                ApplicationDialog(applicationContext).openDialog(
-                    ALERT_ERROR,getString(R.string.skiAreaGetErrorDialog).format(e.message),
-                    this@SelezioneComprensorio, true)
             }
+        } catch (e: Exception) {
+            ApplicationDialog(applicationContext).openDialog(
+                ALERT_ERROR,getString(R.string.skiAreaGetErrorDialog).format(e.message),
+                this@SelezioneComprensorio, true)
         }
     }
 

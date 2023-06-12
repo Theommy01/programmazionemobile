@@ -15,17 +15,14 @@ class ApiCallThread {
         // scope della coroutine
         val scope = CoroutineScope(Dispatchers.Default)
 
-        // definisco i dati in input
-        val urlInput = url
-
         // definisco la coroutine
         val apiCallCoroutine = scope.async {
             // compongo la richiesta API
             val client = OkHttpClient()
-            val request = Request.Builder().url(urlInput).build()
+            val request = Request.Builder().url(url).build()
 
             // eseguo la chiamata API
-            Log.i("SkiTracker API Call", "URL richiesta API: $urlInput")
+            Log.i("SkiTracker API Call", "URL richiesta API: $url")
             client.newCall(request).execute().use { response ->
                 if (response.isSuccessful) {
                     return@async response.body!!.string()
