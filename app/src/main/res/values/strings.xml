@@ -75,6 +75,7 @@
     <string name="skiAreaGetErrorDialog">Impossibile ottenere la lista dei comprensori: %1$s</string>
     <string name="skiAreaSearchPlaceholder">Ricerca comprensorio</string>
     <string name="pisteDownloadError">Impossibile ottenere la lista delle piste per questo comprensorio.</string>
+    <string name="skiAreaNotFound">Nessun comprensorio trovato</string>
 
     <!-- stringhe per fragment della mappa -->
     <string name="snackBarMapProblems">Problemi con la mappa?</string>

@@ -73,7 +73,7 @@ class CronologiaFragment : Fragment() {
         // Se lo spinner non contiene nulla, ergo non è stato ancora fatto nessun tracciamento, visualizzo
         // il LinearLayout nascosto che contiene la scritta "Nessun elemento"
         if (spinner.adapter.isEmpty) {
-            val emptyView: LinearLayout = view.findViewById(R.id.emptyView)
+            val emptyView: LinearLayout = view.findViewById(R.id.noTrackingsView)
             emptyView.visibility = View.VISIBLE
             spinner.visibility = View.GONE
         }

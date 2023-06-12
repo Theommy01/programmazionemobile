@@ -38,7 +38,7 @@
 
     <!-- Questo LinearLayout sarà visibile solo se non ci sono comprensori tracciati -->
     <LinearLayout
-        android:id="@+id/emptyView"
+        android:id="@+id/noTrackingsView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
