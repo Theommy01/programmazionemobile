@@ -119,6 +119,8 @@
     <!-- stringhe per fragment cronologia tracciamenti -->
     <string name="historyFragmentTitle">Cronologia tracciamenti</string>
     <string name="spinnerContentDescription">Lista dei comprensori in cui hai tracciato una tua sciata</string>
+    <string name="noTrackings">Non è stato fatto ancora nessun tracciamento.</string>
+    <string name="noTrackingsImageDescription">Nessun tracciamento</string>
 
     <string name="trackingAverageSpeedIndicator">💥 Velocità media:</string>
     <string name="trackingDuration">🕓 Durata:</string>

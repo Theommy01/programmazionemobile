@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
 import android.widget.Spinner
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -67,6 +68,14 @@ class CronologiaFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // nessun elemento selezionato!
             }
+        }
+
+        // Se lo spinner non contiene nulla, ergo non è stato ancora fatto nessun tracciamento, visualizzo
+        // il LinearLayout nascosto che contiene la scritta "Nessun elemento"
+        if (spinner.adapter.isEmpty) {
+            val emptyView: LinearLayout = view.findViewById(R.id.emptyView)
+            emptyView.visibility = View.VISIBLE
+            spinner.visibility = View.GONE
         }
     }
 }
