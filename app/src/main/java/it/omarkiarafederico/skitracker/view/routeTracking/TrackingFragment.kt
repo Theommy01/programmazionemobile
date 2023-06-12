@@ -170,7 +170,10 @@ class TrackingFragment : Fragment() {
         val dialog = ApplicationDialog(requireContext())
         dialog.setListener(object : ApplicationDialog.YesNoDialogListener {
             override fun onYesClicked() {
+                // Se l'utente ferma il tracciamento lo riporto alla home page, chiudendo anche questa activity.
                 requireActivity().finishAffinity()
+                val intent = Intent(requireContext(), MapActivity::class.java)
+                startActivity(intent)
             }
 
             override fun onNoClicked() {
