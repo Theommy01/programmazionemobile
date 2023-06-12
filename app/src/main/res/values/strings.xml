@@ -87,6 +87,9 @@
     <string name="mapXMLloadingError">
         Impossibile caricare la mappa del comprensorio, probabilmente è assente la connessione Internet. Verrà visualizzata la mappa locale.
     </string>
+    <string name="startTrackFABTooltip">Avvia nuovo tracciamento</string>
+    <string name="centerGPSFABTooltip">Centra su posizione corrente</string>
+    <string name="navigationDrawerTooltip">Menu applicazione</string>
 
     <!-- stringhe per fragment tracciamento piste -->
     <string name="trackingStartWarningDialog">
@@ -129,9 +132,6 @@
     <!-- altri testi utili -->
     <string name="uploading">Caricamento…</string>
     <string name="repo">Repo GitHub</string>
-
-    <string name="open">Menù aperto con successo</string>
-    <string name="close">Menù chiuso con successo</string>
     <string name="lookingForGPS">Ottenimento della posizione dal GPS…</string>
 
     <string name="pistaNovizio">Novizio</string>

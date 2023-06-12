@@ -63,7 +63,7 @@ class RouteSelectionFragment : Fragment() {
                 // avviso all'utente che per far si che il tracciamento vada avanti, non bisogna assolutamente
                 // abbandonare l'activity
                 ApplicationDialog(requireContext()).openDialog(
-                    ALERT_INFO, getString(R.string.trackingStartWarningDialog).format(skiArea.getNome()),
+                    ALERT_INFO, getString(R.string.trackingStartWarningDialog).format(selectedPista.getNome()),
                     requireContext() as AppCompatActivity, false)
 
                 // vado ad aprire il fragment per il tracking della pista

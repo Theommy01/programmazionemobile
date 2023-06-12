@@ -110,7 +110,7 @@ class MapActivity : AppCompatActivity() {
         val drawerLayout: DrawerLayout = findViewById(R.id.homeActivity)
         val navView: NavigationView = findViewById(R.id.nav_view)
 
-        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.navigationDrawerTooltip, R.string.navigationDrawerTooltip)
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
