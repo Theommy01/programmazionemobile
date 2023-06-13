@@ -71,7 +71,7 @@ data class Comprensorio (
     @ColumnInfo(defaultValue = "0") var snowpark: Boolean,
     @ColumnInfo(defaultValue = "0") var pisteNotturne: Boolean,
     var lat: Double,
-    var long: Double,
+    var lon: Double,
     var maxAltitudine: Int,
     var minAltitudine: Int,
     @ColumnInfo(defaultValue = "16") var zoom: Int = 16

@@ -77,7 +77,7 @@ class SelezioneComprensorio : AppCompatActivity() {
                     try {
                         val skiAreaXml = SkiAreaFullMap().ottieniXmlMappaComprensorio(
                             comprensorioPerDB.lat,
-                            comprensorioPerDB.long, comprensorioPerDB.zoom
+                            comprensorioPerDB.lon, comprensorioPerDB.zoom
                         )
                         val skiAreaPiste =
                             OsmXmlAnalyzer().getPistaList(skiAreaXml, comprensorioPerDB.id)

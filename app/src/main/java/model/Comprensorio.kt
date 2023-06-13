@@ -35,7 +35,7 @@ class Comprensorio(private var id: Int, name: String): Serializable{
         this.presenteSnowpark = skiAreaFromDb.snowpark
         this.presentiPisteNotturne = skiAreaFromDb.pisteNotturne
         this.latitudine = skiAreaFromDb.lat
-        this.longitudine = skiAreaFromDb.long
+        this.longitudine = skiAreaFromDb.lon
         this.minAltitudine = skiAreaFromDb.minAltitudine
         this.maxAltitudine = skiAreaFromDb.maxAltitudine
         this.zoom = skiAreaFromDb.zoom
