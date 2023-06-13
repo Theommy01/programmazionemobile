@@ -37,8 +37,8 @@
     <string name="availability">Piste disponibili</string>
     <string name="numpiste">🏂 Numero di piste:</string>
     <string name="impianti">🚡 Impianti di risalita:</string>
-    <string name="altMin">⛰ Altitudine minima: </string>
-    <string name="altMax">🏔 Altitudine max: </string>
+    <string name="altMin">⛰ Altitudine min.: </string>
+    <string name="altMax">🏔 Altitudine max.: </string>
     <string name="website">🌐 Sito Internet</string>
     <string name="type">Stato</string>
     <string name="empty_num">0</string>
